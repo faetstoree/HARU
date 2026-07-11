@@ -55,7 +55,7 @@ from chat_blocks import merge_chat_blocks, parse_llm_text_or_json, message_to_hi
 from agent_engine import build_rule_based_decision, should_use_llm_for_agent
 from roadmap_export import build_action_plan_pdf
 from action_plan_builder import build_action_plan_content
-from school_engine import search_schools
+
 from knowledge_engine import (
     build_kb_context_for_llm,
     get_guide,
@@ -1158,11 +1158,6 @@ CHAT_REPLY_INSTRUCTION = (
     "When a custom process diagram or decision tree helps, call render_mermaid with valid Mermaid syntax. "
     "When you lack critical information, call ask_user_question with 2-4 clear choices."
 )
-
-@app.get("/api/schools")
-async def list_schools(q: str = "", lang: str = "en", limit: int = 25):
-    schools = search_schools(q, lang, min(limit, 50))
-    return {"status": "success", "schools": schools}
 
 @app.get("/api/knowledge/for-task")
 async def knowledge_for_task(task_id: str, lang: str = "en"):

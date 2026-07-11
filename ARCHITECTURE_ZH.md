@@ -9,7 +9,6 @@ graph TB
         JS_Main["main.js<br/>主邏輯 / 狀態管理"]
         JS_Canvas["roadmap_canvas.js<br/>路線圖視覺化"]
         JS_Guide["guide_walkthrough.js<br/>互動指南"]
-        JS_School["school_autocomplete.js<br/>學校自動完成"]
     end
 
     subgraph Static["靜態資源"]
@@ -25,7 +24,6 @@ graph TB
         API_Chat["POST /api/chat<br/>通用聊天"]
         API_Quiz["POST /api/quiz/*<br/>診斷問卷"]
         API_Task["POST /api/roadmap/task/*<br/>任務操作"]
-        API_Schools["GET /api/schools/search"]
         API_Maps["GET /api/maps/embed-url"]
         API_TTS["POST /api/tts / /api/stt"]
         API_PDF["POST /api/roadmap/export/pdf"]
@@ -74,7 +72,6 @@ graph TB
 
     subgraph Support["🔧 輔助層"]
         QUIZ["quiz_engine.py<br/>診斷問卷邏輯"]
-        SCHOOL["school_engine.py<br/>學校 Fuzzy 搜尋"]
         MAPS["maps_engine.py<br/>Google Maps Embed URL"]
         CHAT_BLOCKS["chat_blocks.py<br/>聊天訊息區塊組裝"]
         I18N["backend_i18n.py<br/>後端多語系 t()"]
@@ -89,7 +86,6 @@ graph TB
     MAIN --> AGENT
     MAIN --> ROADMAP
     MAIN --> QUIZ
-    MAIN --> SCHOOL
     MAIN --> MAPS
     MAIN --> EXPORT
     AGENT --> CHAT_TOOLS
@@ -122,7 +118,6 @@ graph TB
     KNOWLEDGE --> JSON_DATA
     RESOURCE --> JSON_DATA
     QUIZ --> JSON_DATA
-    SCHOOL --> JSON_DATA
 ```
 
 ---
@@ -196,12 +191,11 @@ graph LR
         J1["roadmap.json<br/>任務定義 / 依賴鏈 / 階段"]
         J2["roadmap_branches.json<br/>分支點 / 補充任務"]
         J3["quiz_questions.json<br/>問卷題庫"]
-        J4["schools.json<br/>學校清單"]
-        J5["official_resources.json<br/>官方連結"]
-        J6["regional_wards.json<br/>區役所 URL"]
-        J7["knowledge/articles.json<br/>知識文章"]
-        J8["knowledge/service_guides.json<br/>互動指南"]
-        J9["knowledge/sources.json<br/>可信來源"]
+        J4["official_resources.json<br/>官方連結"]
+        J5["regional_wards.json<br/>區役所 URL"]
+        J6["knowledge/articles.json<br/>知識文章"]
+        J7["knowledge/service_guides.json<br/>互動指南"]
+        J8["knowledge/sources.json<br/>可信來源"]
     end
 
     subgraph I18N["多語系資料"]
@@ -216,12 +210,11 @@ graph LR
     roadmap_engine --> J1
     roadmap_branch_engine --> J2
     quiz_engine --> J3
-    school_engine --> J4
+    resource_engine --> J4
     resource_engine --> J5
-    resource_engine --> J6
+    knowledge_engine --> J6
     knowledge_engine --> J7
     knowledge_engine --> J8
-    knowledge_engine --> J9
     backend_i18n --> L1
     frontend_js --> L2
 ```
