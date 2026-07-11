@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#7C69D3">
+    <title>HARU | Japan Student Support</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/haru-theme.css?v=4.4">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="site" id="appSite">
+    <div class="site-bg" aria-hidden="true">
+        <span class="b1"></span>
+        <span class="b2"></span>
+        <span class="b3"></span>
+    </div>
+
+    <div class="site-shell">
+
+    <!-- Onboarding -->
+    <section id="onboardSection" class="onboard-section">
+        <div class="onboard-topbar">
+            <div class="onboard-brand">
+                <span class="material-symbols-outlined onboard-brand-icon" aria-hidden="true">spa</span>
+                <span class="onboard-brand-text">HARU</span>
+            </div>
+            <select id="onboardLangSelector" onchange="changeLanguage(this.value)" class="lang-select glass-chip" data-i18n-aria-label="langSelectAria" aria-label="Language">
+                <option value="en">EN</option>
+                <option value="zh-TW">繁中</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
+        <div class="onboard-card soft-card">
+            <div class="onboard-hero">
+                <h1 class="onboard-title" data-i18n="onboardTitle"></h1>
+                <p class="onboard-sub" data-i18n="onboardSub"></p>
+            </div>
+            <div class="hint-box">
+                <span class="material-symbols-outlined hint-icon" aria-hidden="true">info</span>
+                <div>
+                    <strong data-i18n="onboardWhyTitle"></strong>
+                    <span data-i18n="onboardWhyBody"></span>
+                </div>
+            </div>
+            <div class="field-grid">
+                <div class="field field-full">
+                    <label data-i18n="schoolName"></label>
+                    <input type="text" id="schoolName" class="haru-input" data-i18n-placeholder="schoolPlaceholder">
+                </div>
+                <div class="field">
+                    <label data-i18n="arrivalDate"></label>
+                    <input type="date" id="arrivalDate" class="haru-input">
+                </div>
+                <div class="field">
+                    <label data-i18n="location"></label>
+                    <input type="text" id="location" class="haru-input" data-i18n-placeholder="locationPlaceholder">
+                </div>
+                <div class="field field-full">
+                    <label data-i18n="japaneseLevel"></label>
+                    <select id="japaneseLevel" class="haru-input">
+                        <option value="beginner_zero" data-i18n="langLevel0"></option>
+                        <option value="beginner" data-i18n="langLevel1"></option>
+                        <option value="intermediate" data-i18n="langLevel2"></option>
+                        <option value="advanced" data-i18n="langLevel3"></option>
+                    </select>
+                </div>
+                <div class="field field-full">
+                    <label data-i18n="schoolTypeLabel"></label>
+                    <select id="schoolType" onchange="loadOnboardTaskCheckboxes()" class="haru-input">
+                        <option value="language_school" data-i18n="schoolTypeLanguage"></option>
+                        <option value="university" data-i18n="schoolTypeUniversity"></option>
+                        <option value="vocational" data-i18n="schoolTypeVocational"></option>
+                        <option value="high_school" data-i18n="schoolTypeHighSchool"></option>
+                    </select>
+                </div>
+                <div class="field field-full">
+                    <label data-i18n="housingTypeLabel"></label>
+                    <select id="housingType" onchange="loadOnboardTaskCheckboxes()" class="haru-input">
+                        <option value="dorm" data-i18n="housingTypeDorm"></option>
+                        <option value="rental" data-i18n="housingTypeRental"></option>
+                        <option value="housing_tbd" data-i18n="housingTypeTbd"></option>
+                    </select>
+                </div>
+                <div class="field field-full">
+                    <label data-i18n="partTimeLabel"></label>
+                    <select id="partTimePlan" onchange="onPartTimePlanChange()" class="haru-input">
+                        <option value="no" data-i18n="partTimeNo"></option>
+                        <option value="yes" data-i18n="partTimeYes"></option>
+                        <option value="later" data-i18n="partTimeLater"></option>
+                    </select>
+                </div>
+                <div class="field field-full" id="permitObtainedField" style="display:none">
+                    <label class="onboard-task-item check-container" style="margin:0">
+                        <input type="checkbox" id="permitObtained" onchange="loadOnboardTaskCheckboxes()">
+                        <span data-i18n="permitObtainedLabel"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="field field-full onboard-completed-block">
+                <label data-i18n="onboardTaskListTitle"></label>
+                <div class="task-check-scroll">
+                    <label class="onboard-task-item check-container">
+                        <input type="checkbox" id="hasResidenceCard" onchange="loadOnboardTaskCheckboxes()">
+                        <span data-i18n="hasResidenceCardLabel"></span>
+                    </label>
+                    <label class="onboard-task-item check-container">
+                        <input type="checkbox" id="simAtAirport" onchange="loadOnboardTaskCheckboxes()">
+                        <span data-i18n="simAtAirportLabel"></span>
+                    </label>
+                    <label class="onboard-task-item check-container">
+                        <input type="checkbox" id="alreadyExchanged" onchange="loadOnboardTaskCheckboxes()">
+                        <span data-i18n="alreadyExchangedLabel"></span>
+                    </label>
+                    <div id="onboardTaskList"></div>
+                </div>
+            </div>
+            <button type="button" onclick="submitOnboard()" id="onboardBtn" class="btn-main btn-pill" data-i18n="onboardBtn"></button>
+            <button type="button" id="onboardCancelBtn" class="btn-ghost-sm hidden onboard-cancel" onclick="cancelOnboardEdit()" data-i18n="cancelBtn"></button>
+        </div>
+    </section>
+
+    <!-- Workspace -->
+    <div id="workspaceSection" class="hidden site-workspace">
+
+        <header class="site-header glass-header">
+            <div class="header-brand">
+                <div class="haru-avatar" id="headerAvatar">
+                    <span class="material-symbols-outlined" aria-hidden="true">auto_awesome</span>
+                </div>
+                <div class="brand-name">
+                    HARU
+                    <span data-i18n="title"></span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <span id="schoolTag" class="school-pill hidden"></span>
+                <select id="langSelector" onchange="changeLanguage(this.value)" class="lang-select glass-chip" data-i18n-aria-label="langSelectAria" aria-label="Language">
+                    <option value="en">EN</option>
+                    <option value="zh-TW">繁中</option>
+                    <option value="ja">日本語</option>
+                </select>
+            </div>
+        </header>
+
+        <main class="site-main">
+
+            <!-- Stage / Guide -->
+            <section id="view-stage" class="haru-view active">
+
+                <div class="status-pills">
+                    <span class="status-pill glass-chip" id="gpsStatus">
+                        <span class="material-symbols-outlined pill-icon" aria-hidden="true">location_on</span>
+                        <span class="pill-text">…</span>
+                    </span>
+                    <span class="status-pill glass-chip" id="timeStatus">
+                        <span class="material-symbols-outlined pill-icon" aria-hidden="true">schedule</span>
+                        <span id="timeStatusLabel" data-i18n="timeLabel">Time</span>
+                        <span id="timeStatusTime">--:--</span>
+                        (<span id="timeStatusDay">---</span>)
+                    </span>
+                </div>
+
+                <!-- Hero status card (stitch dashboard) -->
+                <div class="progress-card status-hero">
+                    <h2 class="status-hero-title" id="statusHeroTitle">—</h2>
+                    <p class="status-hero-mission hidden" id="statusHeroMission"></p>
+                    <div class="status-hero-badge hidden" id="statusHeroBadge">
+                        <span class="material-symbols-outlined" aria-hidden="true">notification_important</span>
+                        <span id="statusHeroBadgeText"></span>
+                    </div>
+                    <div class="progress-card-inner">
+                        <div class="progress-ring" id="roadmapProgressRing" style="--progress:0">
+                            <svg class="progress-ring-svg" viewBox="0 0 48 48" aria-hidden="true">
+                                <circle class="progress-ring-track" cx="24" cy="24" r="20"></circle>
+                                <circle class="progress-ring-fill" cx="24" cy="24" r="20"></circle>
+                            </svg>
+                            <div class="progress-num"><span id="roadmapProgressPercent">0</span><small>%</small></div>
+                        </div>
+                        <div class="progress-text">
+                            <h3 id="roadmapProgressText">0/0</h3>
+                            <p id="roadmapRouteLabel"></p>
+                            <div class="progress-bar-wrap">
+                                <div id="roadmapProgressBar" class="progress-bar-fill" style="width:0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="roadmapBranchSummary" class="roadmap-branch-summary hidden"></div>
+
+                <!-- Journey step strip -->
+                <div class="journey-section">
+                    <p class="section-eyebrow" data-i18n="upcomingLabel"></p>
+                    <div id="journeySteps" class="journey-steps" aria-label="Journey steps"></div>
+                </div>
+
+                <div id="roadmapBlock" class="roadmap-block soft-card">
+                    <div class="roadmap-block-head">
+                        <p class="section-label" data-i18n="roadmapTitle"></p>
+                        <button type="button" id="roadmapFullscreenBtn" class="btn-icon roadmap-fs-btn" onclick="toggleRoadmapFullscreen()" data-i18n-aria-label="roadmapFullscreen" aria-label="Fullscreen">
+                            <span class="material-symbols-outlined">fullscreen</span>
+                        </button>
+                    </div>
+                    <div id="roadmapPhaseTabs" class="roadmap-phase-tabs"></div>
+                    <div id="roadmapCanvasWrap" class="roadmap-canvas-wrap">
+                        <canvas id="roadmapCanvas" aria-label="Roadmap"></canvas>
+                    </div>
+                    <button type="button" id="roadmapFullscreenExitBtn" class="btn-main btn-pill roadmap-fs-exit hidden" onclick="toggleRoadmapFullscreen(false)" data-i18n="roadmapExitFullscreen"></button>
+                </div>
+
+                <!-- AI companion -->
+                <div class="companion-band soft-card">
+                    <div class="haru-avatar companion-avatar">
+                        <span id="agentFace" class="agent-face-letter">H</span>
+                    </div>
+                    <div class="companion-body">
+                        <div class="companion-label" data-i18n="agentActiveFocus"></div>
+                        <h3 class="companion-title" id="currentFocusTitle" data-i18n="analyzingStatus"></h3>
+                        <div class="companion-speech markdown-content" id="agentSpeech"></div>
+                        <div id="actionArea" class="action-area hidden">
+                            <button type="button" id="agentActionButton" onclick="triggerAgentAction()" class="btn-main btn-pill"></button>
+                            <div class="action-row">
+                                <button type="button" onclick="completeSelectedTask()" class="btn-secondary btn-pill-sm" data-i18n="markComplete"></button>
+                                <button type="button" onclick="reportProblem()" class="btn-ghost-sm" data-i18n="reportProblem"></button>
+                            </div>
+                            <div id="problemReportArea" class="problem-area hidden">
+                                <textarea id="problemReportText" rows="2" class="haru-input" data-i18n-placeholder="problemPlaceholder" placeholder=""></textarea>
+                                <button type="button" onclick="submitProblem()" class="btn-secondary btn-pill-sm" style="width:100%" data-i18n="submitProblem"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="missionCard" class="mission-card soft-card" onclick="scrollToTaskDetail()">
+                    <div class="mission-icon-wrap">
+                        <span class="material-symbols-outlined mission-icon">flag</span>
+                    </div>
+                    <div class="mission-body">
+                        <h3 id="missionCardTitle">—</h3>
+                        <p id="missionCardSummary"></p>
+                    </div>
+                    <span class="material-symbols-outlined chevron">chevron_right</span>
+                </div>
+
+                <!-- Inline map for navigation missions -->
+                <div id="inlineMapPanel" class="inline-map-panel soft-card hidden">
+                    <div class="task-detail-panel-head">
+                        <span class="section-label" data-i18n="mapBlockTitle"></span>
+                    </div>
+                    <div class="map-frame-wrap inline-map-frame">
+                        <iframe id="inlineMapFrame" data-i18n-title="mapBlockTitle" title="Map" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="stage-actions">
+                    <button type="button" onclick="viewRoadmapPdf()" id="exportPdfBtn" class="btn-action-card">
+                        <span class="material-symbols-outlined">picture_as_pdf</span>
+                        <span data-i18n="exportPdfBtn"></span>
+                    </button>
+                    <button type="button" onclick="switchView('talk'); startQuiz();" class="btn-action-card alt">
+                        <span class="material-symbols-outlined">quiz</span>
+                        <span data-i18n="startQuizBtn"></span>
+                    </button>
+                </div>
+
+                <!-- In-site PDF viewer -->
+                <div id="pdfViewerPanel" class="pdf-viewer-panel soft-card hidden">
+                    <div class="pdf-viewer-head">
+                        <span class="section-label" data-i18n="pdfViewerTitle"></span>
+                        <div class="pdf-viewer-actions">
+                            <button type="button" class="btn-ghost-sm" onclick="downloadCurrentPdf()" data-i18n="pdfDownloadBtn"></button>
+                            <button type="button" class="btn-icon" onclick="closePdfViewer()" data-i18n-aria-label="closeBtnAria" aria-label="Close">
+                                <span class="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+                    </div>
+                    <iframe id="pdfViewerFrame" class="pdf-viewer-frame" title="Action plan PDF"></iframe>
+                </div>
+
+                <div class="stage-footer glass-chip">
+                    <span class="material-symbols-outlined footer-icon" aria-hidden="true">lightbulb</span>
+                    <span id="upcomingHint">…</span>
+                </div>
+            </section>
+
+            <!-- Talk / Chat -->
+            <section id="view-talk" class="haru-view talk-view">
+                <div id="talkHeader" class="talk-header glass-header-inline">
+                    <div class="talk-header-left">
+                        <h2 class="talk-title" data-i18n="chatWithHaru"></h2>
+                        <div class="talk-status">
+                            <span class="talk-status-dot"></span>
+                            <span class="talk-status-label" data-i18n="haruAiLabel"></span>
+                        </div>
+                    </div>
+                    <div class="talk-header-actions">
+                        <button type="button" onclick="startQuiz()" id="quizStartBtn" class="btn-secondary btn-pill-sm" data-i18n="startQuizBtn"></button>
+                        <button type="button" class="btn-icon talk-close-btn" onclick="closeChatView(event)" data-i18n-aria-label="chatCloseBtn" aria-label="Close chat">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="content-chat" class="chat-panel">
+                    <div id="chatWindow" class="chat-window"></div>
+                    <div class="chat-compose-wrap glass-footer">
+                        <div id="chatComposerChips" class="chips-bar hidden"></div>
+                        <div id="chatImagePreview" class="hidden"></div>
+                        <div class="chat-compose">
+                            <input type="file" id="chatImageInput" accept="image/*" multiple class="hidden" onchange="handleChatImageSelect(event)">
+                            <button type="button" onclick="document.getElementById('chatImageInput').click()" class="compose-btn" title="Photo" data-i18n-title="attachPhotoBtn">
+                                <span class="material-symbols-outlined">add_photo_alternate</span>
+                            </button>
+                            <button type="button" id="micBtn" onclick="toggleSTT()" class="compose-btn">
+                                <span class="material-symbols-outlined">mic</span>
+                                <span id="micRecordingDot" class="mic-dot hidden"></span>
+                            </button>
+                            <input type="text" id="chatInput" class="chat-input" onkeypress="if(event.keyCode===13) sendMessage()" data-i18n-placeholder="chatPlaceholder" placeholder="">
+                            <button type="button" onclick="sendMessage()" id="sendBtn" class="compose-btn send">
+                                <span class="material-symbols-outlined">send</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile -->
+            <section id="view-profile" class="haru-view profile-view">
+                <div class="profile-hero">
+                    <h2 class="profile-title" data-i18n="profileTitle"></h2>
+                    <p class="profile-sub" data-i18n="profileSub"></p>
+                </div>
+                <div class="profile-card soft-card">
+                    <div class="profile-api-key-block">
+                        <label class="profile-api-label" data-i18n="apiKeyLabel"></label>
+                        <div id="apiKeyStatusBadge" class="api-key-badge api-key-badge--missing" role="status">
+                            <span id="apiKeyStatusIcon" class="api-key-badge-icon" aria-hidden="true">○</span>
+                            <span id="apiKeyStatusText" class="api-key-badge-text">—</span>
+                        </div>
+                        <p id="apiKeyHintLine" class="profile-api-mask hidden"></p>
+                        <input type="password" id="apiKeyInput" class="haru-input profile-api-input" autocomplete="off" data-i18n-placeholder="apiKeyPlaceholder" placeholder="">
+                        <div class="profile-api-actions">
+                            <button type="button" class="btn-main btn-pill-sm" onclick="saveApiKey()" id="apiKeySaveBtn" data-i18n="apiKeySave"></button>
+                            <button type="button" class="btn-ghost-sm" onclick="testApiKey()" id="apiKeyTestBtn" data-i18n="apiKeyTest"></button>
+                            <button type="button" class="btn-ghost-sm" onclick="clearApiKey()" id="apiKeyClearBtn" data-i18n="apiKeyClear"></button>
+                        </div>
+                        <p id="apiKeyFeedback" class="profile-api-feedback hidden" role="alert"></p>
+                        <p class="profile-api-hint" data-i18n="apiKeyHint"></p>
+                    </div>
+                    <div class="profile-api-key-block">
+                        <label class="profile-api-label" data-i18n="mapsKeyLabel"></label>
+                        <div id="mapsKeyStatusBadge" class="api-key-badge api-key-badge--missing" role="status">
+                            <span id="mapsKeyStatusIcon" class="api-key-badge-icon" aria-hidden="true">○</span>
+                            <span id="mapsKeyStatusText" class="api-key-badge-text">—</span>
+                        </div>
+                        <p id="mapsKeyHintLine" class="profile-api-mask hidden"></p>
+                        <input type="password" id="mapsKeyInput" class="haru-input profile-api-input" autocomplete="off" data-i18n-placeholder="mapsKeyPlaceholder" placeholder="">
+                        <div class="profile-api-actions">
+                            <button type="button" class="btn-main btn-pill-sm" onclick="saveMapsKey()" id="mapsKeySaveBtn" data-i18n="mapsKeySave"></button>
+                            <button type="button" class="btn-ghost-sm" onclick="testMapsKey()" id="mapsKeyTestBtn" data-i18n="mapsKeyTest"></button>
+                            <button type="button" class="btn-ghost-sm" onclick="clearMapsKey()" id="mapsKeyClearBtn" data-i18n="mapsKeyClear"></button>
+                        </div>
+                        <p id="mapsKeyFeedback" class="profile-api-feedback hidden" role="alert"></p>
+                        <p class="profile-api-hint" data-i18n="mapsKeyHint"></p>
+                    </div>
+                    <div class="profile-api-key-block">
+                        <div class="profile-api-label" data-i18n="servicesHealthTitle"></div>
+                        <div id="servicesHealthList" class="services-health-list"></div>
+                        <p class="profile-api-hint" data-i18n="servicesHealthHint"></p>
+                    </div>
+                </div>
+                <div class="profile-card soft-card profile-settings-list">
+                    <div class="profile-row">
+                        <span class="profile-row-label">
+                            <span class="material-symbols-outlined">volume_up</span>
+                            <span id="voiceSettingLabel" data-i18n="voiceOff"></span>
+                        </span>
+                        <button type="button" id="voiceToggleBtn" class="btn-icon hidden" onclick="toggleVoice()">
+                            <span class="material-symbols-outlined">volume_off</span>
+                        </button>
+                    </div>
+                    <div class="profile-row">
+                        <span class="profile-row-label">
+                            <span class="material-symbols-outlined">picture_as_pdf</span>
+                            <span data-i18n="exportPdfBtn"></span>
+                        </span>
+                        <button type="button" class="btn-icon pdf-export-trigger" onclick="viewRoadmapPdf()" data-i18n-aria-label="viewPdfAria" aria-label="View PDF">
+                            <span class="material-symbols-outlined">picture_as_pdf</span>
+                        </button>
+                    </div>
+                    <div class="profile-row">
+                        <span class="profile-row-label">
+                            <span class="material-symbols-outlined">edit_note</span>
+                            <span data-i18n="onboardTitle"></span>
+                        </span>
+                        <button type="button" class="btn-secondary btn-pill-sm" onclick="showOnboardEdit()" data-i18n="onboardEditBtn"></button>
+                    </div>
+                    <div class="profile-row">
+                        <span class="profile-row-label">
+                            <span class="material-symbols-outlined">restart_alt</span>
+                            <span data-i18n="resetLabel"></span>
+                        </span>
+                        <button type="button" class="btn-ghost-sm" onclick="resetData()" data-i18n="resetBtn"></button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <nav class="bottom-nav hidden" id="bottomNav" data-i18n-aria-label="navAriaLabel" aria-label="Main">
+            <button type="button" class="nav-item on" data-view="stage" onclick="switchView('stage')">
+                <span class="material-symbols-outlined nav-icon">home</span>
+                <span class="nav-label" data-i18n="navStageTab"></span>
+            </button>
+            <button type="button" class="nav-item" data-view="talk" onclick="switchView('talk')">
+                <span class="material-symbols-outlined nav-icon">chat_bubble</span>
+                <span class="nav-label" data-i18n="chatTab"></span>
+            </button>
+            <button type="button" class="nav-item" data-view="profile" onclick="switchView('profile')">
+                <span class="material-symbols-outlined nav-icon">person</span>
+                <span class="nav-label" data-i18n="navProfileTab"></span>
+            </button>
+        </nav>
+    </div>
+
+    </div><!-- .site-shell -->
+
+    <!-- Task detail sheet -->
+    <div id="taskSheetBackdrop" class="sheet-backdrop hidden" onclick="closeTaskSheet()"></div>
+    <div id="taskSheet" class="sheet task-sheet hidden" role="dialog" aria-modal="true" aria-labelledby="taskSheetTitle">
+        <div class="sheet-handle"></div>
+        <div class="sheet-header">
+            <span id="taskSheetTitle" class="sheet-title" data-i18n="selectTaskHint"></span>
+            <button type="button" class="sheet-close" onclick="closeTaskSheet()" data-i18n-aria-label="closeBtnAria" aria-label="Close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="sheet-body task-sheet-body">
+            <div id="roadmapTaskDetail">
+                <p id="roadmapSelectHint" class="task-detail-summary task-detail-empty" data-i18n="selectTaskHint"></p>
+                <div id="roadmapDetailContent" class="hidden">
+                    <h3 id="roadmapDetailTitle" class="task-detail-title task-sheet-detail-title"></h3>
+                    <p id="roadmapDetailSummary" class="task-detail-summary"></p>
+                    <p id="roadmapDetailMeta" class="task-detail-meta"></p>
+                    <p id="roadmapDetailLock" class="task-detail-lock hidden"></p>
+                    <div id="roadmapDetailDocs"></div>
+                    <div id="roadmapDetailLinks"></div>
+                    <div id="roadmapDetailGuides"></div>
+                    <div id="roadmapDetailBranches" class="hidden"></div>
+                    <div id="roadmapDetailActions" class="task-detail-actions hidden">
+                        <button type="button" id="roadmapExpandBtn" onclick="expandTaskDetail()" class="btn-secondary btn-pill-sm" data-i18n="expandTaskBtn"></button>
+                        <button type="button" id="roadmapPersonalizeBtn" onclick="personalizeTaskDetail()" class="btn-main btn-pill-sm" data-i18n="personalizeTaskBtn"></button>
+                    </div>
+                    <div id="roadmapDetailExpanded" class="hidden"></div>
+                    <div id="roadmapDetailPersonalized" class="hidden"></div>
+                    <ul id="roadmapDetailTips" class="task-detail-tips"></ul>
+                    <div id="roadmapDetailAiSteps" class="hidden"></div>
+                    <button type="button" id="roadmapCompleteBtn" onclick="completeSelectedTask()" class="btn-main btn-pill hidden" data-i18n="markComplete"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map sheet (legacy fallback) -->
+    <div id="mapSheetBackdrop" class="sheet-backdrop hidden" onclick="closeMapSheet()"></div>
+    <div id="mapSheet" class="sheet map-sheet hidden">
+        <div class="sheet-handle"></div>
+        <div class="sheet-header">
+            <span class="sheet-title" data-i18n="mapBlockTitle">Map</span>
+            <button type="button" class="sheet-close" onclick="closeMapSheet()" data-i18n-aria-label="closeBtnAria" aria-label="Close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="sheet-body">
+            <div id="dynamicMapContainer" class="map-frame-wrap">
+                <iframe id="dynamicMapFrame" data-i18n-title="mapBlockTitle" title="Map" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scanner sheet -->
+    <div id="scannerSheetBackdrop" class="sheet-backdrop hidden" onclick="closeScannerSheet()"></div>
+    <div id="scannerSheet" class="sheet scanner-sheet hidden">
+        <div class="sheet-handle"></div>
+        <div class="sheet-header">
+            <span class="sheet-title" data-i18n="scannerTitle"></span>
+            <button type="button" class="sheet-close" onclick="closeScannerSheet()" data-i18n-aria-label="closeBtnAria" aria-label="Close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="sheet-body">
+            <section id="scannerSection">
+                <input type="file" id="formImageFile" accept="image/*" class="haru-input" style="margin-bottom:0.75rem">
+                <button type="button" onclick="analyzeForm()" id="analyzeBtn" class="btn-main btn-pill" data-i18n="scannerBtn"></button>
+                <div id="analysisResult" class="hidden markdown-content analysis-result"></div>
+            </section>
+        </div>
+    </div>
+
+</div>
+
+<!-- Loading -->
+<div id="globalLoadingOverlay" class="hidden">
+    <div class="loading-card soft-card">
+        <div class="loading-face">
+            <span class="material-symbols-outlined loading-spark">auto_awesome</span>
+        </div>
+        <div class="loading-text" data-i18n="agentThinkingOverlay"></div>
+        <button type="button" onclick="cancelLoading()" class="btn-secondary btn-pill-sm" data-i18n="cancelBtn"></button>
+    </div>
+</div>
+
+<!-- Guide walkthrough -->
+<div id="guideWalkthroughPanel" class="hidden">
+    <div class="guide-backdrop" onclick="closeGuideWalkthrough()"></div>
+    <div class="guide-sheet soft-card">
+        <div class="guide-sheet-header">
+            <h2 id="guideWalkthroughTitle"></h2>
+            <button type="button" class="sheet-close" onclick="closeGuideWalkthrough()" data-i18n-aria-label="closeBtnAria" aria-label="Close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div id="guideWalkthroughBody" class="guide-sheet-body"></div>
+        <div class="guide-sheet-footer">
+            <button type="button" id="guidePrevBtn" onclick="guidePrevStep()" class="btn-secondary btn-pill-sm" data-i18n="guidePrev"></button>
+            <button type="button" id="guideNextBtn" onclick="onGuideNextClick()" class="btn-main btn-pill-sm" data-i18n="guideNext"></button>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="/static/js/roadmap_canvas.js?v=6.1"></script>
+<script src="/static/js/school_autocomplete.js?v=2.1"></script>
+<script src="/static/js/main.js?v=4.4"></script>
+<script src="/static/js/guide_walkthrough.js?v=3.2"></script>
+</body>
+</html>

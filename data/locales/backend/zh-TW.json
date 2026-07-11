@@ -1,0 +1,95 @@
+{
+  "chipComplete": "標記完成",
+  "chipMaps": "打開地圖導航",
+  "chipTask": "查看任務詳情",
+
+  "allDone": "全部完成",
+  "completedNarrative": "恭喜！您已完成所有主要落地手續。如有新問題，隨時在聊天中詢問 Haru。",
+  "markedCompleteNext": "已記錄完成。接下來請處理：{title}\n\n{summary}",
+
+  "navWardOffice": "{loc} 区役所",
+  "navBank": "{loc} ゆうちょ銀行",
+  "navPhone": "{loc} 携帯ショップ",
+  "navActionLabel": "打開地圖導航",
+  "navDocumentScan": "掃描文件",
+
+  "mermaidNextSteps": "接下來的手續",
+  "mermaidCurrentPhase": "目前階段",
+  "mermaidFull": "個人化落地路線圖",
+
+  "stepReadSummary": "閱讀任務說明：{summary}",
+  "stepPrepDocs": "準備列出的必要文件",
+  "stepMarkComplete": "完成後在 Haru 中標記此任務",
+  "stepPrerequisite": "前置條件：{reason}",
+
+  "greetingBody": "這是 Haru 為你——在{location}就讀{school_name}的你——專門整理的個人行動計畫。你已完成 {completed}/{total} 項手續。請先專注於下方「現在該做的事」，不必一次看完所有內容。",
+
+  "pdfTitle": "Haru 個人行動計畫",
+  "pdfSubFor": "為 {name} ｜ {date}",
+  "pdfAiTag": "（Haru AI 個人化生成）",
+  "pdfSectionGreeting": "Haru 給你的話",
+  "pdfAllDone": "你已完成所有主要落地手續。若遇到新問題，請回到 Haru 聊天詢問。",
+  "pdfSectionNow": "★ 現在該做的事",
+  "pdfDuration": "約 {n} 分鐘",
+  "pdfDeadline": "抵達後 {n} 天內",
+  "pdfWhereTo": "建議前往：",
+  "pdfSectionSteps": "具體步驟",
+  "pdfBring": "請攜帶：",
+  "pdfSectionOfficial": "這一步的官方參考",
+  "pdfSectionNext": "完成後，接下來",
+  "pdfSectionMilestones": "你已完成的里程碑",
+  "pdfSectionPath": "你的專屬路線預覽（尚未完成）",
+  "pdfPathIntro": "以下是為你路線準備的後續手續一覽。現在只需專注上一節的「現在該做的事」。",
+  "pdfFooter": "本計畫由 Haru 依你的個人進度自動生成，僅供你本人使用。",
+
+  "yesLabel": "是",
+  "noLabel": "否",
+
+  "japaneseLevelBeginner_zero": "零基礎（完全不會）",
+  "japaneseLevelBeginner": "初級（約 N5~N4）",
+  "japaneseLevelIntermediate": "中級（約 N3~N2）",
+  "japaneseLevelAdvanced": "高級（N1 以上）",
+
+  "lockReasonPrefix": "需先完成：",
+  "lockReasonSep": "、",
+
+  "sectionOverview": "任務概要",
+  "sectionTips": "注意事項",
+  "sectionDocuments": "所需文件",
+
+  "mockDefaultLocation": "你的居住區域",
+  "mockDefaultSchool": "你的語言學校",
+  "mockPlanTitle": "針對「{title}」的個人化步驟（{school}・{loc}）",
+  "mockStep1Docs": "前一晚備齊在留卡、護照等文件",
+  "mockStep2Hours": "查詢 {loc} 最近窗口的營業時間（建議平日早上）",
+  "mockStep3Orientation": "與學校報到說明交叉確認",
+  "mockStep4Complete": "完成後在 Haru 標記此任務",
+
+  "quizNoQuestions": "目前沒有需要診斷的問題，你的進度看起來很順利！",
+  "quizIntro": "讓我用最多 {n} 個四選一問題，幫你釐清目前狀況。請選擇最符合你情況的選項。",
+  "quizDoneHeader": "診斷完成！以下是我根據你的回答整理的建議：",
+  "quizDoneDefault": "你的狀況大致符合目前路線圖進度，請繼續依照「現在該做的事」進行。",
+  "quizDonePriority": "\n建議優先處理任務：{focus}",
+
+  "wardLinkSuffix": "｜住民登錄",
+  "officialLinksTitle": "官方參考連結",
+  "chipSuggestionsDefault": "這一步怎麼做？||我遇到問題了",
+  "chipSuggestions_task_ward_office": "需要帶什麼文件？||今天還開門嗎？||找不到區役所",
+  "chipSuggestions_task_bank": "開戶需要什麼？||沒有印章可以嗎？",
+  "chipSuggestions_task_phone": "沒有住民登錄能辦門號嗎？||推薦哪種 SIM？",
+
+  "guideStartWalkthrough": "開始逐步引導",
+  "sourceCitationsTitle": "引用來源（官方／可信）",
+
+  "graphHousingForkLabel": "住居路線",
+  "graphHousingForkPrompt": "你的住居類型決定後續分岐",
+
+  "mockAgentTitle": "【Mock 模式】測試目標",
+  "mockAgentNarrative": "【Mock 模式】這是一段模擬測試的回覆。這表示您現在測試不會消耗任何 API 額度。",
+  "mockAgentActionLabel": "模擬動作",
+  "mockAgentUpcomingHint": "模擬下一步提示",
+
+  "mockChatReply": "【Mock 模式】這是一則測試用的對話回覆。{image_note}官方連結會由系統自動附加。",
+  "mockAnalyzeForm": "【Mock 模式】這是一份測試用的表單分析結果。",
+  "mockSttResult": "【Mock 模式】這是一段測試用的語音辨識結果。"
+}

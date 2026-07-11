@@ -1,0 +1,95 @@
+{
+  "chipComplete": "完了にする",
+  "chipMaps": "地図を開く",
+  "chipTask": "タスクを見る",
+
+  "allDone": "すべて完了",
+  "completedNarrative": "おめでとうございます！主要な手続きが完了しました。質問はチャットでいつでもどうぞ。",
+  "markedCompleteNext": "完了を記録しました。次は：{title}\n\n{summary}",
+
+  "navWardOffice": "{loc} 区役所",
+  "navBank": "{loc} ゆうちょ銀行",
+  "navPhone": "{loc} 携帯ショップ",
+  "navActionLabel": "地図を開く",
+  "navDocumentScan": "書類をスキャン",
+
+  "mermaidNextSteps": "次の手続き",
+  "mermaidCurrentPhase": "現在のフェーズ",
+  "mermaidFull": "あなたの落地ロードマップ",
+
+  "stepReadSummary": "タスクの説明を確認：{summary}",
+  "stepPrepDocs": "必要書類を準備する",
+  "stepMarkComplete": "完了したら Haru でタスクを完了にする",
+  "stepPrerequisite": "前提条件：{reason}",
+
+  "greetingBody": "これは{location}で{school_name}に通うあなた専用の行動プランです。手続きは{completed}/{total}件完了。まず「今やること」に集中してください。全部を一度に読む必要はありません。",
+
+  "pdfTitle": "Haru 個人行動プラン",
+  "pdfSubFor": "{name} 様 ｜ {date}",
+  "pdfAiTag": "（Haru AI による個人化）",
+  "pdfSectionGreeting": "Haru からのメッセージ",
+  "pdfAllDone": "主要な手続きは完了しています。新しい問題があれば Haru チャットへ。",
+  "pdfSectionNow": "★ 今やること",
+  "pdfDuration": "約{n}分",
+  "pdfDeadline": "入国後{n}日以内",
+  "pdfWhereTo": "行き先：",
+  "pdfSectionSteps": "具体的な手順",
+  "pdfBring": "持参：",
+  "pdfSectionOfficial": "このステップの公式参考",
+  "pdfSectionNext": "次にやること",
+  "pdfSectionMilestones": "完了したマイルストーン",
+  "pdfSectionPath": "あなたの残りルート（概要）",
+  "pdfPathIntro": "ルート上の残り手続きの一覧です。今は上の「今やること」だけに集中してください。",
+  "pdfFooter": "このプランはあなたの進捗に基づき Haru が個人用に生成しました。",
+
+  "yesLabel": "はい",
+  "noLabel": "いいえ",
+
+  "japaneseLevelBeginner_zero": "未学習（全く話せない）",
+  "japaneseLevelBeginner": "初級（N5〜N4 程度）",
+  "japaneseLevelIntermediate": "中級（N3〜N2 程度）",
+  "japaneseLevelAdvanced": "上級（N1 以上）",
+
+  "lockReasonPrefix": "先に完了：",
+  "lockReasonSep": "、",
+
+  "sectionOverview": "タスク概要",
+  "sectionTips": "注意点",
+  "sectionDocuments": "必要書類",
+
+  "mockDefaultLocation": "お住まいの地域",
+  "mockDefaultSchool": "あなたの語学学校",
+  "mockPlanTitle": "{title} の個人プラン（{school}・{loc}向け）",
+  "mockStep1Docs": "必要書類（在留カード・パスポート）を前日夜に準備",
+  "mockStep2Hours": "{loc} の最寄り窓口の営業時間を確認（平日午前推奨）",
+  "mockStep3Orientation": "学校のオリエンテーション情報と照合",
+  "mockStep4Complete": "完了後、Haru で次のタスクを更新",
+
+  "quizNoQuestions": "診断用の質問はありません。順調です！",
+  "quizIntro": "最大{n}問の4択で状況を確認します。",
+  "quizDoneHeader": "診断完了！回答に基づくアドバイスです：",
+  "quizDoneDefault": "ロードマップの進捗と一致しています。現在のタスクを続けてください。",
+  "quizDonePriority": "\n優先タスク：{focus}",
+
+  "wardLinkSuffix": "｜住民登録",
+  "officialLinksTitle": "公式の参考リンク",
+  "chipSuggestionsDefault": "この手続きはどうすれば？||困っています",
+  "chipSuggestions_task_ward_office": "必要書類は？||今日は開いていますか？||区役所が見つかりません",
+  "chipSuggestions_task_bank": "口座開設に何が必要？||印鑑なしでも大丈夫？",
+  "chipSuggestions_task_phone": "住民登録なしで契約できる？||おすすめのSIMは？",
+
+  "guideStartWalkthrough": "ステップガイドを開始",
+  "sourceCitationsTitle": "引用元（公式・信頼できる情報）",
+
+  "graphHousingForkLabel": "住居ルート",
+  "graphHousingForkPrompt": "住居タイプで分岐",
+
+  "mockAgentTitle": "【Mockモード】テスト目標",
+  "mockAgentNarrative": "【Mockモード】これはシミュレーション応答です。テスト中はAPIクォータを消費しません。",
+  "mockAgentActionLabel": "モックアクション",
+  "mockAgentUpcomingHint": "モック次ステップヒント",
+
+  "mockChatReply": "【Mockモード】これはテスト用のチャット返答です。{image_note}公式リンクはシステムが自動で追加します。",
+  "mockAnalyzeForm": "【Mockモード】これはテスト用の書類解析結果です。",
+  "mockSttResult": "【Mockモード】これはテスト用の音声認識結果です。"
+}

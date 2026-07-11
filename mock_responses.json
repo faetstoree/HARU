@@ -1,0 +1,47 @@
+{
+  "zh-TW": {
+    "agent_decision": {
+      "expression": "thinking",
+      "current_focus_title": "【Mock 模式】測試目標",
+      "narrative": "【Mock 模式】這是一段模擬測試的回覆。這表示您現在測試不會消耗任何 API 額度。",
+      "action_type": "none",
+      "action_label": "模擬動作",
+      "action_data": "mock_data",
+      "upcoming_hint": "模擬下一步提示",
+      "newly_completed_tasks": []
+    },
+    "chat": "【Mock 模式】這是一則測試用的對話回覆。",
+    "analyze_form": "【Mock 模式】這是一份測試用的表單分析結果。",
+    "stt": "【Mock 模式】這是一段測試用的語音辨識結果。"
+  },
+  "en": {
+    "agent_decision": {
+      "expression": "thinking",
+      "current_focus_title": "[Mock Mode] Test Goal",
+      "narrative": "[Mock Mode] This is a mock response for testing. This means you do not consume any API quota.",
+      "action_type": "none",
+      "action_label": "Mock Action",
+      "action_data": "mock_data",
+      "upcoming_hint": "Mock upcoming hint",
+      "newly_completed_tasks": []
+    },
+    "chat": "[Mock Mode] This is a test chat response.",
+    "analyze_form": "[Mock Mode] This is a test form analysis result.",
+    "stt": "[Mock Mode] This is a test speech-to-text result."
+  },
+  "ja": {
+    "agent_decision": {
+      "expression": "thinking",
+      "current_focus_title": "【Mockモード】テスト目標",
+      "narrative": "【Mockモード】これはテスト用の模擬回答です。APIのクォータを消費しません。",
+      "action_type": "none",
+      "action_label": "模擬アクション",
+      "action_data": "mock_data",
+      "upcoming_hint": "模擬次のヒント",
+      "newly_completed_tasks": []
+    },
+    "chat": "【Mockモード】これはテスト用のチャット回答です。",
+    "analyze_form": "【Mockモード】これはテスト用のフォーム分析結果です。",
+    "stt": "【Mockモード】這是測試用的日文語音辨識結果 (日本語音声認識のモック)。"
+  }
+}

@@ -1,0 +1,1079 @@
+{
+  "version": "3.0",
+  "phases": [
+    {
+      "id": "phase_pre_arrival",
+      "order": 0,
+      "title": {
+        "zh-TW": "渡航前準備（母国）",
+        "en": "Pre-departure (home country)",
+        "ja": "渡航前準備（母国）"
+      }
+    },
+    {
+      "id": "phase_arrival",
+      "order": 1,
+      "title": {
+        "zh-TW": "入國當日",
+        "en": "Arrival day",
+        "ja": "入国当日"
+      }
+    },
+    {
+      "id": "phase_week1",
+      "order": 2,
+      "title": {
+        "zh-TW": "入國後第1週",
+        "en": "First week after arrival",
+        "ja": "入国後第1週（行政・生活基盤手続き）"
+      }
+    },
+    {
+      "id": "phase_settlement",
+      "order": 3,
+      "title": {
+        "zh-TW": "生活基盤定著",
+        "en": "Life infrastructure setup",
+        "ja": "生活基盤の定着（口座開設完了後）"
+      }
+    },
+    {
+      "id": "phase_id_longterm",
+      "order": 4,
+      "title": {
+        "zh-TW": "中長期身分證明",
+        "en": "Long-term ID documents",
+        "ja": "中長期的な身分証明書のアップデート（ID基盤）"
+      }
+    }
+  ],
+  "routes": {
+    "dorm": {
+      "label": {
+        "zh-TW": "學校寮・留學生會館",
+        "en": "School dorm / international student hall",
+        "ja": "学校の寮・留学生会館"
+      },
+      "exclude": [
+        "task_housing_rental_managed",
+        "task_housing_rental_self",
+        "task_gas_activation"
+      ],
+      "include_only": null
+    },
+    "rental": {
+      "label": {
+        "zh-TW": "民間賃貸（管理公司代辦）",
+        "en": "Private rental (via management company)",
+        "ja": "民間の賃貸物件（管理会社経由）"
+      },
+      "exclude": [
+        "task_housing_dorm",
+        "task_housing_rental_self"
+      ],
+      "include_only": null
+    },
+    "housing_tbd": {
+      "label": {
+        "zh-TW": "個人契約賃貸（自己手配）",
+        "en": "Self-arranged rental",
+        "ja": "個人で契約した賃貸物件（自己手配ライフライン）"
+      },
+      "exclude": [
+        "task_housing_dorm",
+        "task_housing_rental_managed"
+      ],
+      "include_only": null
+    }
+  },
+  "tasks": [
+    {
+      "id": "task_study_plan",
+      "phase": "phase_pre_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "制定留學計畫・開始收集資訊",
+        "en": "Plan study abroad & gather information",
+        "ja": "留学計画の策定・情報収集の開始"
+      },
+      "summary": {
+        "zh-TW": "決定進學路線（語校／大學別科／大學院／專門學校／高中）並開始收集必要資訊",
+        "en": "Choose your study path (language school, prep course, university, vocational, high school) and start gathering info",
+        "ja": "進学ルート（語学学校・大学別科・大学院・専門学校・高校）を決め、必要な情報収集を開始"
+      },
+      "depends_on": [],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 120,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": [
+        {
+          "zh-TW": "語校は通常4月・10月入学が多い",
+          "en": "Language schools often start in April/October",
+          "ja": "語学学校は4月・10月入学が多い"
+        },
+        {
+          "zh-TW": "大學需確認EJU或校內考試要求",
+          "en": "Universities may require EJU or entrance exams",
+          "ja": "大学はEJUや校内試験の要否を確認"
+        }
+      ]
+    },
+    {
+      "id": "task_school_admission",
+      "phase": "phase_pre_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "提交出願書類・學校審查",
+        "en": "Submit application documents & school review",
+        "ja": "出願書類の提出・学校側の審査"
+      },
+      "summary": {
+        "zh-TW": "依募集要項準備並提交出願書類（可透過留學代理或自行申請）",
+        "en": "Prepare and submit application documents per school guidelines (via agent or self-application)",
+        "ja": "募集要項に沿って出願書類を提出（留学支援代理店または個人での直接出願）"
+      },
+      "depends_on": [
+        "task_study_plan"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 180,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": [
+        {
+          "zh-TW": "保留所有提交文件的副本",
+          "en": "Keep copies of all submitted documents",
+          "ja": "提出書類のコピーを保管"
+        },
+        {
+          "zh-TW": "翻譯件需確認是否符合入管要求",
+          "en": "Confirm translations meet immigration requirements",
+          "ja": "翻訳文が入管要件を満たすか確認"
+        }
+      ]
+    },
+    {
+      "id": "task_coe_receive",
+      "phase": "phase_pre_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "取得在留資格認定證明書（COE）",
+        "en": "Receive Certificate of Eligibility (COE)",
+        "ja": "在留資格認定証明書（COE）の交付"
+      },
+      "summary": {
+        "zh-TW": "學校或本人向入管局申請後，收到 COE",
+        "en": "Receive COE after application to immigration via school or yourself",
+        "ja": "学校等が入管に申請し、在留資格認定証明書を受領"
+      },
+      "depends_on": [
+        "task_school_admission"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 30,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [
+        {
+          "id": "coe",
+          "label": {
+            "zh-TW": "在留資格認定證明書",
+            "en": "Certificate of Eligibility",
+            "ja": "在留資格認定証明書"
+          },
+          "required": true
+        }
+      ],
+      "tips": []
+    },
+    {
+      "id": "task_visa_apply",
+      "phase": "phase_pre_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "申請簽證（查證）",
+        "en": "Apply for visa",
+        "ja": "ビザ（査証）の申請・発給"
+      },
+      "summary": {
+        "zh-TW": "持 COE、護照等至本國日本大使館・總領事館申請簽證",
+        "en": "Apply at Japanese embassy/consulate with COE and passport",
+        "ja": "COEとパスポートを持ち、本国の日本大使館・総領事館等でビザ申請"
+      },
+      "depends_on": [
+        "task_coe_receive"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 60,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [
+        {
+          "id": "passport",
+          "label": {
+            "zh-TW": "護照",
+            "en": "Passport",
+            "ja": "パスポート"
+          },
+          "required": true
+        },
+        {
+          "id": "coe",
+          "label": {
+            "zh-TW": "COE",
+            "en": "COE",
+            "ja": "在留資格認定証明書"
+          },
+          "required": true
+        }
+      ],
+      "tips": []
+    },
+    {
+      "id": "task_funds_prep",
+      "phase": "phase_pre_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "準備資金",
+        "en": "Prepare funds",
+        "ja": "資金の準備"
+      },
+      "summary": {
+        "zh-TW": "設定海外提款（Wise/Revolut等）或準備攜帶現金（超過100萬日圓等值需向海關申報）",
+        "en": "Set up international banking/cards (Wise, Revolut, etc.) or prepare cash (declare if over ~1M yen equivalent)",
+        "ja": "海外送金・複数通貨カードの準備、または多額現金の持参（100万円相当超は税関申告が必要）"
+      },
+      "depends_on": [
+        "task_visa_apply"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 45,
+      "priority": "high",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": [
+        {
+          "zh-TW": "建議同時準備數位支付與少量現金",
+          "en": "Prepare both digital payment and some cash",
+          "ja": "デジタル決済と少額現金の両方を用意"
+        },
+        {
+          "zh-TW": "超過申報額度的現金需向海關申報",
+          "en": "Declare cash above customs threshold",
+          "ja": "一定額以上の現金は税関申告"
+        }
+      ]
+    },
+    {
+      "id": "task_housing_dorm",
+      "phase": "phase_pre_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "學校寮・會館入住手續",
+        "en": "School dorm / hall arrangement",
+        "ja": "学校の寮・留学生会館の手配"
+      },
+      "summary": {
+        "zh-TW": "向學校申請宿舍；無需入居審查，通常附家具家電，無需自行開通水電",
+        "en": "Apply for school dorm; no tenant screening, furnished, utilities often included",
+        "ja": "学校の寮・留学生会館を申込（審査なし・家具家電付き・ライフライン手続き不要）"
+      },
+      "depends_on": [
+        "task_funds_prep"
+      ],
+      "routes": [
+        "dorm"
+      ],
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 90,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_housing_rental_managed",
+      "phase": "phase_pre_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "民間賃貸（管理公司代辦）",
+        "en": "Private rental via management company",
+        "ja": "民間賃貸物件への入居（管理会社経由）"
+      },
+      "summary": {
+        "zh-TW": "透過管理公司簽約；可委託管理公司事前開通水道・電力",
+        "en": "Sign lease via management company; utilities can be pre-arranged through them",
+        "ja": "管理会社を通じた賃貸契約と水道・電気の事前開始手続き"
+      },
+      "depends_on": [
+        "task_funds_prep"
+      ],
+      "routes": [
+        "rental"
+      ],
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 180,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": [
+        {
+          "zh-TW": "入居審查通常需1〜2週",
+          "en": "Tenant screening often takes 1-2 weeks",
+          "ja": "入居審査は1〜2週間かかることも"
+        }
+      ]
+    },
+    {
+      "id": "task_housing_rental_self",
+      "phase": "phase_pre_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "個人契約賃貸（自己手配）",
+        "en": "Self-arranged private rental",
+        "ja": "個人で契約した賃貸物件"
+      },
+      "summary": {
+        "zh-TW": "自行尋找並簽訂租約；到日本後需自行向水電瓦斯公司申請開通",
+        "en": "Find and sign lease yourself; contact utility companies after arrival",
+        "ja": "自分で賃貸契約し、到着後に水道・電気・ガス会社へ契約・開始連絡を実施"
+      },
+      "depends_on": [
+        "task_funds_prep"
+      ],
+      "routes": [
+        "housing_tbd"
+      ],
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 240,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_internet_prep",
+      "phase": "phase_pre_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "渡航前網路環境準備",
+        "en": "Pre-departure internet setup",
+        "ja": "渡航前のインターネット環境確保"
+      },
+      "summary": {
+        "zh-TW": "建議事前申辦日本 eSIM 或實體 SIM，到達後即可使用數據通訊",
+        "en": "Consider pre-ordering Japan eSIM or physical SIM for immediate data on arrival",
+        "ja": "日本国内用eSIMまたは物理SIMの事前契約（到着後すぐにデータ通信が利用可能）"
+      },
+      "depends_on": [
+        "task_funds_prep"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": {
+        "sim_at_airport": true
+      },
+      "duration_min": 30,
+      "priority": "high",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": [],
+      "route_depends_override": {
+        "dorm": [
+          "task_housing_dorm"
+        ],
+        "rental": [
+          "task_housing_rental_managed"
+        ],
+        "housing_tbd": [
+          "task_housing_rental_self"
+        ]
+      }
+    },
+    {
+      "id": "task_vjw",
+      "phase": "phase_pre_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "Visit Japan Web 事前登錄",
+        "en": "Visit Japan Web pre-registration",
+        "ja": "Visit Japan Web（オンライン入国手続きサービス）の事前登録"
+      },
+      "summary": {
+        "zh-TW": "事前登錄以取得入國審查及海關申報用二維碼",
+        "en": "Pre-register to get QR codes for immigration and customs",
+        "ja": "入国審査および税関申告用の二次元コードを取得"
+      },
+      "depends_on": [
+        "task_funds_prep"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 15,
+      "priority": "high",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": [],
+      "route_depends_override": {
+        "dorm": [
+          "task_housing_dorm"
+        ],
+        "rental": [
+          "task_housing_rental_managed"
+        ],
+        "housing_tbd": [
+          "task_housing_rental_self"
+        ]
+      }
+    },
+    {
+      "id": "task_hanko",
+      "phase": "phase_pre_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "準備印章（はんこ）",
+        "en": "Prepare personal seal (hanko)",
+        "ja": "印鑑（はんこ）の事前準備"
+      },
+      "summary": {
+        "zh-TW": "建議在母國製作印章；銀行開戶及部分租賃契約仍可能需要",
+        "en": "Recommended to make seal before departure; needed for bank account and some leases",
+        "ja": "母国での作成を推奨。銀行口座開設や一部の賃貸契約で依然として有用"
+      },
+      "depends_on": [
+        "task_vjw"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 20,
+      "priority": "normal",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": [
+        {
+          "zh-TW": "可在日本百元店購買簡易印章作備用",
+          "en": "Simple seals available at 100-yen shops in Japan",
+          "ja": "日本の100円ショップでも簡易印鑑を購入可"
+        }
+      ]
+    },
+    {
+      "id": "task_immigration",
+      "phase": "phase_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "入國審查・在留卡領取",
+        "en": "Immigration & residence card",
+        "ja": "入国審査・在留カードの受領"
+      },
+      "summary": {
+        "zh-TW": "主要機場可當場領取在留卡；地方機場則蓋章後日郵送",
+        "en": "Major airports issue residence card on site; regional airports stamp passport for later delivery",
+        "ja": "主要空港では入国審査時に在留カードを受領。地方空港は後日郵送"
+      },
+      "depends_on": [
+        "task_hanko"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 60,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [
+        {
+          "id": "passport",
+          "label": {
+            "zh-TW": "護照",
+            "en": "Passport",
+            "ja": "パスポート"
+          },
+          "required": true
+        }
+      ],
+      "tips": [
+        {
+          "zh-TW": "確認姓名拼寫、在留資格與期限",
+          "en": "Verify name spelling, status, and expiry",
+          "ja": "氏名・在留資格・期限を確認"
+        }
+      ]
+    },
+    {
+      "id": "task_work_permit",
+      "phase": "phase_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "資格外活動許可申請",
+        "en": "Part-time work permit application",
+        "ja": "資格外活動許可（アルバイト許可）の申請"
+      },
+      "summary": {
+        "zh-TW": "若有任何打工可能性，請在入國審查時當場提交申請書",
+        "en": "If you might work part-time, submit the application during immigration inspection",
+        "ja": "少しでもアルバイトを行う可能性がある場合は、入国審査時に必ずその場で申請"
+      },
+      "depends_on": [
+        "task_immigration"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": true,
+      "skip_if_profile": { "permit_obtained": true },
+      "duration_min": 15,
+      "priority": "high",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_transport",
+      "phase": "phase_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "機場交通・交通系IC準備",
+        "en": "Airport transport & IC card",
+        "ja": "空港からの移動・交通系ICの準備"
+      },
+      "summary": {
+        "zh-TW": "FeliCa 對應手機可發行 Mobile Suica/ICOCA；否則購買實體 IC 卡或現金購票",
+        "en": "FeliCa phones can issue Mobile Suica/ICOCA; otherwise buy physical IC card or pay cash",
+        "ja": "FeliCa対応スマホならモバイルSuica等を即時発行。非対応なら物理ICカードまたは現金"
+      },
+      "depends_on": [
+        "task_immigration"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 20,
+      "priority": "high",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_move_in",
+      "phase": "phase_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "入住公寓・宿舍",
+        "en": "Move in to apartment / dorm",
+        "ja": "アパート・寮へ移動し入居"
+      },
+      "summary": {
+        "zh-TW": "前往住所領取鑰匙並完成入住",
+        "en": "Travel to your address, receive keys, and move in",
+        "ja": "住居へ移動し、鍵を受け取って入居"
+      },
+      "depends_on": [
+        "task_transport"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 60,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_gas_activation",
+      "phase": "phase_arrival",
+      "kind": "action",
+      "title": {
+        "zh-TW": "瓦斯開通立會・搬入",
+        "en": "Gas activation & move-in setup",
+        "ja": "ガス開通立ち会い・家具搬入"
+      },
+      "summary": {
+        "zh-TW": "瓦斯開通需作業員立會點檢；同時安排家具搬入",
+        "en": "Gas activation requires staff inspection; arrange furniture delivery",
+        "ja": "ガス会社の作業員立ち会いによる点検が必須。家具の搬入等も実施"
+      },
+      "depends_on": [
+        "task_move_in"
+      ],
+      "routes": null,
+      "exclude_routes": [
+        "dorm"
+      ],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 90,
+      "priority": "high",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": [
+        {
+          "zh-TW": "事先預約瓦斯公司開通日期",
+          "en": "Book gas activation date in advance",
+          "ja": "ガス開通日を事前予約"
+        }
+      ],
+      "route_depends_override": {
+        "rental": [
+          "task_move_in"
+        ],
+        "housing_tbd": [
+          "task_move_in"
+        ]
+      }
+    },
+    {
+      "id": "task_ward_office",
+      "phase": "phase_week1",
+      "kind": "action",
+      "title": {
+        "zh-TW": "區役所手續（住民登錄・保險・年金）",
+        "en": "Ward office (registration, insurance, pension)",
+        "ja": "市区町村役場での手続き"
+      },
+      "summary": {
+        "zh-TW": "抵達後14日內完成住民登錄、國民健康保險加入；20歲以上另需國民年金。同時申請保險料減免",
+        "en": "Within 14 days: resident registration, national health insurance; pension if 20+. Apply premium reduction",
+        "ja": "住民登録・国保加入（20歳以上は国年も）。前年所得なしの申告と保険料減免申請を同時に"
+      },
+      "depends_on": [
+        "task_move_in"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 60,
+      "priority": "critical",
+      "deadline_days_after_arrival": 14,
+      "documents": [
+        {
+          "id": "passport",
+          "label": {
+            "zh-TW": "護照",
+            "en": "Passport",
+            "ja": "パスポート"
+          },
+          "required": true
+        },
+        {
+          "id": "residence_card",
+          "label": {
+            "zh-TW": "在留卡",
+            "en": "Residence card",
+            "ja": "在留カード"
+          },
+          "required": true
+        }
+      ],
+      "tips": [
+        {
+          "zh-TW": "同時申請「住民票の写し（マイナンバー記載）」可當場取得個人編號",
+          "en": "Request resident record with My Number on the spot",
+          "ja": "マイナンバー記載の住民票の写しを即日発行"
+        },
+        {
+          "zh-TW": "申告無前年所得可大幅降低保險費",
+          "en": "Declare no prior Japan income for lower premiums",
+          "ja": "前年所得なしの申告で保険料が大幅に安くなる"
+        }
+      ],
+      "route_depends_override": {
+        "dorm": [
+          "task_move_in"
+        ],
+        "rental": [
+          "task_gas_activation"
+        ],
+        "housing_tbd": [
+          "task_gas_activation"
+        ]
+      }
+    },
+    {
+      "id": "task_resident_reg_complete",
+      "phase": "phase_week1",
+      "kind": "action",
+      "title": {
+        "zh-TW": "住民登錄完成・在留卡背面記載地址",
+        "en": "Resident registration complete",
+        "ja": "住民登録完了（在留カード裏面に住所記載）"
+      },
+      "summary": {
+        "zh-TW": "在留卡背面已記載地址；已取得含マイナンバーの住民票副本",
+        "en": "Address recorded on residence card; obtained resident record copy with My Number",
+        "ja": "在留カードの裏面に住所が記載され、マイナンバー記載の住民票の写しを取得"
+      },
+      "depends_on": [
+        "task_ward_office"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 10,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_phone",
+      "phase": "phase_week1",
+      "kind": "action",
+      "title": {
+        "zh-TW": "手機門號本契約",
+        "en": "Mobile phone / SIM contract",
+        "ja": "携帯電話（SIMカード）の本契約"
+      },
+      "summary": {
+        "zh-TW": "可用海外信用卡線上申辦（ahamo/LINEMO等），或開設銀行帳戶後至店舖契約",
+        "en": "Apply online with foreign credit card (ahamo, LINEMO, etc.) or contract in store after bank account",
+        "ja": "海外クレジットカードでオンライン契約、または銀行口座開設後に店舗・オンラインで契約"
+      },
+      "depends_on": [
+        "task_resident_reg_complete"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 45,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_school_enroll",
+      "phase": "phase_week1",
+      "kind": "action",
+      "title": {
+        "zh-TW": "學校入學・領取學生證",
+        "en": "School enrollment & student ID",
+        "ja": "学校の入学・登校開始（学生証の受領）"
+      },
+      "summary": {
+        "zh-TW": "完成入學手續並領取學生證（通學定期券・年金免除申請需要）",
+        "en": "Complete enrollment and receive student ID (needed for commute pass and pension exemption)",
+        "ja": "入学手続きを完了し学生証を受領（通学定期・年金猶予に必要）"
+      },
+      "depends_on": [
+        "task_resident_reg_complete"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 90,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [
+        {
+          "id": "passport",
+          "label": {
+            "zh-TW": "護照",
+            "en": "Passport",
+            "ja": "パスポート"
+          },
+          "required": true
+        },
+        {
+          "id": "residence_card",
+          "label": {
+            "zh-TW": "在留卡",
+            "en": "Residence card",
+            "ja": "在留カード"
+          },
+          "required": true
+        }
+      ],
+      "tips": []
+    },
+    {
+      "id": "task_bank",
+      "phase": "phase_week1",
+      "kind": "action",
+      "title": {
+        "zh-TW": "銀行帳戶開設",
+        "en": "Bank account opening",
+        "ja": "銀行口座の開設手続き"
+      },
+      "summary": {
+        "zh-TW": "推薦ゆうちょ銀行（App申請可、在留半年未滿也可）；都市銀行則審查較嚴",
+        "en": "Japan Post Bank recommended (app application, under 6 months OK); megabanks have stricter requirements",
+        "ja": "ゆうちょ銀行が基本（アプリ申請可・在留半年未満でも可）。メガバンクは要件が厳格"
+      },
+      "depends_on": [
+        "task_phone",
+        "task_school_enroll"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 60,
+      "priority": "critical",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": [
+        {
+          "zh-TW": "需印章與在留卡",
+          "en": "Need seal and residence card",
+          "ja": "印鑑と在留カードが必要"
+        }
+      ]
+    },
+    {
+      "id": "task_commute_pass",
+      "phase": "phase_week1",
+      "kind": "action",
+      "title": {
+        "zh-TW": "通學定期券",
+        "en": "Commuter pass",
+        "ja": "定期券（通学）の購入"
+      },
+      "summary": {
+        "zh-TW": "若需電車・巴士通學，憑學生證購買通學定期券",
+        "en": "If commuting by train/bus, buy student commuter pass with student ID",
+        "ja": "電車・バス通学の場合は学生証で通学定期券を購入"
+      },
+      "depends_on": [
+        "task_school_enroll"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 20,
+      "priority": "normal",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_pension_student",
+      "phase": "phase_week1",
+      "kind": "action",
+      "title": {
+        "zh-TW": "國民年金學生納付特例",
+        "en": "National pension student exemption",
+        "ja": "国民年金の学生納付特例制度の申請"
+      },
+      "summary": {
+        "zh-TW": "20歲以上學生可申請年金保險費猶予・免除（需學生證）",
+        "en": "Students 20+ can apply for pension payment deferral/exemption (student ID required)",
+        "ja": "20歳以上の学生は学生納付特例（支払猶予・免除）を申請可能"
+      },
+      "depends_on": [
+        "task_ward_office",
+        "task_school_enroll"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 30,
+      "priority": "high",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_billing_setup",
+      "phase": "phase_settlement",
+      "kind": "action",
+      "title": {
+        "zh-TW": "公共料金・手機費支付方式變更",
+        "en": "Switch utility & phone payment methods",
+        "ja": "公共料金や携帯電話料金の支払い方法変更"
+      },
+      "summary": {
+        "zh-TW": "銀行帳戶開設後，將水電瓦斯・手機費改為帳戶自動扣款或日本 debit/信用卡",
+        "en": "After bank account: set up auto-debit or Japanese debit/credit card for utilities and phone",
+        "ja": "銀行口座振替、デビットカード、またはクレジットカード決済への変更"
+      },
+      "depends_on": [
+        "task_bank"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 30,
+      "priority": "high",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_basics_complete",
+      "phase": "phase_settlement",
+      "kind": "milestone",
+      "title": {
+        "zh-TW": "基本手續告一段落",
+        "en": "Basic procedures complete",
+        "ja": "基本手続きの一区切り完了"
+      },
+      "summary": {
+        "zh-TW": "口座・保險・通訊・學校手續等主要事項已完成",
+        "en": "Major items (bank, insurance, phone, school) are complete",
+        "ja": "口座・保険・通信・学校手続きなど主要事項が完了"
+      },
+      "depends_on": [
+        "task_billing_setup",
+        "task_commute_pass",
+        "task_pension_student"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 5,
+      "priority": "normal",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_mynumber_notice",
+      "phase": "phase_id_longterm",
+      "kind": "action",
+      "title": {
+        "zh-TW": "領取個人編號通知書",
+        "en": "Receive My Number notification",
+        "ja": "マイナンバー「個人番号通知書」の受け取り"
+      },
+      "summary": {
+        "zh-TW": "住民登錄後約2〜3週，以簡易掛號郵件寄達家中",
+        "en": "Arrives by registered mail ~2-3 weeks after resident registration",
+        "ja": "住民登録後約2〜3週間で簡易書留で自宅へ到着"
+      },
+      "depends_on": [
+        "task_basics_complete"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 10,
+      "priority": "normal",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_id_documents",
+      "phase": "phase_id_longterm",
+      "kind": "action",
+      "title": {
+        "zh-TW": "身分證明文件取得",
+        "en": "Obtain ID documents",
+        "ja": "マイナンバー・身分証明書の取得"
+      },
+      "summary": {
+        "zh-TW": "可申請マイナンバーカード、特定在留カード（2026年6月〜），或暫以通知書保管",
+        "en": "Apply for My Number card, Special Residence Card (from Jun 2026), or keep notification for now",
+        "ja": "マイナンバーカード、特定在留カード（2026年6月14日〜）、または通知書のみ保管"
+      },
+      "depends_on": [
+        "task_mynumber_notice"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 30,
+      "priority": "normal",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    },
+    {
+      "id": "task_all_complete",
+      "phase": "phase_id_longterm",
+      "kind": "endpoint",
+      "title": {
+        "zh-TW": "日本定住環境・ID基盤構築完成",
+        "en": "Full settlement & ID infrastructure complete",
+        "ja": "日本での完全な定住環境・身分証明書（ID）基盤の構築が完了"
+      },
+      "summary": {
+        "zh-TW": "恭喜！主要落地手續與身分證明基盤已全部完成",
+        "en": "Congratulations! Settlement and ID infrastructure are fully in place",
+        "ja": "おめでとうございます！定住環境とID基盤の構築がすべて完了しました"
+      },
+      "depends_on": [
+        "task_id_documents"
+      ],
+      "routes": null,
+      "exclude_routes": [],
+      "school_types": null,
+      "part_time_only": false,
+      "skip_if_profile": null,
+      "duration_min": 5,
+      "priority": "low",
+      "deadline_days_after_arrival": null,
+      "documents": [],
+      "tips": []
+    }
+  ]
+}

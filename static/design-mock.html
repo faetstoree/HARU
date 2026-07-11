@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#9471db">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>HARU — 留日AI伴侶</title>
+  <style>
+    @font-face {
+      font-family: 'Checkpoint';
+      src: url('fonts/Checkpoint.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --base: #9471db;
+      --base-dark: #7a5bc4;
+      --base-deep: #6248a8;
+      --base-light: #b89ae8;
+      --accent: #c1ff72;
+      --sub: #eb94da;
+      --ink: #2d1b4e;
+      --radius-pill: 9999px;
+      --nav-h: 60px;
+      --header-h: 52px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Checkpoint', sans-serif;
+      background: var(--base);
+      color: var(--ink);
+      min-height: 100dvh;
+    }
+
+    /* スマホ：画面幅いっぱい / PC：モバイル幅で中央寄せ */
+    .site {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: var(--base);
+    }
+
+    @media (min-width: 481px) {
+      body { background: var(--base-deep); }
+    }
+
+    .site-bg span {
+      position: fixed;
+      max-width: 480px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .site-bg .b1 { width: 160px; height: 160px; background: var(--accent); top: 60px; right: 0; opacity: 0.18; }
+    .site-bg .b2 { width: 90px; height: 90px; background: var(--sub); bottom: 100px; left: 0; opacity: 0.22; }
+
+    /* ウェブページヘッダー（sticky） */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: calc(0.65rem + var(--safe-top)) 1rem 0.65rem;
+      background: var(--base-dark);
+    }
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--sub));
+      display: grid;
+      place-items: center;
+      font-size: 0.8rem;
+      color: var(--ink);
+    }
+    .brand-name {
+      font-size: 0.95rem;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+    .brand-name span {
+      display: block;
+      font-size: 0.52rem;
+      color: var(--sub);
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .school-pill {
+      font-size: 0.58rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: var(--radius-pill);
+      background: var(--sub);
+      color: var(--ink);
+    }
+    .lang-select {
+      font-family: inherit;
+      font-size: 0.58rem;
+      padding: 0.3rem 0.5rem;
+      border: none;
+      border-radius: var(--radius-pill);
+      background: var(--base-deep);
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    /* メイン（自然スクロール） */
+    .site-main {
+      flex: 1;
+      position: relative;
+      z-index: 1;
+      padding: 1rem 1rem calc(var(--nav-h) + var(--safe-bottom) + 1rem);
+    }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .greeting {
+      font-size: 1.25rem;
+      color: var(--accent);
+      line-height: 1.2;
+      margin-bottom: 0.2rem;
+    }
+    .greeting-sub {
+      font-size: 0.72rem;
+      color: var(--base-light);
+      margin-bottom: 1.1rem;
+    }
+
+    .progress-card {
+      background: var(--base-dark);
+      border-radius: 1.25rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .progress-ring {
+      flex-shrink: 0;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent) 0deg 144deg, var(--base-deep) 144deg 360deg);
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+    .progress-ring::after {
+      content: '';
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--base-dark);
+      position: absolute;
+    }
+    .progress-num {
+      position: relative;
+      z-index: 1;
+      font-size: 0.9rem;
+      color: var(--accent);
+      line-height: 1;
+      text-align: center;
+    }
+    .progress-num small {
+      display: block;
+      font-size: 0.48rem;
+      color: var(--base-light);
+    }
+    .progress-text h2 {
+      font-size: 0.85rem;
+      color: var(--sub);
+      font-weight: normal;
+      margin-bottom: 0.2rem;
+    }
+    .progress-text p {
+      font-size: 0.62rem;
+      color: var(--base-light);
+      line-height: 1.45;
+    }
+
+    .section-label {
+      font-size: 0.62rem;
+      color: var(--sub);
+      margin-bottom: 0.55rem;
+    }
+
+    .road-scroll {
+      display: flex;
+      gap: 0.45rem;
+      overflow-x: auto;
+      padding-bottom: 0.4rem;
+      margin-bottom: 1.1rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .road-scroll::-webkit-scrollbar { display: none; }
+    .step {
+      flex-shrink: 0;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 0.46rem;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+    .step.done { background: var(--accent); }
+    .step.now {
+      background: var(--sub);
+      box-shadow: 0 0 0 4px rgba(193, 255, 114, 0.35);
+    }
+    .step.lock {
+      background: var(--base-deep);
+      color: var(--base-light);
+      opacity: 0.55;
+    }
+
+    .task-card {
+      background: var(--sub);
+      border-radius: 1.1rem;
+      padding: 0.9rem;
+      margin-bottom: 0.65rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .task-card.alt { background: var(--base-dark); }
+    .task-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+      font-size: 0.52rem;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+    .task-icon.pink { background: var(--sub); }
+    .task-body h3 {
+      font-size: 0.76rem;
+      font-weight: normal;
+      margin-bottom: 0.12rem;
+    }
+    .task-body p {
+      font-size: 0.56rem;
+      opacity: 0.75;
+      line-height: 1.4;
+    }
+    .task-card.alt .task-body h3 { color: var(--accent); }
+    .task-card.alt .task-body p { color: var(--base-light); opacity: 1; }
+    .chevron {
+      margin-left: auto;
+      font-size: 0.8rem;
+      opacity: 0.5;
+    }
+
+    /* チャット */
+    .chat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+    .bubble {
+      max-width: 84%;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.72rem;
+      line-height: 1.45;
+    }
+    .bubble-ai {
+      align-self: flex-start;
+      background: var(--base-light);
+      color: var(--ink);
+      border-radius: 1rem 1rem 1rem 0.25rem;
+    }
+    .bubble-user {
+      align-self: flex-end;
+      background: var(--accent);
+      color: var(--ink);
+      border-radius: 1rem 1rem 0.25rem 1rem;
+    }
+    .bubble-ai em {
+      font-style: normal;
+      color: var(--sub);
+    }
+    .chat-form {
+      display: flex;
+      gap: 0.45rem;
+      position: sticky;
+      bottom: calc(var(--nav-h) + var(--safe-bottom) + 0.5rem);
+      background: var(--base);
+      padding: 0.5rem 0;
+    }
+    .chat-form input {
+      flex: 1;
+      font-family: inherit;
+      font-size: 0.75rem;
+      padding: 0.6rem 0.9rem;
+      border: none;
+      border-radius: var(--radius-pill);
+      background: var(--base-dark);
+      color: var(--accent);
+      outline: none;
+    }
+    .chat-form input::placeholder { color: var(--base-light); opacity: 0.6; }
+    .send-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: var(--sub);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* クイズ */
+    .quiz-card {
+      background: var(--base-dark);
+      border-radius: 1.25rem;
+      padding: 1.15rem;
+      text-align: center;
+    }
+    .quiz-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      font-size: 0.8rem;
+      margin: 0 auto 0.65rem;
+    }
+    .quiz-q {
+      font-size: 0.82rem;
+      color: var(--accent);
+      line-height: 1.4;
+      margin-bottom: 0.9rem;
+    }
+    .quiz-opt {
+      display: block;
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.7rem;
+      text-align: left;
+      padding: 0.65rem 0.85rem;
+      margin-bottom: 0.45rem;
+      border: none;
+      border-radius: var(--radius-pill);
+      background: var(--base-deep);
+      color: var(--base-light);
+      cursor: pointer;
+    }
+    .quiz-opt:active { background: var(--sub); color: var(--ink); }
+
+    /* ナレッジ */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--base-dark);
+      border-radius: var(--radius-pill);
+      padding: 0.55rem 0.85rem;
+      margin-bottom: 0.85rem;
+    }
+    .search-bar input {
+      flex: 1;
+      font-family: inherit;
+      font-size: 0.72rem;
+      border: none;
+      background: transparent;
+      color: var(--accent);
+      outline: none;
+    }
+    .search-bar input::placeholder { color: var(--base-light); opacity: 0.6; }
+    .search-icon { color: var(--sub); font-size: 0.75rem; }
+
+    .article-link {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.7rem 0;
+      text-decoration: none;
+      color: inherit;
+      border-bottom: 1px solid rgba(184, 154, 232, 0.15);
+    }
+    .article-link:last-child { border-bottom: none; }
+    .article-thumb {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--sub);
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      font-size: 0.52rem;
+      color: var(--ink);
+    }
+    .article-info h3 {
+      font-size: 0.74rem;
+      color: var(--accent);
+      font-weight: normal;
+      margin-bottom: 0.12rem;
+    }
+    .article-info p {
+      font-size: 0.56rem;
+      color: var(--base-light);
+    }
+
+    /* 設定 */
+    .field { margin-bottom: 0.8rem; }
+    .field label {
+      display: block;
+      font-size: 0.6rem;
+      color: var(--sub);
+      margin-bottom: 0.28rem;
+    }
+    .field input,
+    .field select {
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.74rem;
+      padding: 0.58rem 0.85rem;
+      border: none;
+      border-radius: var(--radius-pill);
+      background: var(--base-dark);
+      color: var(--accent);
+      outline: none;
+    }
+    .hint-box {
+      background: var(--base-dark);
+      border-radius: 1rem;
+      padding: 0.7rem;
+      font-size: 0.6rem;
+      color: var(--base-light);
+      line-height: 1.5;
+      margin-bottom: 0.9rem;
+    }
+    .btn-main {
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.82rem;
+      padding: 0.72rem;
+      border: none;
+      border-radius: var(--radius-pill);
+      background: var(--accent);
+      color: var(--ink);
+      cursor: pointer;
+      margin-top: 0.4rem;
+    }
+
+    /* 下部ナビ（モバイルWebの固定フッター） */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      background: var(--base-dark);
+      padding: 0.35rem 0.25rem calc(0.4rem + var(--safe-bottom));
+      z-index: 20;
+    }
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15rem;
+      padding: 0.3rem 0;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--base-light);
+      opacity: 0.45;
+      text-decoration: none;
+      transition: opacity 0.15s, color 0.15s;
+    }
+    .nav-item.on {
+      opacity: 1;
+      color: var(--accent);
+    }
+    .nav-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.6rem;
+    }
+    .nav-item.on .nav-icon { background: var(--base-deep); }
+    .nav-label { font-size: 0.46rem; }
+  </style>
+</head>
+<body>
+
+  <div class="site">
+    <div class="site-bg" aria-hidden="true">
+      <span class="b1"></span>
+      <span class="b2"></span>
+    </div>
+
+    <header class="site-header">
+      <div class="header-brand">
+        <div class="avatar">H</div>
+        <div class="brand-name">
+          HARU
+          <span>留日AI伴侶</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="school-pill">東京大学</span>
+        <select class="lang-select" aria-label="言語">
+          <option>日本語</option>
+          <option>繁體中文</option>
+          <option>English</option>
+        </select>
+      </div>
+    </header>
+
+    <main class="site-main">
+
+      <section class="panel active" id="panel-home">
+        <h1 class="greeting">おかえり！</h1>
+        <p class="greeting-sub">次の手続きまで、あと2ステップ</p>
+
+        <div class="progress-card">
+          <div class="progress-ring" role="img" aria-label="進捗40パーセント">
+            <div class="progress-num">40<small>%</small></div>
+          </div>
+          <div class="progress-text">
+            <h2>在留カード申請</h2>
+            <p>今週中に区役所へ行くのがおすすめ。持ち物リストを用意しました。</p>
+          </div>
+        </div>
+
+        <p class="section-label">ロードマップ</p>
+        <div class="road-scroll">
+          <div class="step done">入国<br>完了</div>
+          <div class="step done">住所<br>登録</div>
+          <div class="step now">在留<br>カード</div>
+          <div class="step lock">銀行<br>口座</div>
+          <div class="step lock">携帯<br>契約</div>
+          <div class="step lock">健康<br>保険</div>
+          <div class="step lock">マイ<br>ナンバー</div>
+        </div>
+
+        <p class="section-label">今日やること</p>
+        <a href="#" class="task-card">
+          <div class="task-icon">区</div>
+          <div class="task-body">
+            <h3>区役所で在留カード申請</h3>
+            <p>本郷駅から徒歩8分 · 平日 8:30–17:00</p>
+          </div>
+          <span class="chevron">›</span>
+        </a>
+        <a href="#" class="task-card alt">
+          <div class="task-icon pink">書</div>
+          <div class="task-body">
+            <h3>持ち物を確認する</h3>
+            <p>パスポート、在留カード、住民票...</p>
+          </div>
+          <span class="chevron">›</span>
+        </a>
+      </section>
+
+      <section class="panel" id="panel-chat">
+        <h1 class="greeting" style="font-size:1.1rem">Haruと話す</h1>
+        <p class="greeting-sub">手続きの疑問、なんでも聞いてね</p>
+        <div class="chat-list">
+          <div class="bubble bubble-ai">
+            こんにちは！<em>在留カード</em>の申請、まだですよね？今週中に区役所へ行くのがおすすめです。
+          </div>
+          <div class="bubble bubble-user">区役所の場所を教えて！</div>
+          <div class="bubble bubble-ai">
+            文京区役所は本郷駅から徒歩8分です。持ち物リストも作りましたよ。
+          </div>
+        </div>
+        <form class="chat-form" onsubmit="return false">
+          <input type="text" placeholder="メッセージを入力..." aria-label="メッセージ">
+          <button type="submit" class="send-btn" aria-label="送信">↑</button>
+        </form>
+      </section>
+
+      <section class="panel" id="panel-quiz">
+        <h1 class="greeting" style="font-size:1.1rem">クイズ</h1>
+        <p class="greeting-sub">日本の手続き、どれくらいわかる？</p>
+        <div class="quiz-card">
+          <div class="quiz-num">3</div>
+          <p class="quiz-q">在留カードは、入国後何日以内に届け出が必要？</p>
+          <button type="button" class="quiz-opt">A. 7日以内</button>
+          <button type="button" class="quiz-opt">B. 14日以内</button>
+          <button type="button" class="quiz-opt">C. 30日以内</button>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-knowledge">
+        <h1 class="greeting" style="font-size:1.1rem">ナレッジ</h1>
+        <p class="greeting-sub">手続きのヒントをさがす</p>
+        <div class="search-bar">
+          <span class="search-icon" aria-hidden="true">○</span>
+          <input type="search" placeholder="キーワードで検索">
+        </div>
+        <a href="#" class="article-link">
+          <div class="article-thumb">住</div>
+          <div class="article-info">
+            <h3>住所登録のやり方</h3>
+            <p>区役所 · 約5分で読める</p>
+          </div>
+        </a>
+        <a href="#" class="article-link">
+          <div class="article-thumb">銀</div>
+          <div class="article-info">
+            <h3>銀行口座の開き方</h3>
+            <p>留学生向け · 必要書類まとめ</p>
+          </div>
+        </a>
+        <a href="#" class="article-link">
+          <div class="article-thumb">携</div>
+          <div class="article-info">
+            <h3>携帯契約ガイド</h3>
+            <p>SIM · 格安プラン比較</p>
+          </div>
+        </a>
+      </section>
+
+      <section class="panel" id="panel-setup">
+        <h1 class="greeting" style="font-size:1.1rem">落地設定</h1>
+        <p class="greeting-sub">あなたに合わせてプランを作成</p>
+        <div class="hint-box">
+          到着日と住居タイプから、あなただけの手続きリストをつくります。
+        </div>
+        <form onsubmit="return false">
+          <div class="field">
+            <label for="school">学校名</label>
+            <input type="text" id="school" value="東京大学">
+          </div>
+          <div class="field">
+            <label for="arrival">到着日</label>
+            <input type="date" id="arrival" value="2026-04-01">
+          </div>
+          <div class="field">
+            <label for="housing">住居タイプ</label>
+            <select id="housing">
+              <option>学生寮</option>
+              <option>アパート</option>
+              <option>シェアハウス</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-main">はじめる</button>
+        </form>
+      </section>
+
+    </main>
+
+    <nav class="bottom-nav" aria-label="メインメニュー">
+      <button type="button" class="nav-item on" data-panel="home">
+        <span class="nav-icon">◎</span>
+        <span class="nav-label">ホーム</span>
+      </button>
+      <button type="button" class="nav-item" data-panel="chat">
+        <span class="nav-icon">◇</span>
+        <span class="nav-label">チャット</span>
+      </button>
+      <button type="button" class="nav-item" data-panel="quiz">
+        <span class="nav-icon">?</span>
+        <span class="nav-label">クイズ</span>
+      </button>
+      <button type="button" class="nav-item" data-panel="knowledge">
+        <span class="nav-icon">★</span>
+        <span class="nav-label">ナレッジ</span>
+      </button>
+      <button type="button" class="nav-item" data-panel="setup">
+        <span class="nav-icon">⚙</span>
+        <span class="nav-label">設定</span>
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    const navItems = document.querySelectorAll('.nav-item');
+    const panels = {
+      home: document.getElementById('panel-home'),
+      chat: document.getElementById('panel-chat'),
+      quiz: document.getElementById('panel-quiz'),
+      knowledge: document.getElementById('panel-knowledge'),
+      setup: document.getElementById('panel-setup'),
+    };
+
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const id = item.dataset.panel;
+        navItems.forEach(n => n.classList.remove('on'));
+        item.classList.add('on');
+        Object.values(panels).forEach(p => p.classList.remove('active'));
+        panels[id].classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,257 @@
+/* ── Small Tablet / Large Phone (480px – 767px) ──────────────── */
+@media (min-width: 480px) {
+  .site { max-width: 600px; }
+  .site-bg span { max-width: 600px; }
+  .bottom-nav, .sheet-backdrop, .sheet, #globalLoadingOverlay, #guideWalkthroughPanel { max-width: 600px; }
+  .onboard-section.onboard-edit-mode { max-width: 600px; }
+  .onboard-title { font-size: 1.823rem; }
+  .onboard-sub { font-size: 1.013rem; }
+  .hint-box { font-size: 0.918rem; }
+  .haru-view { padding: 1rem 1.25rem 1.25rem; }
+  .progress-ring { width: 72px; height: 72px; }
+  .progress-ring::after { width: 54px; height: 54px; }
+  .progress-num { font-size: 1.282rem; }
+  .companion-band { padding: 1rem; }
+  .companion-title { font-size: 1.053rem; }
+  .companion-speech { font-size: 0.918rem; }
+  .bubble { font-size: 1.013rem; }
+  .chat-compose input[type="text"] { font-size: 1.053rem; }
+  .btn-main { font-size: 1.188rem; padding: 0.78rem; }
+  .btn-action-card { font-size: 1.08rem; padding: 0.85rem 1.1rem; }
+}
+
+/* ── Tablet (768px – 1023px) ─────────────────────────────────── */
+@media (min-width: 768px) {
+  .site { max-width: 720px; }
+  .site-bg span { max-width: 720px; }
+  .bottom-nav, .sheet-backdrop, .sheet, #globalLoadingOverlay, #guideWalkthroughPanel { max-width: 720px; }
+  .onboard-section.onboard-edit-mode { max-width: 720px; }
+  .site-header { padding: calc(0.75rem + var(--safe-top)) 1.5rem 0.75rem; }
+  .brand-name { font-size: 1.418rem; }
+  .brand-name span { font-size: 0.783rem; }
+  .school-pill { font-size: 0.837rem; padding: 0.32rem 0.7rem; }
+  .lang-select { font-size: 0.837rem; padding: 0.32rem 0.6rem; }
+  .onboard-section { padding: calc(1.5rem + var(--safe-top)) 2rem calc(1.5rem + var(--safe-bottom)); }
+  .onboard-hero .haru-avatar { width: 68px; height: 68px; font-size: 1.89rem; }
+  .onboard-title { font-size: 2.093rem; }
+  .onboard-sub { font-size: 1.107rem; }
+  .hint-box { font-size: 0.972rem; padding: 0.9rem; border-radius: 1.15rem; }
+  .field label { font-size: 0.918rem; }
+  .field input, .field select, .haru-input { font-size: 1.107rem; padding: 0.65rem 1rem; }
+  .field-grid { gap: 0.85rem; }
+  .check-list label { font-size: 0.918rem; }
+  .check-list input[type="checkbox"] { width: 1.15rem; height: 1.15rem; }
+  .task-check-scroll { max-height: 14rem; padding: 1rem; border-radius: 1.15rem; }
+  .haru-view { padding: 1.15rem 1.5rem 1.5rem; }
+  .status-pills { font-size: 0.783rem; gap: 0.45rem; }
+  .status-pill { padding: 0.3rem 0.65rem; }
+  .progress-card { padding: 1.1rem; gap: 1rem; border-radius: 1.5rem; }
+  .progress-ring { width: 80px; height: 80px; }
+  .progress-ring::after { width: 60px; height: 60px; }
+  .progress-num { font-size: 1.418rem; }
+  .progress-num small { font-size: 0.702rem; }
+  .progress-text h2 { font-size: 1.242rem; }
+  .progress-text p { font-size: 0.878rem; }
+  .progress-bar-wrap { height: 8px; }
+  .section-label { font-size: 0.878rem; }
+  .roadmap-canvas-wrap { max-height: 340px; min-height: 240px; border-radius: 1.25rem; }
+  .companion-band { padding: 1rem 1.15rem; border-radius: 1.25rem; }
+  .companion-band .haru-avatar { width: 38px; height: 38px; font-size: 1.107rem; }
+  .companion-label { font-size: 0.743rem; }
+  .companion-title { font-size: 1.107rem; }
+  .companion-speech { font-size: 0.918rem; }
+  .mission-card { padding: 1rem; border-radius: 1.25rem; gap: 0.85rem; }
+  .mission-icon { width: 44px; height: 44px; font-size: 0.743rem; }
+  .mission-body h3 { font-size: 1.107rem; }
+  .mission-body p { font-size: 0.837rem; }
+  .stage-actions { flex-direction: row; }
+  .btn-action-card { font-size: 1.107rem; padding: 0.85rem 1.15rem; border-radius: 1.15rem; }
+  .stage-footer { font-size: 0.837rem; }
+  .talk-title { font-size: 1.552rem; }
+  .chat-panel { min-height: calc(100dvh - var(--nav-h) - 140px); }
+  .bubble { max-width: 80%; font-size: 1.053rem; padding: 0.75rem 1rem; }
+  .chat-compose { padding: 0.55rem 0.65rem; border-radius: 1.5rem; }
+  .chat-compose input[type="text"] { font-size: 1.08rem; padding: 0.55rem 0.8rem; }
+  .compose-btn { width: 38px; height: 38px; font-size: 1.215rem; }
+  .profile-title { font-size: 1.552rem; }
+  .profile-sub { font-size: 0.972rem; }
+  .profile-card { padding: 1rem; border-radius: 1.25rem; }
+  .profile-row { padding: 0.65rem 0; }
+  .profile-row span { font-size: 1.013rem; }
+  .nav-icon { width: 30px; height: 30px; font-size: 0.878rem; }
+  .nav-label { font-size: 0.675rem; }
+  .sheet { border-radius: 1.75rem 1.75rem 0 0; }
+  .sheet-title { font-size: 1.282rem; }
+  .sheet-close { width: 32px; height: 32px; font-size: 1.485rem; }
+  .sheet-body { padding: 0 1.25rem 1.25rem; }
+  .task-detail-title { font-size: 1.282rem; }
+  .task-detail-summary { font-size: 0.972rem; }
+  .task-detail-meta { font-size: 0.837rem; }
+  .map-frame-wrap { height: 280px; }
+  .loading-card { padding: 2rem 2.5rem; border-radius: 1.75rem; }
+  .loading-face { font-size: 4.05rem; }
+  .loading-text { font-size: 1.282rem; }
+  .guide-sheet-header h2 { font-size: 1.242rem; }
+  .guide-sheet-body { padding: 0 1.25rem; }
+  .guide-sheet-footer { gap: 0.55rem; }
+  .btn-main { font-size: 1.242rem; padding: 0.82rem; }
+  .btn-secondary { font-size: 1.053rem; padding: 0.62rem 1.15rem; }
+  .btn-accent-sm { font-size: 0.918rem; padding: 0.45rem 0.85rem; }
+  .btn-sub-sm { font-size: 0.918rem; padding: 0.45rem 0.85rem; }
+  .btn-ghost-sm { font-size: 0.918rem; padding: 0.4rem 0.75rem; }
+  .chat-block-title { font-size: 0.81rem; }
+  .kb-snippet-block { padding: 0.75rem; border-radius: 0.95rem; }
+  .kb-snippet-block .kb-title { font-size: 0.878rem; }
+  .kb-snippet-block .kb-body { font-size: 0.918rem; }
+  .quiz-prompt { font-size: 1.013rem; }
+  .quiz-choice-btn { font-size: 0.918rem; padding: 0.62rem 0.85rem; }
+  .link-chip { font-size: 0.878rem; padding: 0.3rem 0.65rem; }
+  .chat-attached-thumb, .chat-preview-thumb { width: 68px; height: 68px; }
+}
+
+/* ── Desktop (1024px – 1439px) ───────────────────────────────── */
+@media (min-width: 1024px) {
+  .site { max-width: 880px; border-radius: 1.5rem; margin-top: 1.5rem; margin-bottom: 1.5rem; min-height: calc(100dvh - 3rem); box-shadow: 0 8px 40px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(226, 232, 240, 0.6); overflow: hidden; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
+  .site-bg span { max-width: 880px; }
+  .bottom-nav { max-width: 880px; border-radius: 0 0 1.5rem 1.5rem; bottom: 1.5rem; }
+  .sheet-backdrop, #globalLoadingOverlay, #guideWalkthroughPanel { max-width: 880px; border-radius: 1.5rem; }
+  .sheet { max-width: 600px; border-radius: 1.75rem; bottom: calc(var(--nav-h) + 2rem + var(--safe-bottom)); max-height: 75vh; }
+  .sheet.task-sheet { bottom: calc(var(--nav-h) + 2rem + var(--safe-bottom)); }
+  .sheet.map-sheet, .sheet.scanner-sheet { bottom: calc(var(--nav-h) + 2rem + var(--safe-bottom)); max-height: 65vh; }
+  .onboard-section.onboard-edit-mode { max-width: 880px; border-radius: 1.5rem; }
+  .site-header { padding: calc(0.85rem + var(--safe-top)) 2rem 0.85rem; border-radius: 1.5rem 1.5rem 0 0; }
+  .haru-avatar { width: 40px; height: 40px; }
+  .brand-name { font-size: 1.485rem; }
+  .brand-name span { font-size: 0.81rem; }
+  .onboard-section { padding: calc(2rem + var(--safe-top)) 3rem calc(2rem + var(--safe-bottom)); display: flex; flex-direction: column; align-items: center; }
+  .onboard-section > * { width: 100%; max-width: 560px; }
+  .onboard-hero .haru-avatar { width: 76px; height: 76px; font-size: 2.16rem; }
+  .onboard-title { font-size: 2.363rem; }
+  .onboard-sub { font-size: 1.188rem; }
+  .hint-box { font-size: 1.053rem; }
+  .field label { font-size: 0.972rem; }
+  .field input, .field select, .haru-input { font-size: 1.188rem; padding: 0.72rem 1.1rem; }
+  .haru-view { padding: 1.5rem 2rem 2rem; }
+  .progress-card { padding: 1.25rem 1.5rem; gap: 1.15rem; }
+  .progress-ring { width: 88px; height: 88px; }
+  .progress-ring::after { width: 66px; height: 66px; }
+  .progress-num { font-size: 1.552rem; }
+  .progress-text h2 { font-size: 1.35rem; }
+  .progress-text p { font-size: 0.972rem; }
+  .roadmap-canvas-wrap { max-height: 380px; min-height: 260px; }
+  .companion-band { padding: 1.15rem 1.35rem; }
+  .companion-band .haru-avatar { width: 42px; height: 42px; font-size: 1.188rem; }
+  .companion-title { font-size: 1.188rem; }
+  .companion-speech { font-size: 0.972rem; }
+  .mission-card { padding: 1.1rem 1.25rem; }
+  .mission-icon { width: 48px; height: 48px; font-size: 0.783rem; }
+  .mission-body h3 { font-size: 1.188rem; }
+  .mission-body p { font-size: 0.918rem; }
+  .stage-actions { gap: 0.65rem; }
+  .btn-action-card { font-size: 1.188rem; padding: 0.92rem 1.25rem; }
+  .talk-title { font-size: 1.688rem; }
+  .bubble { max-width: 72%; font-size: 1.107rem; padding: 0.82rem 1.1rem; }
+  .chat-compose { padding: 0.6rem 0.75rem; }
+  .chat-compose input[type="text"] { font-size: 1.147rem; padding: 0.6rem 0.9rem; }
+  .compose-btn { width: 40px; height: 40px; font-size: 1.282rem; }
+  .profile-title { font-size: 1.755rem; }
+  .profile-sub { font-size: 1.053rem; }
+  .profile-card { padding: 1.15rem; }
+  .profile-row span { font-size: 1.08rem; }
+  .bottom-nav { padding: 0.45rem 1rem calc(0.55rem + var(--safe-bottom)); }
+  .nav-item { gap: 0.2rem; }
+  .nav-icon { width: 34px; height: 34px; font-size: 0.972rem; }
+  .nav-label { font-size: 0.743rem; }
+  .sheet-header { padding: 0.65rem 1.5rem 0.75rem; }
+  .sheet-body { padding: 0 1.5rem 1.5rem; }
+  .sheet-title { font-size: 1.35rem; }
+  .task-detail-title { font-size: 1.418rem; }
+  .task-detail-summary { font-size: 1.053rem; }
+  .map-frame-wrap { height: 320px; }
+  .loading-card { padding: 2.5rem 3rem; }
+  .loading-face { font-size: 4.725rem; }
+  .loading-text { font-size: 1.418rem; }
+  .guide-sheet { max-width: 600px; margin: 0 auto; border-radius: 1.75rem; max-height: 80vh; }
+  .guide-sheet-header h2 { font-size: 1.35rem; }
+  .btn-main { font-size: 1.35rem; padding: 0.88rem; }
+  .btn-secondary { font-size: 1.107rem; padding: 0.68rem 1.25rem; }
+  .btn-accent-sm { font-size: 0.972rem; padding: 0.5rem 0.95rem; }
+  .btn-sub-sm { font-size: 0.972rem; padding: 0.5rem 0.95rem; }
+  .quiz-prompt { font-size: 1.107rem; }
+  .quiz-choice-btn { font-size: 0.972rem; padding: 0.68rem 0.95rem; }
+  .chat-attached-thumb, .chat-preview-thumb { width: 80px; height: 80px; }
+}
+
+/* ── Wide Desktop (1440px+) ──────────────────────────────────── */
+@media (min-width: 1440px) {
+  .site { max-width: 1020px; margin-top: 2rem; margin-bottom: 2rem; min-height: calc(100dvh - 4rem); }
+  .site-bg span { max-width: 1020px; }
+  .bottom-nav { max-width: 1020px; bottom: 2rem; }
+  .sheet-backdrop, #globalLoadingOverlay, #guideWalkthroughPanel { max-width: 1020px; }
+  .onboard-section.onboard-edit-mode { max-width: 1020px; }
+  .onboard-section { padding: calc(2.5rem + var(--safe-top)) 4rem calc(2.5rem + var(--safe-bottom)); }
+  .onboard-section > * { max-width: 640px; }
+  .onboard-hero .haru-avatar { width: 84px; height: 84px; font-size: 2.43rem; }
+  .onboard-title { font-size: 2.633rem; }
+  .onboard-sub { font-size: 1.282rem; }
+  .haru-view { padding: 1.75rem 2.5rem 2.5rem; }
+  .progress-card { padding: 1.5rem 1.75rem; gap: 1.35rem; }
+  .progress-ring { width: 96px; height: 96px; }
+  .progress-ring::after { width: 72px; height: 72px; }
+  .progress-num { font-size: 1.688rem; }
+  .progress-text h2 { font-size: 1.485rem; }
+  .progress-text p { font-size: 1.053rem; }
+  .progress-bar-wrap { height: 10px; }
+  .roadmap-canvas-wrap { max-height: 420px; min-height: 280px; }
+  .companion-band { padding: 1.25rem 1.5rem; }
+  .companion-title { font-size: 1.282rem; }
+  .companion-speech { font-size: 1.053rem; }
+  .mission-card { padding: 1.2rem 1.5rem; }
+  .mission-icon { width: 52px; height: 52px; }
+  .mission-body h3 { font-size: 1.282rem; }
+  .mission-body p { font-size: 0.972rem; }
+  .talk-title { font-size: 1.823rem; }
+  .bubble { max-width: 65%; font-size: 1.188rem; padding: 0.9rem 1.25rem; }
+  .chat-compose input[type="text"] { font-size: 1.215rem; }
+  .compose-btn { width: 42px; height: 42px; }
+  .profile-title { font-size: 1.89rem; }
+  .profile-card { padding: 1.25rem 1.5rem; }
+  .profile-row span { font-size: 1.147rem; }
+  .sheet { max-width: 680px; }
+  .guide-sheet { max-width: 680px; }
+  .map-frame-wrap { height: 360px; }
+  .chat-attached-thumb, .chat-preview-thumb { width: 88px; height: 88px; border-radius: 0.85rem; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-main:hover { filter: brightness(1.08); transition: filter 0.15s ease; }
+  .btn-action-card:hover { filter: brightness(1.08); transform: translateY(-1px); transition: filter 0.15s, transform 0.15s; }
+  .mission-card:hover { filter: brightness(1.05); transform: translateY(-1px); transition: filter 0.15s, transform 0.15s; }
+  .nav-item:hover { opacity: 0.8; transition: opacity 0.15s; }
+  .quiz-choice-btn:hover:not(:disabled) { background: var(--sub); color: #fff; transition: background 0.15s, color 0.15s; }
+  .link-chip:hover { transform: translateY(-1px); transition: transform 0.15s, background 0.15s; }
+  .branch-choice-btn:hover { background: var(--sub); color: #fff; transition: background 0.15s, color 0.15s; }
+  .composer-chip:hover, .chat-action-chip:hover { transform: scale(1.03); transition: transform 0.12s; }
+  .btn-secondary:hover { filter: brightness(1.1); transition: filter 0.15s; }
+  .btn-accent-sm:hover, .btn-sub-sm:hover { filter: brightness(1.1); transition: filter 0.15s; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .onboard-hero .haru-avatar { width: 40px; height: 40px; font-size: 1.35rem; margin-bottom: 0.35rem; }
+  .onboard-title { font-size: 1.485rem; margin-bottom: 0.15rem; }
+  .onboard-sub { font-size: 0.837rem; }
+  .hint-box { padding: 0.5rem; font-size: 0.783rem; }
+  .progress-ring { width: 52px; height: 52px; }
+  .progress-ring::after { width: 38px; height: 38px; }
+  .chat-panel { min-height: calc(100dvh - var(--nav-h) - 80px); }
+  .loading-card { padding: 1rem 1.5rem; }
+  .loading-face { font-size: 2.43rem; }
+}
+
+@media print {
+  .bottom-nav, .site-bg, .chat-compose-wrap, #globalLoadingOverlay, #guideWalkthroughPanel, .sheet-backdrop, .sheet { display: none !important; }
+  .site { max-width: 100%; box-shadow: none; border-radius: 0; margin: 0; min-height: auto; }
+  .site-main { padding-bottom: 0; }
+  body { background: #fff; }
+}

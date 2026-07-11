@@ -1,0 +1,433 @@
+{
+  "version": "2.0",
+  "resources": [
+    {
+      "id": "res_isa_immigration",
+      "tier": "official",
+      "title": {
+        "zh-TW": "出入國在留管理廳｜入國・在留手續",
+        "en": "ISA | Immigration procedures",
+        "ja": "出入国在留管理庁｜入国・在留手続"
+      },
+      "url": "https://www.moj.go.jp/isa/index.html",
+      "task_ids": [
+        "task_immigration"
+      ],
+      "priority": 10,
+      "summary": {
+        "zh-TW": "日本入國與在留相關官方說明",
+        "en": "Official immigration information",
+        "ja": "入国・在留に関する公式情報"
+      }
+    },
+    {
+      "id": "res_isa_residence_card",
+      "tier": "official",
+      "title": {
+        "zh-TW": "出入國在留管理廳｜在留卡",
+        "en": "ISA | Residence card",
+        "ja": "出入国在留管理庁｜在留カード"
+      },
+      "url": "https://www.moj.go.jp/isa/publications/materials/newimmiact_3_zhotizen.html",
+      "task_ids": [
+        "task_immigration",
+        "task_id_documents"
+      ],
+      "priority": 10,
+      "summary": {
+        "zh-TW": "在留卡的官方說明（含中文）",
+        "en": "Official residence card guide",
+        "ja": "在留カードの公式案内"
+      }
+    },
+    {
+      "id": "res_boj_exchange",
+      "tier": "official",
+      "title": {
+        "zh-TW": "日本銀行｜外幣兌換須知",
+        "en": "Bank of Japan | Currency exchange",
+        "ja": "日本銀行｜外貨両替の案内"
+      },
+      "url": "https://www.boj.or.jp/en/about/education/oshiete/exchange/index.htm",
+      "task_ids": [
+        "task_immigration"
+      ],
+      "priority": 8,
+      "summary": {
+        "zh-TW": "兌換日圓時可參考的官方資訊",
+        "en": "Official info on exchanging yen",
+        "ja": "円への両替に関する情報"
+      }
+    },
+    {
+      "id": "res_suica_guide",
+      "tier": "semi_official",
+      "title": {
+        "zh-TW": "JR東日本｜Suica 交通卡",
+        "en": "JR East | Suica IC card",
+        "ja": "JR東日本｜Suica交通系ICカード"
+      },
+      "url": "https://www.jreast.co.jp/multi/en/welcomesuica/welcomesuica.html",
+      "task_ids": [
+        "task_transport"
+      ],
+      "priority": 9,
+      "summary": {
+        "zh-TW": "Suica 購買與使用方法",
+        "en": "How to buy and use Suica",
+        "ja": "Suicaの購入と使い方"
+      }
+    },
+    {
+      "id": "res_jasso_study",
+      "tier": "semi_official",
+      "title": {
+        "zh-TW": "JASSO｜留學生生活支援",
+        "en": "JASSO | Support for international students",
+        "ja": "JASSO｜留学生生活支援"
+      },
+      "url": "https://www.studyinjapan.go.jp/en/",
+      "task_ids": [
+        "task_school_enroll"
+      ],
+      "priority": 9,
+      "summary": {
+        "zh-TW": "日本留學官方生活資訊入口",
+        "en": "Official study-in-Japan portal",
+        "ja": "留学日本の公式ポータル"
+      }
+    },
+    {
+      "id": "res_soumu_resident",
+      "tier": "official",
+      "title": {
+        "zh-TW": "總務省｜住民登錄說明",
+        "en": "MIC | Resident registration",
+        "ja": "総務省｜住民登録の説明"
+      },
+      "url": "https://www.soumu.go.jp/menu_seiho/seiho/seido/jumin/ju_min.html",
+      "task_ids": [
+        "task_ward_office",
+        "task_move_in"
+      ],
+      "priority": 10,
+      "summary": {
+        "zh-TW": "住民登錄的國家層級官方說明",
+        "en": "National guide to resident registration",
+        "ja": "住民登録の国の公式説明"
+      }
+    },
+    {
+      "id": "res_ward_office_regional",
+      "tier": "official",
+      "title": {
+        "zh-TW": "區役所｜住民登錄（依居住地）",
+        "en": "Ward office | Resident registration",
+        "ja": "区役所｜住民登録（居住地による）"
+      },
+      "url": "",
+      "resolver": "ward_office",
+      "task_ids": [
+        "task_ward_office",
+        "task_mynumber_notice",
+        "task_pension_student"
+      ],
+      "priority": 11,
+      "summary": {
+        "zh-TW": "您居住地的區役所官方網站",
+        "en": "Official ward office for your area",
+        "ja": "お住まいの区役所公式サイト"
+      }
+    },
+    {
+      "id": "res_mhlw_nhi",
+      "tier": "official",
+      "title": {
+        "zh-TW": "厚生勞動省｜國民健康保險",
+        "en": "MHLW | National Health Insurance",
+        "ja": "厚生労働省｜国民健康保険"
+      },
+      "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/iryouhoken15/index.html",
+      "task_ids": [
+        "task_ward_office"
+      ],
+      "priority": 10,
+      "summary": {
+        "zh-TW": "國民健康保險官方說明",
+        "en": "Official NHI information",
+        "ja": "国民健康保険の公式案内"
+      }
+    },
+    {
+      "id": "res_mynumber",
+      "tier": "official",
+      "title": {
+        "zh-TW": "內閣府｜My Number（個人編號）",
+        "en": "Cabinet Office | My Number",
+        "ja": "内閣府｜マイナンバー"
+      },
+      "url": "https://www.kojinbango-card.go.jp/en/",
+      "task_ids": [
+        "task_mynumber_notice"
+      ],
+      "priority": 9,
+      "summary": {
+        "zh-TW": "個人編號通知卡官方說明",
+        "en": "Official My Number guide",
+        "ja": "マイナンバーの公式案内"
+      }
+    },
+    {
+      "id": "res_nenkin_student",
+      "tier": "official",
+      "title": {
+        "zh-TW": "日本年金機構｜學生納付特例",
+        "en": "Japan Pension Service | Student exemption",
+        "ja": "日本年金機構｜学生納付特例"
+      },
+      "url": "https://www.nenkin.go.jp/service/kokunai/gakusei/gakusei.html",
+      "task_ids": [
+        "task_pension_student"
+      ],
+      "priority": 10,
+      "summary": {
+        "zh-TW": "學生國民年金免除申請官方說明",
+        "en": "Student pension exemption guide",
+        "ja": "学生の年金免除の公式案内"
+      }
+    },
+    {
+      "id": "res_soumu_mobile",
+      "tier": "official",
+      "title": {
+        "zh-TW": "總務省｜手機契約（訪日外國人）",
+        "en": "MIC | Mobile contracts for visitors",
+        "ja": "総務省｜携帯契約（訪日外国人）"
+      },
+      "url": "https://www.soumu.go.jp/menu_seiho/seiho/seido/joho_tsusin/mobilenet/kaigai.html",
+      "task_ids": [
+        "task_phone"
+      ],
+      "priority": 9,
+      "summary": {
+        "zh-TW": "外國人在日本辦理手機的官方說明",
+        "en": "Official mobile contract guide",
+        "ja": "携帯契約の公式案内"
+      }
+    },
+    {
+      "id": "res_jp_bank",
+      "tier": "official",
+      "title": {
+        "zh-TW": "ゆうちょ銀行｜開戶（外國人）",
+        "en": "Japan Post Bank | Account opening",
+        "ja": "ゆうちょ銀行｜口座開設（外国人）"
+      },
+      "url": "https://www.jp-bank.japanpost.jp/bank/en/ijpbnksttopmn/index.html",
+      "task_ids": [
+        "task_bank"
+      ],
+      "priority": 10,
+      "summary": {
+        "zh-TW": "郵政銀行開戶官方英文指南",
+        "en": "Official account opening guide",
+        "ja": "口座開設の公式ガイド"
+      }
+    },
+    {
+      "id": "res_isa_work_permit",
+      "tier": "official",
+      "title": {
+        "zh-TW": "出入國在留管理廳｜資格外活動許可",
+        "en": "ISA | Permission to work part-time",
+        "ja": "出入国在留管理庁｜資格外活動許可"
+      },
+      "url": "https://www.moj.go.jp/isa/applications/procedures/16-4.html",
+      "task_ids": [
+        "task_work_permit"
+      ],
+      "priority": 10,
+      "summary": {
+        "zh-TW": "打工許可官方申請說明",
+        "en": "Official part-time work permit guide",
+        "ja": "アルバイト許可の公式案内"
+      }
+    },
+    {
+      "id": "res_police_110",
+      "tier": "official",
+      "title": {
+        "zh-TW": "警察廳｜110 緊急報案",
+        "en": "National Police Agency | Emergency 110",
+        "ja": "警察庁｜110番緊急通報"
+      },
+      "url": "https://www.npa.go.jp/english/110.html",
+      "task_ids": [
+        "task_basics_complete"
+      ],
+      "priority": 10,
+      "summary": {
+        "zh-TW": "報警方式官方說明",
+        "en": "How to call police in emergency",
+        "ja": "110番の公式案内"
+      }
+    },
+    {
+      "id": "res_fire_119",
+      "tier": "official",
+      "title": {
+        "zh-TW": "消防廳｜119 緊急通報",
+        "en": "Fire and Disaster Mgmt | Emergency 119",
+        "ja": "消防庁｜119番緊急通報"
+      },
+      "url": "https://www.fdma.go.jp/en/",
+      "task_ids": [
+        "task_basics_complete"
+      ],
+      "priority": 10,
+      "summary": {
+        "zh-TW": "火災・救護通報官方說明",
+        "en": "How to call ambulance/fire",
+        "ja": "119番の公式案内"
+      }
+    },
+    {
+      "id": "res_multilingual_helpline",
+      "tier": "official",
+      "title": {
+        "zh-TW": "東京｜多語言諮詢熱線",
+        "en": "Tokyo | Multilingual helpline",
+        "ja": "東京｜多言語相談ホットライン"
+      },
+      "url": "https://www.metro.tokyo.lg.jp/english/guide/hotline.html",
+      "task_ids": [
+        "task_basics_complete"
+      ],
+      "priority": 8,
+      "summary": {
+        "zh-TW": "緊急時多語言支援（東京）",
+        "en": "Multilingual support in Tokyo",
+        "ja": "多言語緊急支援（東京）"
+      }
+    },
+    {
+      "id": "res_safety_tips",
+      "tier": "official",
+      "title": {
+        "zh-TW": "內閣府｜Safety tips 防災App",
+        "en": "Cabinet Office | Safety tips app",
+        "ja": "内閣府｜Safety tips防災アプリ"
+      },
+      "url": "https://www.j-alert.go.jp/en/",
+      "task_ids": [
+        "task_basics_complete"
+      ],
+      "priority": 10,
+      "summary": {
+        "zh-TW": "官方防災推播 App",
+        "en": "Official disaster alert app",
+        "ja": "公式防災アプリ"
+      }
+    },
+    {
+      "id": "res_consumer_scam",
+      "tier": "official",
+      "title": {
+        "zh-TW": "消費者廳｜特殊詐欺防範",
+        "en": "Consumer Affairs Agency | Fraud prevention",
+        "ja": "消費者庁｜特殊詐欺対策"
+      },
+      "url": "https://www.caa.go.jp/policies/policy/local_cooperation/local_consumer_administration/hotline/special_fraud/",
+      "task_ids": [
+        "task_basics_complete"
+      ],
+      "priority": 10,
+      "summary": {
+        "zh-TW": "針對詐騙的官方防範說明",
+        "en": "Official scam prevention guide",
+        "ja": "詐欺防止の公式案内"
+      }
+    },
+    {
+      "id": "res_mhlw_clinic",
+      "tier": "official",
+      "title": {
+        "zh-TW": "厚生勞動省｜醫療機構就醫方式",
+        "en": "MHLW | How to use healthcare",
+        "ja": "厚生労働省｜医療機関の利用"
+      },
+      "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/iryouhoken15/index_00002.html",
+      "task_ids": [
+        "task_ward_office"
+      ],
+      "priority": 9,
+      "summary": {
+        "zh-TW": "持保險卡看病的官方說明",
+        "en": "Using health insurance at clinics",
+        "ja": "保険証の使い方"
+      }
+    },
+    {
+      "id": "res_isa_extension",
+      "tier": "official",
+      "title": {
+        "zh-TW": "出入國在留管理廳｜在留期間更新",
+        "en": "ISA | Extension of period of stay",
+        "ja": "出入国在留管理庁｜在留期間更新"
+      },
+      "url": "https://www.moj.go.jp/isa/applications/procedures/zairyu_koshin.html",
+      "task_ids": [
+        "task_id_documents"
+      ],
+      "priority": 10,
+      "summary": {
+        "zh-TW": "在留期限更新官方手續",
+        "en": "Official visa extension procedures",
+        "ja": "在留更新の公式手続"
+      }
+    },
+    {
+      "id": "res_clair_life",
+      "tier": "semi_official",
+      "title": {
+        "zh-TW": "CLAIR｜外國人生活指南",
+        "en": "CLAIR | Living in Japan guide",
+        "ja": "CLAIR｜外国人生活ガイド"
+      },
+      "url": "https://www.clair.or.jp/e/exchange/stay/life/",
+      "task_ids": [
+        "task_move_in",
+        "task_housing_dorm",
+        "task_housing_rental_managed",
+        "task_housing_rental_self"
+      ],
+      "priority": 7,
+      "summary": {
+        "zh-TW": "地方政府國際交流協會的生活資訊",
+        "en": "Local government international exchange info",
+        "ja": "自治体国際交流協会の生活情報"
+      }
+    },
+    {
+      "id": "res_mlit_housing",
+      "tier": "official",
+      "title": {
+        "zh-TW": "國土交通省｜租房須知",
+        "en": "MLIT | Rental housing guide",
+        "ja": "国交省｜賃貸住宅の案内"
+      },
+      "url": "https://www.mlit.go.jp/common/001300312.pdf",
+      "task_ids": [
+        "task_housing_rental_managed",
+        "task_housing_dorm",
+        "task_housing_rental_self"
+      ],
+      "priority": 8,
+      "summary": {
+        "zh-TW": "在日本租房的官方參考資料",
+        "en": "Official rental housing reference",
+        "ja": "賃貸住宅の公式参考資料"
+      }
+    }
+  ]
+}

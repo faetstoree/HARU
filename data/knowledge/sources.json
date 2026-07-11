@@ -1,0 +1,101 @@
+{
+  "version": "1.0",
+  "sources": [
+    {
+      "id": "src_isa",
+      "tier": "official",
+      "name": {
+        "zh-TW": "出入國在留管理廳",
+        "en": "Immigration Services Agency",
+        "ja": "出入国在留管理庁"
+      },
+      "url": "https://www.moj.go.jp/isa/index.html",
+      "domain": "moj.go.jp",
+      "trust_score": 10
+    },
+    {
+      "id": "src_soumu_jumin",
+      "tier": "official",
+      "name": {
+        "zh-TW": "總務省｜住民登錄",
+        "en": "MIC | Resident registration",
+        "ja": "総務省｜住民登録"
+      },
+      "url": "https://www.soumu.go.jp/menu_seiho/seiho/seido/jumin/ju_min.html",
+      "domain": "soumu.go.jp",
+      "trust_score": 10
+    },
+    {
+      "id": "src_mhlw_nhi",
+      "tier": "official",
+      "name": {
+        "zh-TW": "厚生勞動省｜國民健康保險",
+        "en": "MHLW | National Health Insurance",
+        "ja": "厚生労働省｜国民健康保険"
+      },
+      "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/iryouhoken15/index.html",
+      "domain": "mhlw.go.jp",
+      "trust_score": 10
+    },
+    {
+      "id": "src_jp_bank",
+      "tier": "official",
+      "name": {
+        "zh-TW": "ゆうちょ銀行",
+        "en": "Japan Post Bank",
+        "ja": "ゆうちょ銀行"
+      },
+      "url": "https://www.jp-bank.japanpost.jp/bank/en/ijpbnksttopmn/index.html",
+      "domain": "jp-bank.japanpost.jp",
+      "trust_score": 10
+    },
+    {
+      "id": "src_nenkin",
+      "tier": "official",
+      "name": {
+        "zh-TW": "日本年金機構",
+        "en": "Japan Pension Service",
+        "ja": "日本年金機構"
+      },
+      "url": "https://www.nenkin.go.jp/",
+      "domain": "nenkin.go.jp",
+      "trust_score": 10
+    },
+    {
+      "id": "src_mynumber",
+      "tier": "official",
+      "name": {
+        "zh-TW": "內閣府｜My Number",
+        "en": "Cabinet Office | My Number",
+        "ja": "内閣府｜マイナンバー"
+      },
+      "url": "https://www.kojinbango-card.go.jp/en/",
+      "domain": "kojinbango-card.go.jp",
+      "trust_score": 10
+    },
+    {
+      "id": "src_soumu_mobile",
+      "tier": "official",
+      "name": {
+        "zh-TW": "總務省｜手機契約",
+        "en": "MIC | Mobile contracts",
+        "ja": "総務省｜携帯契約"
+      },
+      "url": "https://www.soumu.go.jp/menu_seiho/seiho/seido/joho_tsusin/mobilenet/kaigai.html",
+      "domain": "soumu.go.jp",
+      "trust_score": 10
+    },
+    {
+      "id": "src_jasso",
+      "tier": "semi_official",
+      "name": {
+        "zh-TW": "JASSO 留學生支援",
+        "en": "JASSO Study in Japan",
+        "ja": "JASSO 留学生支援"
+      },
+      "url": "https://www.studyinjapan.go.jp/en/",
+      "domain": "studyinjapan.go.jp",
+      "trust_score": 9
+    }
+  ]
+}

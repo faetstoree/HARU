@@ -1,0 +1,497 @@
+{
+  "version": "2.0",
+  "max_questions": 6,
+  "questions": [
+    {
+      "id": "q_residence_card",
+      "task_ids": [
+        "task_immigration"
+      ],
+      "priority": 10,
+      "skip_if_task_completed": "task_immigration",
+      "prompt": {
+        "zh-TW": "你是否已經拿到在留卡？",
+        "en": "Do you already have your residence card?",
+        "ja": "在留カードはもう受け取りましたか？"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "label": {
+            "zh-TW": "是，已在機場領取",
+            "en": "Yes, at the airport",
+            "ja": "はい、空港で受け取った"
+          },
+          "recommendation": {
+            "zh-TW": "很好，請妥善保管在留卡，後續手續都需要。",
+            "en": "Keep it safe — you'll need it for all procedures.",
+            "ja": "大切に保管してください。"
+          },
+          "suggest_task": "task_move_in"
+        },
+        {
+          "id": "b",
+          "label": {
+            "zh-TW": "還沒有",
+            "en": "Not yet",
+            "ja": "まだ"
+          },
+          "recommendation": {
+            "zh-TW": "請盡快到區役所或入管辦理在留卡相關手續。",
+            "en": "Visit ward office or immigration soon.",
+            "ja": "早めに区役所または入管へ。"
+          },
+          "suggest_task": "task_immigration"
+        },
+        {
+          "id": "c",
+          "label": {
+            "zh-TW": "不確定",
+            "en": "Not sure",
+            "ja": "わからない"
+          },
+          "recommendation": {
+            "zh-TW": "請檢查護照夾或學校是否代為保管通知。",
+            "en": "Check your passport folder or ask your school.",
+            "ja": "パスポートケースや学校に確認を。"
+          }
+        },
+        {
+          "id": "d",
+          "label": {
+            "zh-TW": "弄丟了",
+            "en": "Lost it",
+            "ja": "紛失した"
+          },
+          "recommendation": {
+            "zh-TW": "請立即向入管或警察報案並申請再發行。",
+            "en": "Report to immigration/police immediately.",
+            "ja": "入管または警察へ届出を。"
+          },
+          "suggest_task": "task_immigration"
+        }
+      ]
+    },
+    {
+      "id": "q_juminhyo",
+      "task_ids": [
+        "task_ward_office"
+      ],
+      "priority": 12,
+      "skip_if_task_completed": "task_ward_office",
+      "prompt": {
+        "zh-TW": "住民登錄（地址登記）的狀態？",
+        "en": "Status of resident registration?",
+        "ja": "住民登録の状況は？"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "label": {
+            "zh-TW": "已完成",
+            "en": "Completed",
+            "ja": "完了"
+          },
+          "recommendation": {
+            "zh-TW": "下一步可辦理健保與手機門號。",
+            "en": "Next: health insurance and phone.",
+            "ja": "次は健保と携帯契約。"
+          },
+          "suggest_task": "task_phone"
+        },
+        {
+          "id": "b",
+          "label": {
+            "zh-TW": "還沒，有固定地址了",
+            "en": "Not yet, but I have an address",
+            "ja": "まだ、住所はある"
+          },
+          "recommendation": {
+            "zh-TW": "請盡快帶文件到區役所辦理。",
+            "en": "Visit ward office with documents soon.",
+            "ja": "書類を持って区役所へ。"
+          },
+          "suggest_task": "task_ward_office"
+        },
+        {
+          "id": "c",
+          "label": {
+            "zh-TW": "地址還不確定",
+            "en": "Address not fixed yet",
+            "ja": "住所が未定"
+          },
+          "recommendation": {
+            "zh-TW": "先確定住所或宿舍證明，再辦住民登錄。",
+            "en": "Confirm housing first.",
+            "ja": "住居を確定してから。"
+          },
+          "suggest_task": "task_move_in"
+        },
+        {
+          "id": "d",
+          "label": {
+            "zh-TW": "不知道什麼是住民登錄",
+            "en": "Don't know what it is",
+            "ja": "住民登録がわからない"
+          },
+          "recommendation": {
+            "zh-TW": "這是日本地址登記，建議使用 Haru 的「住民登錄操作引導」。",
+            "en": "Use Haru's resident registration walkthrough.",
+            "ja": "操作ガイドをご利用ください。"
+          },
+          "suggest_task": "task_ward_office"
+        }
+      ]
+    },
+    {
+      "id": "q_phone",
+      "task_ids": [
+        "task_phone"
+      ],
+      "priority": 9,
+      "skip_if_task_completed": "task_phone",
+      "prompt": {
+        "zh-TW": "日本手機門號的狀況？",
+        "en": "Japanese mobile phone status?",
+        "ja": "日本の携帯電話の状況は？"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "label": {
+            "zh-TW": "已有日本門號",
+            "en": "Have Japanese number",
+            "ja": "日本の番号あり"
+          },
+          "recommendation": {
+            "zh-TW": "可以進行銀行開戶了。",
+            "en": "You can open a bank account.",
+            "ja": "銀行口座開設が可能です。"
+          },
+          "suggest_task": "task_bank"
+        },
+        {
+          "id": "b",
+          "label": {
+            "zh-TW": "只有旅遊 SIM",
+            "en": "Tourist SIM only",
+            "ja": "観光用SIMのみ"
+          },
+          "recommendation": {
+            "zh-TW": "長期建議辦理正式月租方案。",
+            "en": "Get a monthly plan for long stay.",
+            "ja": "長期なら月額契約を。"
+          },
+          "suggest_task": "task_phone"
+        },
+        {
+          "id": "c",
+          "label": {
+            "zh-TW": "還沒有",
+            "en": "None yet",
+            "ja": "まだない"
+          },
+          "recommendation": {
+            "zh-TW": "完成住民登錄後較容易辦理。",
+            "en": "Easier after resident registration.",
+            "ja": "住民登録後がおすすめ。"
+          },
+          "suggest_task": "task_phone"
+        },
+        {
+          "id": "d",
+          "label": {
+            "zh-TW": "不清楚差別",
+            "en": "Don't know the difference",
+            "ja": "違いがわからない"
+          },
+          "recommendation": {
+            "zh-TW": "可看 Haru 的「辦理門號逐步引導」。",
+            "en": "See the mobile walkthrough in Haru.",
+            "ja": "携帯ガイドを参照。"
+          },
+          "suggest_task": "task_phone"
+        }
+      ]
+    },
+    {
+      "id": "q_bank",
+      "task_ids": [
+        "task_bank"
+      ],
+      "priority": 9,
+      "skip_if_task_completed": "task_bank",
+      "prompt": {
+        "zh-TW": "銀行帳戶開設狀況？",
+        "en": "Bank account status?",
+        "ja": "銀行口座の状況は？"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "label": {
+            "zh-TW": "已開戶",
+            "en": "Opened",
+            "ja": "開設済み"
+          },
+          "recommendation": {
+            "zh-TW": "很好，可設定學費與房租轉帳。",
+            "en": "Set up tuition/rent transfers.",
+            "ja": "学費・家賃の振込設定を。"
+          }
+        },
+        {
+          "id": "b",
+          "label": {
+            "zh-TW": "準備去開",
+            "en": "Planning to open",
+            "ja": "開設予定"
+          },
+          "recommendation": {
+            "zh-TW": "確認已帶住民票、在留卡、手機號碼。",
+            "en": "Bring juminhyo, residence card, phone number.",
+            "ja": "住民票・在留カード・携帯番号を。"
+          },
+          "suggest_task": "task_bank"
+        },
+        {
+          "id": "c",
+          "label": {
+            "zh-TW": "被銀行拒絕",
+            "en": "Was rejected",
+            "ja": "断られた"
+          },
+          "recommendation": {
+            "zh-TW": "常見原因是缺手機號或住民票，或試ゆうちょ銀行。",
+            "en": "Often missing phone/juminhyo; try Japan Post Bank.",
+            "ja": "携帯・住民票不足が多い。"
+          },
+          "suggest_task": "task_bank"
+        },
+        {
+          "id": "d",
+          "label": {
+            "zh-TW": "還沒開始",
+            "en": "Not started",
+            "ja": "まだ"
+          },
+          "recommendation": {
+            "zh-TW": "需先完成住民登錄與門號。",
+            "en": "Complete registration and phone first.",
+            "ja": "住民登録と携帯を先に。"
+          },
+          "suggest_task": "task_ward_office"
+        }
+      ]
+    },
+    {
+      "id": "q_insurance",
+      "task_ids": [
+        "task_ward_office"
+      ],
+      "priority": 8,
+      "skip_if_task_completed": "task_ward_office",
+      "prompt": {
+        "zh-TW": "國民健康保險加入了嗎？",
+        "en": "Enrolled in National Health Insurance?",
+        "ja": "国民健康保険に加入しましたか？"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "label": {
+            "zh-TW": "已加入",
+            "en": "Yes",
+            "ja": "はい"
+          },
+          "recommendation": {
+            "zh-TW": "就醫時請攜帶保險證。",
+            "en": "Bring insurance card when visiting clinics.",
+            "ja": "診察時は保険証を。"
+          }
+        },
+        {
+          "id": "b",
+          "label": {
+            "zh-TW": "住民登錄時應該辦了",
+            "en": "Did it at ward office",
+            "ja": "区役所で一緒に"
+          },
+          "recommendation": {
+            "zh-TW": "確認是否已收到保險證。",
+            "en": "Check if you received the card.",
+            "ja": "保険証の受け取りを確認。"
+          }
+        },
+        {
+          "id": "c",
+          "label": {
+            "zh-TW": "還沒",
+            "en": "Not yet",
+            "ja": "まだ"
+          },
+          "recommendation": {
+            "zh-TW": "通常與住民登錄一起在區役所辦理。",
+            "en": "Usually done with resident registration.",
+            "ja": "住民登録と同時が一般的。"
+          },
+          "suggest_task": "task_ward_office"
+        },
+        {
+          "id": "d",
+          "label": {
+            "zh-TW": "不清楚",
+            "en": "Not sure",
+            "ja": "わからない"
+          },
+          "recommendation": {
+            "zh-TW": "可帶在留卡到區役所確認。",
+            "en": "Ask ward office with residence card.",
+            "ja": "区役所で確認を。"
+          },
+          "suggest_task": "task_ward_office"
+        }
+      ]
+    },
+    {
+      "id": "q_part_time",
+      "task_ids": [
+        "task_work_permit"
+      ],
+      "priority": 7,
+      "prompt": {
+        "zh-TW": "你打算在日本打工嗎？",
+        "en": "Planning to work part-time in Japan?",
+        "ja": "日本でアルバイトする予定は？"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "label": {
+            "zh-TW": "是，需要許可",
+            "en": "Yes, need permit",
+            "ja": "はい、許可が必要"
+          },
+          "recommendation": {
+            "zh-TW": "請申請「資格外活動許可」。",
+            "en": "Apply for work permission.",
+            "ja": "資格外活動許可を申請。"
+          },
+          "suggest_task": "task_work_permit"
+        },
+        {
+          "id": "b",
+          "label": {
+            "zh-TW": "否",
+            "en": "No",
+            "ja": "いいえ"
+          },
+          "recommendation": {
+            "zh-TW": "可專注語言學校課業。",
+            "en": "Focus on language school.",
+            "ja": "語学学校に専念。"
+          }
+        },
+        {
+          "id": "c",
+          "label": {
+            "zh-TW": "之後再說",
+            "en": "Maybe later",
+            "ja": "後で考える"
+          },
+          "recommendation": {
+            "zh-TW": "需要時再申請即可，但需預留審查時間。",
+            "en": "Apply when needed; allow processing time.",
+            "ja": "必要時に申請、時間に余裕を。"
+          },
+          "suggest_task": "task_work_permit"
+        },
+        {
+          "id": "d",
+          "label": {
+            "zh-TW": "已在打工",
+            "en": "Already working",
+            "ja": "もう働いている"
+          },
+          "recommendation": {
+            "zh-TW": "請確認是否已有合法許可，避免違法打工。",
+            "en": "Ensure you have legal permission.",
+            "ja": "許可の有無を必ず確認。"
+          },
+          "suggest_task": "task_work_permit"
+        }
+      ]
+    },
+    {
+      "id": "q_cash",
+      "task_ids": [
+        "task_immigration",
+        "task_funds_prep"
+      ],
+      "priority": 6,
+      "skip_if_task_completed": "task_immigration",
+      "prompt": {
+        "zh-TW": "日圓現金準備得如何？",
+        "en": "How is your yen cash situation?",
+        "ja": "円の現金は足りていますか？"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "label": {
+            "zh-TW": "足夠一週以上",
+            "en": "Enough for a week+",
+            "ja": "1週間以上ある"
+          },
+          "recommendation": {
+            "zh-TW": "可專注辦理行政手續。",
+            "en": "Focus on admin tasks.",
+            "ja": "手続きに集中できます。"
+          }
+        },
+        {
+          "id": "b",
+          "label": {
+            "zh-TW": "只夠幾天",
+            "en": "Only a few days",
+            "ja": "数日分"
+          },
+          "recommendation": {
+            "zh-TW": "建議去銀行或兌換所補充現金。",
+            "en": "Top up cash at bank or exchange.",
+            "ja": "銀行・両替で補充を。"
+          },
+          "suggest_task": "task_immigration"
+        },
+        {
+          "id": "c",
+          "label": {
+            "zh-TW": "幾乎沒有",
+            "en": "Almost none",
+            "ja": "ほとんどない"
+          },
+          "recommendation": {
+            "zh-TW": "請優先換匯，否則交通與吃飯會受阻。",
+            "en": "Exchange money first.",
+            "ja": "最優先で両替を。"
+          },
+          "suggest_task": "task_immigration"
+        },
+        {
+          "id": "d",
+          "label": {
+            "zh-TW": "都用卡",
+            "en": "Cards only",
+            "ja": "カードのみ"
+          },
+          "recommendation": {
+            "zh-TW": "日本仍有許多場合只收現金，建議準備一些。",
+            "en": "Japan still uses cash often.",
+            "ja": "現金も用意を。"
+          },
+          "suggest_task": "task_immigration"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,250 @@
+/* Component overrides — HARU Ethereal */
+
+.roadmap-phase-tabs {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  margin-bottom: 0.65rem;
+  scrollbar-width: none;
+}
+.roadmap-phase-tabs::-webkit-scrollbar { display: none; }
+
+.roadmap-phase-tab {
+  flex-shrink: 0;
+  padding: 0.4rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+.roadmap-phase-tab.active {
+  background: var(--primary-container);
+  color: var(--on-primary);
+}
+.roadmap-phase-tab:active { transform: scale(0.96); }
+
+.official-links-wrap,
+.chat-link-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.link-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: var(--surface-container);
+  color: var(--primary);
+  max-width: 100%;
+  transition: background 0.15s, transform 0.15s;
+}
+.link-chip:hover {
+  background: var(--primary-fixed-dim);
+  color: var(--primary);
+}
+.link-chip-badge {
+  font-size: 0.55rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+}
+
+.chat-meta-footnote {
+  font-size: 0.65rem;
+  color: var(--on-surface-variant);
+  text-align: center;
+  padding: 0.35rem 0.5rem;
+  opacity: 0.85;
+}
+
+.chat-action-chip,
+.composer-chip {
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(94, 75, 179, 0.12);
+  background: var(--surface-container);
+  color: var(--primary);
+  cursor: pointer;
+  line-height: 1.2;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.15s;
+}
+.chat-action-chip:active,
+.composer-chip:active { transform: scale(0.96); }
+
+.bubble-ai .chat-action-chip {
+  background: var(--tertiary-fixed);
+  color: var(--on-tertiary-fixed);
+  border-color: transparent;
+}
+
+.guide-card-chip,
+.kb-snippet-block {
+  background: var(--surface-container-low);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 0.85rem;
+  margin: 0.35rem 0;
+  font-size: 0.8rem;
+}
+
+.quiz-block {
+  background: var(--surface-container-low);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  margin: 0.35rem 0;
+}
+
+.quiz-option-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  font-size: 0.8rem;
+  padding: 0.65rem 0.85rem;
+  margin: 0.35rem 0;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--on-surface);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.quiz-option-btn:hover {
+  border-color: var(--primary);
+  background: var(--primary-fixed-dim);
+}
+
+.chat-image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.chat-image-grid img {
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+}
+
+.chat-preview-item {
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+.chat-preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+.chat-preview-remove {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: var(--error);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Tom Select */
+.ts-wrapper.single .ts-control,
+.ts-wrapper.multi .ts-control {
+  border-radius: var(--radius-md) !important;
+  border-color: var(--outline-variant) !important;
+  background: var(--surface-container-low) !important;
+  font-family: inherit !important;
+  font-size: 0.875rem !important;
+  padding: 0.55rem 0.75rem !important;
+}
+.ts-dropdown {
+  border-radius: var(--radius-md) !important;
+  border-color: var(--outline-variant) !important;
+  font-family: inherit !important;
+}
+.ts-dropdown .active {
+  background: var(--primary-fixed-dim) !important;
+  color: var(--primary) !important;
+}
+
+.site-workspace {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  position: relative;
+  z-index: 1;
+}
+
+.voice-on .material-symbols-outlined { color: var(--secondary); }
+
+.check-container input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+}
+
+.onboard-task-chk { margin-top: 0.15rem; }
+
+.branch-choice-btn .branch-desc {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--on-surface-variant);
+  margin-top: 0.2rem;
+  font-weight: 400;
+}
+
+#roadmapDetailDocs .doc-item,
+#roadmapDetailGuides .guide-link {
+  font-size: 0.8rem;
+  padding: 0.35rem 0;
+  color: var(--on-surface-variant);
+}
+
+.guide-link-btn {
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.55rem 0.85rem;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--primary-container);
+  color: var(--on-primary);
+  cursor: pointer;
+  margin: 0.25rem 0.25rem 0.25rem 0;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+  font-family: var(--font-display);
+  color: var(--on-surface);
+  margin: 0.5rem 0 0.35rem;
+}
+
+.task-check-scroll::-webkit-scrollbar { width: 4px; }
+.task-check-scroll::-webkit-scrollbar-thumb {
+  background: var(--outline-variant);
+  border-radius: 4px;
+}

@@ -1,0 +1,137 @@
+{
+  "version": "1.0",
+  "articles": [
+    {
+      "id": "kb_task_ward_office",
+      "task_ids": [
+        "task_ward_office"
+      ],
+      "priority": 10,
+      "title": {
+        "zh-TW": "住民登錄：留學生必懂重點",
+        "en": "Resident registration essentials",
+        "ja": "住民登録：留学生の要点"
+      },
+      "summary": {
+        "zh-TW": "抵達日本後14天內，必須到居住地的區役所辦理住民登錄。這是健保、手機、銀行開戶的共同前提。",
+        "en": "Within 14 days of finding a residence, register at your ward office. Required for NHI, phone, and bank.",
+        "ja": "住居確定後14日以内に区役所で住民登録。健保・携帯・銀行の前提手続き。"
+      },
+      "sections": [
+        {
+          "heading": {
+            "zh-TW": "為什麼一定要做",
+            "en": "Why it matters",
+            "ja": "なぜ必要か"
+          },
+          "body": {
+            "zh-TW": "沒有住民登錄就無法取得正式的居住地址證明（住民票），而多數行政與商業服務都會要求這份文件。",
+            "en": "Without registration you cannot get a resident certificate (juminhyo), required by most services.",
+            "ja": "住民票がないと携帯・銀行・保険など多くの手続きができません。"
+          },
+          "source_ids": [
+            "src_soumu_jumin"
+          ]
+        },
+        {
+          "heading": {
+            "zh-TW": "常見錯誤",
+            "en": "Common mistakes",
+            "ja": "よくある間違い"
+          },
+          "body": {
+            "zh-TW": "超過14天、帶錯地址證明、忘記在留卡。若住在宿舍，請向學校索取「居住證明」再前往區役所。",
+            "en": "Missing the 14-day deadline, wrong address proof, forgetting residence card. Dorm residents need school housing proof.",
+            "ja": "14日超過、住所証明の不備、在留カード忘れ。寮生は学校の居住証明が必要な場合があります。"
+          },
+          "source_ids": [
+            "src_soumu_jumin"
+          ]
+        }
+      ],
+      "source_ids": [
+        "src_soumu_jumin",
+        "src_isa"
+      ]
+    },
+    {
+      "id": "kb_task_bank",
+      "task_ids": [
+        "task_bank"
+      ],
+      "priority": 10,
+      "title": {
+        "zh-TW": "銀行開戶：留學生路線",
+        "en": "Bank account for students",
+        "ja": "銀行口座：留学生向け"
+      },
+      "summary": {
+        "zh-TW": "多數留學生首選ゆうちょ銀行（郵政銀行），因對外國人相對友善。開戶前請先完成住民登錄與手機門號。",
+        "en": "Many students start with Japan Post Bank. Complete resident registration and a phone number first.",
+        "ja": "多くの留学生はゆうちょ銀行が初めやすい。住民登録と携帯番号を先に済ませてください。"
+      },
+      "sections": [
+        {
+          "heading": {
+            "zh-TW": "開戶順序",
+            "en": "Correct order",
+            "ja": "手続きの順番"
+          },
+          "body": {
+            "zh-TW": "住民登錄 → 手機門號 → 銀行開戶。這個順序能避免櫃台以「資料不足」退回。",
+            "en": "Register address → get phone → open bank. This order avoids rejections at the counter.",
+            "ja": "住民登録→携帯→銀行の順が基本。書類不足で断られるのを防げます。"
+          },
+          "source_ids": [
+            "src_jp_bank"
+          ]
+        }
+      ],
+      "source_ids": [
+        "src_jp_bank"
+      ]
+    },
+    {
+      "id": "kb_task_phone",
+      "task_ids": [
+        "task_phone"
+      ],
+      "priority": 9,
+      "title": {
+        "zh-TW": "手機門號：外國人契約要點",
+        "en": "Mobile contracts for foreigners",
+        "ja": "携帯契約の要点"
+      },
+      "summary": {
+        "zh-TW": "日本多數電信方案需要住民票與在留卡。短期可先使用機場 SIM，長期建議到門市辦理月租方案。",
+        "en": "Most carriers need juminhyo and residence card. Airport SIM for short term; visit a store for monthly plans.",
+        "ja": "多くのキャリアは住民票と在留カードが必要。短期は空港SIM、長期は店舗契約がおすすめ。"
+      },
+      "sections": [],
+      "source_ids": [
+        "src_soumu_mobile"
+      ]
+    },
+    {
+      "id": "kb_task_pension",
+      "task_ids": [
+        "task_pension_student"
+      ],
+      "priority": 9,
+      "title": {
+        "zh-TW": "國民年金學生免除",
+        "en": "Student pension exemption",
+        "ja": "国民年金の学生納付特例"
+      },
+      "summary": {
+        "zh-TW": "在學中的留學生可申請「学生納付特例」暫緩繳費。需向年金事務所提交申請書與學生證明。",
+        "en": "Students can apply for payment exemption at the pension office with student proof.",
+        "ja": "在学中は「学生納付特例」で保険料納付を猶予できます。年金事務所へ申請。"
+      },
+      "sections": [],
+      "source_ids": [
+        "src_nenkin"
+      ]
+    }
+  ]
+}

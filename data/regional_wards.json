@@ -1,0 +1,189 @@
+{
+  "version": "1.0",
+  "wards": {
+    "文京区": {
+      "url": "https://www.city.bunkyo.tokyo.jp/",
+      "name": {
+        "zh-TW": "文京区役所",
+        "en": "Bunkyo City Office",
+        "ja": "文京区役所"
+      }
+    },
+    "新宿区": {
+      "url": "https://www.city.shinjuku.lg.jp/",
+      "name": {
+        "zh-TW": "新宿区役所",
+        "en": "Shinjuku City Office",
+        "ja": "新宿区役所"
+      }
+    },
+    "渋谷区": {
+      "url": "https://www.city.shibuya.tokyo.jp/",
+      "name": {
+        "zh-TW": "澀谷区役所",
+        "en": "Shibuya City Office",
+        "ja": "渋谷区役所"
+      }
+    },
+    "豊島区": {
+      "url": "https://www.city.toshima.lg.jp/",
+      "name": {
+        "zh-TW": "豐島区役所",
+        "en": "Toshima City Office",
+        "ja": "豊島区役所"
+      }
+    },
+    "台東区": {
+      "url": "https://www.city.taito.lg.jp/",
+      "name": {
+        "zh-TW": "台東区役所",
+        "en": "Taito City Office",
+        "ja": "台東区役所"
+      }
+    },
+    "墨田区": {
+      "url": "https://www.city.sumida.lg.jp/",
+      "name": {
+        "zh-TW": "墨田区役所",
+        "en": "Sumida City Office",
+        "ja": "墨田区役所"
+      }
+    },
+    "江東区": {
+      "url": "https://www.city.koto.lg.jp/",
+      "name": {
+        "zh-TW": "江東区役所",
+        "en": "Koto City Office",
+        "ja": "江東区役所"
+      }
+    },
+    "品川区": {
+      "url": "https://www.city.shinagawa.tokyo.jp/",
+      "name": {
+        "zh-TW": "品川區役所",
+        "en": "Shinagawa City Office",
+        "ja": "品川区役所"
+      }
+    },
+    "目黒区": {
+      "url": "https://www.city.meguro.tokyo.jp/",
+      "name": {
+        "zh-TW": "目黑区役所",
+        "en": "Meguro City Office",
+        "ja": "目黒区役所"
+      }
+    },
+    "大田区": {
+      "url": "https://www.city.ota.tokyo.jp/",
+      "name": {
+        "zh-TW": "大田区役所",
+        "en": "Ota City Office",
+        "ja": "大田区役所"
+      }
+    },
+    "世田谷区": {
+      "url": "https://www.city.setagaya.lg.jp/",
+      "name": {
+        "zh-TW": "世田谷区役所",
+        "en": "Setagaya City Office",
+        "ja": "世田谷区役所"
+      }
+    },
+    "中野区": {
+      "url": "https://www.city.tokyo-nakano.lg.jp/",
+      "name": {
+        "zh-TW": "中野区役所",
+        "en": "Nakano City Office",
+        "ja": "中野区役所"
+      }
+    },
+    "杉並区": {
+      "url": "https://www.city.suginami.tokyo.jp/",
+      "name": {
+        "zh-TW": "杉並区役所",
+        "en": "Suginami City Office",
+        "ja": "杉並区役所"
+      }
+    },
+    "練馬区": {
+      "url": "https://www.city.nerima.tokyo.jp/",
+      "name": {
+        "zh-TW": "練馬区役所",
+        "en": "Nerima City Office",
+        "ja": "練馬区役所"
+      }
+    },
+    "板橋区": {
+      "url": "https://www.city.itabashi.tokyo.jp/",
+      "name": {
+        "zh-TW": "板橋区役所",
+        "en": "Itabashi City Office",
+        "ja": "板橋区役所"
+      }
+    },
+    "北区": {
+      "url": "https://www.city.kita.tokyo.jp/",
+      "name": {
+        "zh-TW": "北區役所",
+        "en": "Kita City Office",
+        "ja": "北区役所"
+      }
+    },
+    "荒川区": {
+      "url": "https://www.city.arakawa.tokyo.jp/",
+      "name": {
+        "zh-TW": "荒川区役所",
+        "en": "Arakawa City Office",
+        "ja": "荒川区役所"
+      }
+    },
+    "足立区": {
+      "url": "https://www.city.adachi.tokyo.jp/",
+      "name": {
+        "zh-TW": "足立区役所",
+        "en": "Adachi City Office",
+        "ja": "足立区役所"
+      }
+    },
+    "葛飾区": {
+      "url": "https://www.city.katsushika.lg.jp/",
+      "name": {
+        "zh-TW": "葛飾区役所",
+        "en": "Katsushika City Office",
+        "ja": "葛飾区役所"
+      }
+    },
+    "江戸川区": {
+      "url": "https://www.city.edogawa.tokyo.jp/",
+      "name": {
+        "zh-TW": "江戶川區役所",
+        "en": "Edogawa City Office",
+        "ja": "江戸川区役所"
+      }
+    },
+    "千代田区": {
+      "url": "https://www.city.chiyoda.lg.jp/",
+      "name": {
+        "zh-TW": "千代田区役所",
+        "en": "Chiyoda City Office",
+        "ja": "千代田区役所"
+      }
+    },
+    "中央区": {
+      "url": "https://www.city.chuo.lg.jp/",
+      "name": {
+        "zh-TW": "中央区役所",
+        "en": "Chuo City Office",
+        "ja": "中央区役所"
+      }
+    },
+    "港区": {
+      "url": "https://www.city.minato.tokyo.jp/",
+      "name": {
+        "zh-TW": "港區役所",
+        "en": "Minato City Office",
+        "ja": "港区役所"
+      }
+    }
+  }
+}

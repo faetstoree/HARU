@@ -1,0 +1,417 @@
+{
+  "version": "1.0",
+  "guides": [
+    {
+      "id": "guide_juminhyo",
+      "task_ids": [
+        "task_ward_office"
+      ],
+      "priority": 10,
+      "service_key": "ward_office",
+      "title": {
+        "zh-TW": "區役所住民登錄｜逐步引導",
+        "en": "Ward office registration walkthrough",
+        "ja": "区役所・住民登録ガイド"
+      },
+      "description": {
+        "zh-TW": "帶著文件前往區役所，完成住民登錄並領取住民票。",
+        "en": "Visit your ward office with documents to register and get your resident certificate.",
+        "ja": "必要書類を持って区役所で住民登録と住民票取得を行います。"
+      },
+      "estimated_min": 45,
+      "source_ids": [
+        "src_soumu_jumin"
+      ],
+      "steps": [
+        {
+          "title": {
+            "zh-TW": "出發前確認",
+            "en": "Before you go",
+            "ja": "出発前の確認"
+          },
+          "instruction": {
+            "zh-TW": "確認今天是否為平日、區役所是否營業。準備護照、在留卡、租房合約或宿舍居住證明。",
+            "en": "Check weekday hours. Prepare passport, residence card, lease or dorm proof.",
+            "ja": "平日・開庁時間を確認。パスポート・在留カード・賃貸契約または寮証明を準備。"
+          },
+          "checklist": [
+            {
+              "text": {
+                "zh-TW": "護照",
+                "en": "Passport",
+                "ja": "パスポート"
+              }
+            },
+            {
+              "text": {
+                "zh-TW": "在留卡",
+                "en": "Residence card",
+                "ja": "在留カード"
+              }
+            },
+            {
+              "text": {
+                "zh-TW": "住址證明",
+                "en": "Address proof",
+                "ja": "住所証明"
+              }
+            }
+          ],
+          "tip": {
+            "zh-TW": "建議事先查好區役所窗口營業時間，避免白跑一趟。",
+            "en": "Check ward office hours online first.",
+            "ja": "区役所の受付時間を事前に確認しましょう。"
+          },
+          "external_url": ""
+        },
+        {
+          "title": {
+            "zh-TW": "填寫申請表",
+            "en": "Fill the form",
+            "ja": "申請書の記入"
+          },
+          "instruction": {
+            "zh-TW": "在窗口或自助區索取「住民異動届」。用日文或英文填寫姓名、生日、國籍、新地址。不確定可請工作人員協助。",
+            "en": "Get the moving-in notification form. Fill name, birth date, nationality, new address. Ask staff if unsure.",
+            "ja": "「住民異動届」を取得し、氏名・生年月日・国籍・新住所を記入。不明点は職員に相談。"
+          },
+          "checklist": [
+            {
+              "text": {
+                "zh-TW": "姓名與在留卡一致",
+                "en": "Name matches residence card",
+                "ja": "在留カードと氏名一致"
+              }
+            },
+            {
+              "text": {
+                "zh-TW": "地址正確",
+                "en": "Address is correct",
+                "ja": "住所が正確"
+              }
+            }
+          ],
+          "tip": {},
+          "external_url": ""
+        },
+        {
+          "title": {
+            "zh-TW": "提交並領取住民票",
+            "en": "Submit and get juminhyo",
+            "ja": "提出と住民票"
+          },
+          "instruction": {
+            "zh-TW": "提交表格與證件。可同時申請住民票（建議2〜3份），之後辦手機與銀行會用到。",
+            "en": "Submit form and ID. Request 2–3 copies of your resident certificate for phone and bank.",
+            "ja": "提出後、住民票を2〜3通取得（携帯・銀行で必要）。"
+          },
+          "checklist": [
+            {
+              "text": {
+                "zh-TW": "已拿到住民票",
+                "en": "Received juminhyo",
+                "ja": "住民票を受領"
+              }
+            }
+          ],
+          "tip": {
+            "zh-TW": "住民票有效期通常為3個月，請留意各機構要求。",
+            "en": "Juminhyo is usually valid for 3 months per copy.",
+            "ja": "住民票の発行日から3か月が目安です。"
+          },
+          "external_url": ""
+        }
+      ]
+    },
+    {
+      "id": "guide_yuucho_bank",
+      "task_ids": [
+        "task_bank"
+      ],
+      "priority": 10,
+      "service_key": "jp_bank",
+      "title": {
+        "zh-TW": "ゆうちょ銀行開戶｜逐步引導",
+        "en": "Japan Post Bank account walkthrough",
+        "ja": "ゆうちょ銀行・口座開設ガイド"
+      },
+      "description": {
+        "zh-TW": "在郵局銀行窗口開設留學生常用的銀行帳戶。",
+        "en": "Open a student-friendly account at Japan Post Bank.",
+        "ja": "ゆうちょ銀行で口座を開設します。"
+      },
+      "estimated_min": 60,
+      "source_ids": [
+        "src_jp_bank"
+      ],
+      "steps": [
+        {
+          "title": {
+            "zh-TW": "確認前置條件",
+            "en": "Prerequisites",
+            "ja": "前提の確認"
+          },
+          "instruction": {
+            "zh-TW": "請確認已完成住民登錄並持有日本手機號碼。這兩項是開戶時最常要求的資料。",
+            "en": "Confirm resident registration and a Japanese phone number — commonly required.",
+            "ja": "住民登録と日本の携帯番号があるか確認。"
+          },
+          "checklist": [
+            {
+              "text": {
+                "zh-TW": "住民票",
+                "en": "Juminhyo",
+                "ja": "住民票"
+              }
+            },
+            {
+              "text": {
+                "zh-TW": "手機號碼",
+                "en": "Phone number",
+                "ja": "携帯番号"
+              }
+            }
+          ],
+          "tip": {},
+          "external_url": "https://www.jp-bank.japanpost.jp/bank/en/ijpbnksttopmn/index.html"
+        },
+        {
+          "title": {
+            "zh-TW": "前往郵局銀行窗口",
+            "en": "Visit the counter",
+            "ja": "窓口へ"
+          },
+          "instruction": {
+            "zh-TW": "尋找標示「銀行業務」的窗口。告知店員要開設普通預金帳戶（普通預金口座）。",
+            "en": "Find the banking counter. Ask to open a regular savings account (futsu yokin).",
+            "ja": "銀行窓口で「普通預金口座の開設」を伝える。"
+          },
+          "checklist": [
+            {
+              "text": {
+                "zh-TW": "護照",
+                "en": "Passport",
+                "ja": "パスポート"
+              }
+            },
+            {
+              "text": {
+                "zh-TW": "在留卡",
+                "en": "Residence card",
+                "ja": "在留カード"
+              }
+            }
+          ],
+          "tip": {},
+          "external_url": ""
+        },
+        {
+          "title": {
+            "zh-TW": "領取通帳與卡片",
+            "en": "Receive passbook/card",
+            "ja": "通帳・カード受取"
+          },
+          "instruction": {
+            "zh-TW": "完成後會拿到通帳（存摺）或現金卡。記下帳號，學費與房租轉帳會用到。",
+            "en": "You receive a passbook or cash card. Save your account number for tuition and rent.",
+            "ja": "通帳またはキャッシュカードを受け取り、口座番号を控える。"
+          },
+          "checklist": [
+            {
+              "text": {
+                "zh-TW": "已記下帳號",
+                "en": "Account number saved",
+                "ja": "口座番号を控えた"
+              }
+            }
+          ],
+          "tip": {},
+          "external_url": ""
+        }
+      ]
+    },
+    {
+      "id": "guide_mobile_contract",
+      "task_ids": [
+        "task_phone"
+      ],
+      "priority": 9,
+      "service_key": "mobile_carrier",
+      "title": {
+        "zh-TW": "辦理日本門號｜逐步引導",
+        "en": "Japanese mobile contract walkthrough",
+        "ja": "携帯契約ガイド"
+      },
+      "description": {
+        "zh-TW": "在門市或線上官方管道辦理可長期使用的 SIM / 月租方案。",
+        "en": "Get a long-term SIM or monthly plan at a store or official online channel.",
+        "ja": "店舗または公式オンラインで長期利用の携帯契約を行います。"
+      },
+      "estimated_min": 40,
+      "source_ids": [
+        "src_soumu_mobile"
+      ],
+      "steps": [
+        {
+          "title": {
+            "zh-TW": "選擇方案類型",
+            "en": "Choose plan type",
+            "ja": "プランの選択"
+          },
+          "instruction": {
+            "zh-TW": "留學生常見選擇：實體門市月租、或 SIM 自由契約（如 ahamo/linemo 等官方線上方案）。先比較流量與合約期。",
+            "en": "Compare monthly store plans vs online MVNO options. Check data and contract length.",
+            "ja": "店舗の月額プランかオンラインSIMかを比較。データ量と契約期間を確認。"
+          },
+          "checklist": [],
+          "tip": {},
+          "external_url": ""
+        },
+        {
+          "title": {
+            "zh-TW": "準備文件",
+            "en": "Prepare documents",
+            "ja": "書類準備"
+          },
+          "instruction": {
+            "zh-TW": "通常需要：護照、在留卡、住民票（或記載地址的證明）、信用卡或銀行帳戶。",
+            "en": "Usually need: passport, residence card, juminhyo, credit card or bank account.",
+            "ja": "パスポート・在留カード・住民票・クレジットカードまたは銀行口座。"
+          },
+          "checklist": [
+            {
+              "text": {
+                "zh-TW": "護照與在留卡",
+                "en": "Passport & residence card",
+                "ja": "パスポートと在留カード"
+              }
+            },
+            {
+              "text": {
+                "zh-TW": "住民票",
+                "en": "Juminhyo",
+                "ja": "住民票"
+              }
+            }
+          ],
+          "tip": {},
+          "external_url": ""
+        },
+        {
+          "title": {
+            "zh-TW": "開通並測試",
+            "en": "Activate and test",
+            "ja": "開通とテスト"
+          },
+          "instruction": {
+            "zh-TW": "開通後撥打測試電話、確認上網。保留契約書與重要條款頁面。",
+            "en": "Test calls and mobile data. Keep your contract documents.",
+            "ja": "通話とデータ通信をテスト。契約書を保管。"
+          },
+          "checklist": [
+            {
+              "text": {
+                "zh-TW": "可正常通話",
+                "en": "Calls work",
+                "ja": "通話OK"
+              }
+            },
+            {
+              "text": {
+                "zh-TW": "可正常上網",
+                "en": "Data works",
+                "ja": "データOK"
+              }
+            }
+          ],
+          "tip": {},
+          "external_url": ""
+        }
+      ]
+    },
+    {
+      "id": "guide_nenkin_exemption",
+      "task_ids": [
+        "task_pension_student"
+      ],
+      "priority": 9,
+      "service_key": "nenkin",
+      "title": {
+        "zh-TW": "國民年金學生免除｜逐步引導",
+        "en": "Pension student exemption walkthrough",
+        "ja": "年金学生納付特例ガイド"
+      },
+      "description": {
+        "zh-TW": "向年金事務所申請在學期間的保險費納付猶予。",
+        "en": "Apply for student payment exemption at the pension office.",
+        "ja": "年金事務所で学生納付特例を申請します。"
+      },
+      "estimated_min": 30,
+      "source_ids": [
+        "src_nenkin"
+      ],
+      "steps": [
+        {
+          "title": {
+            "zh-TW": "確認收到年金手冊",
+            "en": "Pension handbook",
+            "ja": "年金手帳の確認"
+          },
+          "instruction": {
+            "zh-TW": "完成住民登錄後，通常會收到國民年金加入通知與手冊。若未收到請向區役所或年金事務所確認。",
+            "en": "After resident registration you should receive pension enrollment notice. Ask ward/pension office if missing.",
+            "ja": "住民登録後に加入通知が届きます。未着なら区役所か年金事務所へ。"
+          },
+          "checklist": [],
+          "tip": {},
+          "external_url": ""
+        },
+        {
+          "title": {
+            "zh-TW": "填寫學生納付特例申請",
+            "en": "Fill exemption form",
+            "ja": "申請書の記入"
+          },
+          "instruction": {
+            "zh-TW": "在年金事務所或官網下載「学生納付特例申請書」。附上學校出具的在学證明。",
+            "en": "Get the student exemption form at the pension office or official site. Attach student certificate from school.",
+            "ja": "「学生納付特例申請書」に学校の在学証明を添付。"
+          },
+          "checklist": [
+            {
+              "text": {
+                "zh-TW": "在学證明",
+                "en": "Student certificate",
+                "ja": "在学証明"
+              }
+            },
+            {
+              "text": {
+                "zh-TW": "年金手冊",
+                "en": "Pension handbook",
+                "ja": "年金手帳"
+              }
+            }
+          ],
+          "tip": {},
+          "external_url": "https://www.nenkin.go.jp/service/kokunai/gakusei/gakusei.html"
+        },
+        {
+          "title": {
+            "zh-TW": "提交申請",
+            "en": "Submit",
+            "ja": "提出"
+          },
+          "instruction": {
+            "zh-TW": "可郵寄或親自提交。核准後在學期間可暫緩繳費，但需在狀況變更時重新申請。",
+            "en": "Submit by mail or in person. Renew if your student status changes.",
+            "ja": "郵送または窓口で提出。在学状況が変わったら再申請。"
+          },
+          "checklist": [],
+          "tip": {},
+          "external_url": ""
+        }
+      ]
+    }
+  ]
+}

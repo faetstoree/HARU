@@ -1,0 +1,1305 @@
+{
+  "version": "2.0",
+  "branch_points": [
+    {
+      "id": "branch_application_method",
+      "task_id": "task_study_plan",
+      "prompt": {
+        "zh-TW": "出願申請手續的方式？",
+        "en": "How will you handle applications?",
+        "ja": "出願・申請手続きの進め方"
+      },
+      "choices": [
+        {
+          "id": "agent",
+          "label": {
+            "zh-TW": "透過留學代辦機構",
+            "en": "Via study abroad agent",
+            "ja": "留学支援代理店を介した手続き"
+          },
+          "description": {
+            "zh-TW": "委託代辦確認所需文件並提供翻譯支援。",
+            "en": "Agent helps with documents and translations.",
+            "ja": "必要書類の確認や翻訳サポート等。"
+          },
+          "unlock_tasks": [
+            "task_application_agent"
+          ]
+        },
+        {
+          "id": "self_apply",
+          "label": {
+            "zh-TW": "個人直接出願",
+            "en": "Self-application",
+            "ja": "個人での直接出願（自己手配）"
+          },
+          "description": {
+            "zh-TW": "依照募集要項自行準備並提交書類。",
+            "en": "Prepare documents per school guidelines yourself.",
+            "ja": "募集要項に沿った書類の自己手配。"
+          },
+          "unlock_tasks": [
+            "task_application_self"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "branch_funds_prep",
+      "task_id": "task_funds_prep",
+      "prompt": {
+        "zh-TW": "資金的準備方式？",
+        "en": "How will you prepare funds?",
+        "ja": "資金の準備形態"
+      },
+      "choices": [
+        {
+          "id": "digital",
+          "label": {
+            "zh-TW": "數位支付與少量現金",
+            "en": "Digital banking & small cash",
+            "ja": "インターネットバンキング・複数通貨カード"
+          },
+          "description": {
+            "zh-TW": "申辦 Wise 或 Revolut 等多幣種卡片。",
+            "en": "Set up Wise, Revolut, or similar cards.",
+            "ja": "WiseやRevolutなどの複数通貨対応カードの準備。"
+          },
+          "unlock_tasks": [
+            "task_funds_digital"
+          ]
+        },
+        {
+          "id": "cash",
+          "label": {
+            "zh-TW": "攜帶大量現金",
+            "en": "Bring large amount of cash",
+            "ja": "多額の現金を持参"
+          },
+          "description": {
+            "zh-TW": "超過約 100 萬日圓等值須向海關申報。",
+            "en": "Declare to customs if over ~1M yen equivalent.",
+            "ja": "100万円相当額を超える場合は税関申告が必要。"
+          },
+          "unlock_tasks": [
+            "task_funds_cash"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "branch_internet_prep",
+      "task_id": "task_internet_prep",
+      "prompt": {
+        "zh-TW": "出發前的網路環境準備？",
+        "en": "Pre-departure internet setup?",
+        "ja": "渡航前のインターネット環境確保"
+      },
+      "choices": [
+        {
+          "id": "esim",
+          "label": {
+            "zh-TW": "事先申辦日本 eSIM 或實體 SIM",
+            "en": "Pre-order Japan eSIM / SIM",
+            "ja": "日本国内用eSIMまたは物理SIMの事前契約"
+          },
+          "description": {
+            "zh-TW": "抵達日本後可立即使用數據通訊。",
+            "en": "Data works immediately on arrival.",
+            "ja": "日本到着後すぐにデータ通信が利用可能。"
+          },
+          "unlock_tasks": [
+            "task_internet_esim"
+          ]
+        },
+        {
+          "id": "no_prep",
+          "label": {
+            "zh-TW": "出發前不預先安排",
+            "en": "No pre-arrangement",
+            "ja": "事前の手配なし"
+          },
+          "description": {
+            "zh-TW": "抵達後暫用機場 Wi-Fi 或海外漫遊應急。",
+            "en": "Use airport Wi-Fi or roaming temporarily.",
+            "ja": "到着後に空港の無料Wi-Fiや海外ローミング等で一時的に対応。"
+          },
+          "unlock_tasks": [
+            "task_internet_later"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "branch_residence_card",
+      "task_id": "task_immigration",
+      "prompt": {
+        "zh-TW": "入境的機場是哪裡？",
+        "en": "Which airport are you entering through?",
+        "ja": "入国する空港による在留カード交付の違い"
+      },
+      "choices": [
+        {
+          "id": "major_airport",
+          "label": {
+            "zh-TW": "主要機場（成田、羽田、關西等）",
+            "en": "Major airport (Narita, Haneda, KIX, etc.)",
+            "ja": "主要空港"
+          },
+          "description": {
+            "zh-TW": "入國審查時當場領取在留卡。",
+            "en": "Receive residence card at immigration counter.",
+            "ja": "入国審査時にその場で在留カードを受領。"
+          },
+          "unlock_tasks": [
+            "task_residence_major_airport"
+          ]
+        },
+        {
+          "id": "regional_airport",
+          "label": {
+            "zh-TW": "地方機場",
+            "en": "Regional airport",
+            "ja": "その他の地方空港"
+          },
+          "description": {
+            "zh-TW": "完成住民登錄後以掛號信郵寄到府。",
+            "en": "Card mailed after resident registration.",
+            "ja": "住民登録後に簡易書留で自宅へ郵送。"
+          },
+          "unlock_tasks": [
+            "task_residence_regional_airport"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "branch_transport",
+      "task_id": "task_transport",
+      "prompt": {
+        "zh-TW": "從機場的交通方式？",
+        "en": "How will you travel from the airport?",
+        "ja": "空港からの移動・交通系ICの準備"
+      },
+      "choices": [
+        {
+          "id": "ic_felica",
+          "label": {
+            "zh-TW": "FeliCa 相容手機（Mobile Suica 等）",
+            "en": "FeliCa phone (Mobile Suica, etc.)",
+            "ja": "FeliCa対応スマートフォン"
+          },
+          "description": {
+            "zh-TW": "iPhone 及日本國內版 Android 等，可透過 App 即時發行。",
+            "en": "iPhone or Japan-market Android. Issue via app.",
+            "ja": "モバイルSuicaやモバイルICOCAなどを即時発行。"
+          },
+          "unlock_tasks": [
+            "task_transport_mobile_ic"
+          ]
+        },
+        {
+          "id": "ic_physical",
+          "label": {
+            "zh-TW": "購買實體 IC 卡",
+            "en": "Buy physical IC card",
+            "ja": "FeliCa非対応・物理ICカード"
+          },
+          "description": {
+            "zh-TW": "海外版 Android 等，可於車站窗口或自動售票機購買。",
+            "en": "Overseas Android, etc. Buy at station.",
+            "ja": "駅の窓口や券売機で物理的な交通系ICカードを購入。"
+          },
+          "unlock_tasks": [
+            "task_transport_physical_ic"
+          ]
+        },
+        {
+          "id": "cash_ticket",
+          "label": {
+            "zh-TW": "用現金購買車票",
+            "en": "Buy tickets with cash",
+            "ja": "現金で切符を購入"
+          },
+          "description": {
+            "zh-TW": "交通系 IC 卡之後再視需要申辦。",
+            "en": "Get IC card later if needed.",
+            "ja": "交通系ICカードは後日必要に応じて発行。"
+          },
+          "unlock_tasks": [
+            "task_transport_cash"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "branch_ward_office",
+      "task_id": "task_ward_office",
+      "prompt": {
+        "zh-TW": "區公所的手續（依年齡）",
+        "en": "Ward office procedures (by age)",
+        "ja": "市区町村役場での手続き"
+      },
+      "choices": [
+        {
+          "id": "adult_20",
+          "label": {
+            "zh-TW": "20 歲以上",
+            "en": "Age 20 or older",
+            "ja": "20歳以上"
+          },
+          "description": {
+            "zh-TW": "住民登錄＋國民健保＋國民年金加入，同時申請保費減免。",
+            "en": "Registration, health insurance, pension. Apply premium reduction.",
+            "ja": "住民登録＋国保＋国年加入。保険料減免申請を同時に実施。"
+          },
+          "unlock_tasks": [
+            "task_ward_adult"
+          ]
+        },
+        {
+          "id": "minor_under_20",
+          "label": {
+            "zh-TW": "20 歲未滿",
+            "en": "Under age 20",
+            "ja": "20歳未満"
+          },
+          "description": {
+            "zh-TW": "住民登錄＋國民健保加入，同時申請保費減免。",
+            "en": "Registration and health insurance. Apply premium reduction.",
+            "ja": "住民登録＋国保加入。保険料減免申請を同時に実施。"
+          },
+          "unlock_tasks": [
+            "task_ward_minor"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "branch_phone_contract",
+      "task_id": "task_phone",
+      "prompt": {
+        "zh-TW": "手機門號的申辦方式？",
+        "en": "How will you contract a phone plan?",
+        "ja": "携帯電話（SIMカード）の本契約方法"
+      },
+      "choices": [
+        {
+          "id": "online_overseas_card",
+          "label": {
+            "zh-TW": "線上申辦（海外信用卡）",
+            "en": "Online with foreign credit card",
+            "ja": "海外クレジットカード等でオンライン契約"
+          },
+          "description": {
+            "zh-TW": "ahamo、LINEMO 等，無需日本銀行帳戶即可即時取得。",
+            "en": "ahamo, LINEMO, etc. No Japanese bank needed.",
+            "ja": "ahamo、LINEMO等。日本の銀行口座がなくても即時に取得可能。"
+          },
+          "unlock_tasks": [
+            "task_phone_online"
+          ]
+        },
+        {
+          "id": "after_bank",
+          "label": {
+            "zh-TW": "開戶後於實體店辦理",
+            "en": "In-store after bank account",
+            "ja": "銀行口座開設後に店舗やオンラインで契約"
+          },
+          "description": {
+            "zh-TW": "可先暫用學校或宿舍的聯絡電話。",
+            "en": "May use school/dorm number temporarily first.",
+            "ja": "学校や学生寮の番号を登録し、先に銀行口座を開設。"
+          },
+          "unlock_tasks": [
+            "task_phone_after_bank"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "branch_bank_type",
+      "task_id": "task_bank",
+      "prompt": {
+        "zh-TW": "銀行帳戶要在哪裡開？",
+        "en": "Where will you open a bank account?",
+        "ja": "銀行口座の開設手続き（主な申請先）"
+      },
+      "choices": [
+        {
+          "id": "yucho",
+          "label": {
+            "zh-TW": "日本郵政銀行（ゆうちょ銀行）",
+            "en": "Japan Post Bank",
+            "ja": "ゆうちょ銀行"
+          },
+          "description": {
+            "zh-TW": "透過 App 申請，在留期間未滿半年也可開戶。",
+            "en": "App-based application. OK even under 6 months stay.",
+            "ja": "ゆうちょ手続きアプリから申請可能。在留期間半年未満でも可。"
+          },
+          "unlock_tasks": [
+            "task_bank_yucho"
+          ],
+          "hide_tasks": [
+            "task_bank_megabank"
+          ]
+        },
+        {
+          "id": "megabank",
+          "label": {
+            "zh-TW": "都市銀行或地方銀行",
+            "en": "Megabank / regional bank",
+            "ja": "大手都市銀行・地方銀行"
+          },
+          "description": {
+            "zh-TW": "在留期間未滿半年時審查條件可能較嚴格。",
+            "en": "Stricter requirements if stay under 6 months.",
+            "ja": "在留期間半年未満の場合は開設条件や制限が厳格。"
+          },
+          "unlock_tasks": [
+            "task_bank_megabank"
+          ],
+          "hide_tasks": [
+            "task_bank_yucho"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "branch_commute_pass",
+      "task_id": "task_commute_pass",
+      "prompt": {
+        "zh-TW": "需要通學定期券嗎？",
+        "en": "Do you need a commuter pass?",
+        "ja": "定期券（通学・通勤）の購入形態"
+      },
+      "choices": [
+        {
+          "id": "need_pass",
+          "label": {
+            "zh-TW": "搭電車或公車通學",
+            "en": "Commute by train/bus",
+            "ja": "通学定期券を購入"
+          },
+          "description": {
+            "zh-TW": "需要學生證或學校核發的通學證明。",
+            "en": "Student ID or school commute certificate required.",
+            "ja": "学生証や学校発行の通学証明書が必要。"
+          },
+          "unlock_tasks": [
+            "task_commute_buy"
+          ]
+        },
+        {
+          "id": "no_pass",
+          "label": {
+            "zh-TW": "步行或騎腳踏車",
+            "en": "Walk or bicycle",
+            "ja": "定期券不要"
+          },
+          "description": {
+            "zh-TW": "若有需要可用交通系 IC 卡單程付費。",
+            "en": "Pay per ride with IC card if needed.",
+            "ja": "交通系ICカード等での都度払い。"
+          },
+          "unlock_tasks": [
+            "task_commute_skip"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "branch_pension_exemption",
+      "task_id": "task_pension_student",
+      "prompt": {
+        "zh-TW": "國民年金學生納付特例的申請方式？",
+        "en": "How to apply for student pension exemption?",
+        "ja": "国民年金保険料の学生納付特例制度の申請方法"
+      },
+      "choices": [
+        {
+          "id": "ward_direct",
+          "label": {
+            "zh-TW": "直接到區公所申請",
+            "en": "Apply at ward office",
+            "ja": "市区町村役場の国民年金窓口で直接申請"
+          },
+          "description": {
+            "zh-TW": "請攜帶學生證前往。",
+            "en": "Bring student ID.",
+            "ja": "学生証を持参すること。"
+          },
+          "unlock_tasks": [
+            "task_pension_ward"
+          ]
+        },
+        {
+          "id": "school_proxy",
+          "label": {
+            "zh-TW": "透過學校或宿舍代理申請",
+            "en": "Via school or dorm",
+            "ja": "学校または学生寮を通じた代理申請"
+          },
+          "description": {
+            "zh-TW": "請向所屬學校的事務處確認。",
+            "en": "Check with your school's office.",
+            "ja": "所属する学校または学生寮を通じた代理申請。"
+          },
+          "unlock_tasks": [
+            "task_pension_school"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "branch_billing_payment",
+      "task_id": "task_billing_setup",
+      "prompt": {
+        "zh-TW": "公共費用和手機費的付款方式？",
+        "en": "How will you pay utilities and phone bills?",
+        "ja": "公共料金や携帯電話料金の支払い方法変更"
+      },
+      "choices": [
+        {
+          "id": "bank_transfer",
+          "label": {
+            "zh-TW": "銀行帳戶自動轉帳",
+            "en": "Bank auto-debit",
+            "ja": "銀行口座振替（自動引き落とし）"
+          },
+          "description": {
+            "zh-TW": "最常見的付款方式。",
+            "en": "Most common payment method.",
+            "ja": "最も一般的な支払い方法。"
+          },
+          "unlock_tasks": [
+            "task_billing_transfer"
+          ]
+        },
+        {
+          "id": "debit_card",
+          "label": {
+            "zh-TW": "金融卡付款",
+            "en": "Debit card payment",
+            "ja": "日本のデビットカード決済"
+          },
+          "description": {
+            "zh-TW": "開戶時同步申辦金融卡的情況下適用。",
+            "en": "If issued when opening bank account.",
+            "ja": "銀行口座の開設時に同時に発行された場合。"
+          },
+          "unlock_tasks": [
+            "task_billing_debit"
+          ]
+        },
+        {
+          "id": "credit_card",
+          "label": {
+            "zh-TW": "信用卡付款",
+            "en": "Credit card payment",
+            "ja": "日本のクレジットカード決済"
+          },
+          "description": {
+            "zh-TW": "之後通過日本國內信用卡審查後適用。",
+            "en": "After passing Japanese credit card screening.",
+            "ja": "後日、日本国内のクレジットカード審査に通過した場合。"
+          },
+          "unlock_tasks": [
+            "task_billing_credit"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "branch_id_documents",
+      "task_id": "task_id_documents",
+      "prompt": {
+        "zh-TW": "如何取得身分證明文件（個人番號卡等）？",
+        "en": "How will you obtain ID documents?",
+        "ja": "マイナンバー・身分証明書の取得方法"
+      },
+      "choices": [
+        {
+          "id": "mynumber_card",
+          "label": {
+            "zh-TW": "申請個人番號卡（My Number Card）",
+            "en": "Apply for My Number card",
+            "ja": "マイナンバーカードの申請"
+          },
+          "description": {
+            "zh-TW": "用手機等線上申請，之後到區公所領取。",
+            "en": "Apply online, pick up at ward office later.",
+            "ja": "スマートフォン等で申請し、後日市区町村役場で交付。"
+          },
+          "unlock_tasks": [
+            "task_mynumber_card_apply"
+          ]
+        },
+        {
+          "id": "special_residence_card",
+          "label": {
+            "zh-TW": "切換為特定在留卡",
+            "en": "Switch to Special Residence Card",
+            "ja": "特定在留カードへの切り替え"
+          },
+          "description": {
+            "zh-TW": "2026 年 6 月 14 日起開辦，在在留期間更新時可選擇申請。",
+            "en": "Available from Jun 14, 2026. Optional at renewal.",
+            "ja": "2026年6月14日より開始。在留期間の更新時などに任意申請可能。"
+          },
+          "unlock_tasks": [
+            "task_special_residence_card"
+          ]
+        },
+        {
+          "id": "notice_only",
+          "label": {
+            "zh-TW": "暫時只保留通知書",
+            "en": "Keep notification only for now",
+            "ja": "当面はカード化せず通知書のみ保管"
+          },
+          "description": {
+            "zh-TW": "各類手續提示個人番號時，通知書即可使用。",
+            "en": "Notification letter is valid for My Number procedures.",
+            "ja": "各種手続き等でのマイナンバー提示自体は通知書だけでも可能。"
+          },
+          "unlock_tasks": [
+            "task_mynumber_notice_only"
+          ]
+        }
+      ]
+    }
+  ],
+  "supplemental_tasks": [
+    {
+      "id": "task_application_agent",
+      "phase": "phase_pre_arrival",
+      "branch_parent": "task_study_plan",
+      "branch_required": {
+        "branch_application_method": "agent"
+      },
+      "title": {
+        "zh-TW": "透過留學代辦機構出願",
+        "en": "Apply via study abroad agent",
+        "ja": "留学支援代理店を介した手続き"
+      },
+      "summary": {
+        "zh-TW": "代辦機構協助確認文件和翻譯",
+        "en": "Agent supports documents and translation",
+        "ja": "必要書類の確認や翻訳サポート等"
+      },
+      "depends_on": [
+        "task_study_plan"
+      ],
+      "duration_min": 60,
+      "priority": "high",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_application_self",
+      "phase": "phase_pre_arrival",
+      "branch_parent": "task_study_plan",
+      "branch_required": {
+        "branch_application_method": "self_apply"
+      },
+      "title": {
+        "zh-TW": "個人直接出願",
+        "en": "Self-application",
+        "ja": "個人での直接出願（自己手配）"
+      },
+      "summary": {
+        "zh-TW": "依照募集要項自行準備並提交書類",
+        "en": "Prepare documents per guidelines yourself",
+        "ja": "募集要項に沿った書類の自己手配"
+      },
+      "depends_on": [
+        "task_study_plan"
+      ],
+      "duration_min": 90,
+      "priority": "high",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_funds_digital",
+      "phase": "phase_pre_arrival",
+      "branch_parent": "task_funds_prep",
+      "branch_required": {
+        "branch_funds_prep": "digital"
+      },
+      "title": {
+        "zh-TW": "數位支付與海外卡準備",
+        "en": "Digital payment setup",
+        "ja": "インターネットバンキング・複数通貨カードの準備"
+      },
+      "summary": {
+        "zh-TW": "申辦 Wise、Revolut 等多幣種卡",
+        "en": "Set up Wise, Revolut, etc.",
+        "ja": "WiseやRevolutなどの複数通貨対応カードの準備"
+      },
+      "depends_on": [
+        "task_funds_prep"
+      ],
+      "duration_min": 45,
+      "priority": "high",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_funds_cash",
+      "phase": "phase_pre_arrival",
+      "branch_parent": "task_funds_prep",
+      "branch_required": {
+        "branch_funds_prep": "cash"
+      },
+      "title": {
+        "zh-TW": "攜帶大量現金並確認海關申報",
+        "en": "Prepare cash & customs declaration",
+        "ja": "多額の現金を持参"
+      },
+      "summary": {
+        "zh-TW": "超過約 100 萬日圓等值須向海關申報",
+        "en": "Declare if over ~1M yen equivalent",
+        "ja": "100万円相当額を超える場合は税関申告が必要"
+      },
+      "depends_on": [
+        "task_funds_prep"
+      ],
+      "duration_min": 30,
+      "priority": "high",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_internet_esim",
+      "phase": "phase_pre_arrival",
+      "branch_parent": "task_internet_prep",
+      "branch_required": {
+        "branch_internet_prep": "esim"
+      },
+      "title": {
+        "zh-TW": "事先申辦日本 eSIM 或實體 SIM",
+        "en": "Pre-order Japan eSIM/SIM",
+        "ja": "日本国内用eSIMまたは物理SIMの事前契約"
+      },
+      "summary": {
+        "zh-TW": "抵達日本後可立即使用數據通訊",
+        "en": "Data ready on arrival",
+        "ja": "日本到着後すぐにデータ通信が利用可能"
+      },
+      "depends_on": [
+        "task_internet_prep"
+      ],
+      "duration_min": 30,
+      "priority": "high",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_internet_later",
+      "phase": "phase_pre_arrival",
+      "branch_parent": "task_internet_prep",
+      "branch_required": {
+        "branch_internet_prep": "no_prep"
+      },
+      "title": {
+        "zh-TW": "抵達後再安排網路",
+        "en": "Arrange connectivity after arrival",
+        "ja": "事前の手配なし（到着後対応）"
+      },
+      "summary": {
+        "zh-TW": "暫用機場 Wi-Fi 或海外漫遊應急",
+        "en": "Use airport Wi-Fi or roaming temporarily",
+        "ja": "空港の無料Wi-Fiや海外ローミング等で一時的に対応"
+      },
+      "depends_on": [
+        "task_internet_prep"
+      ],
+      "duration_min": 10,
+      "priority": "normal",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_residence_major_airport",
+      "phase": "phase_arrival",
+      "branch_parent": "task_immigration",
+      "branch_required": {
+        "branch_residence_card": "major_airport"
+      },
+      "title": {
+        "zh-TW": "於主要機場領取在留卡",
+        "en": "Residence card at major airport",
+        "ja": "主要空港で在留カードを受領"
+      },
+      "summary": {
+        "zh-TW": "入國審查時當場領取",
+        "en": "Receive at immigration counter",
+        "ja": "入国審査時にその場で在留カードを受領"
+      },
+      "depends_on": [
+        "task_immigration"
+      ],
+      "duration_min": 15,
+      "priority": "critical",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_residence_regional_airport",
+      "phase": "phase_arrival",
+      "branch_parent": "task_immigration",
+      "branch_required": {
+        "branch_residence_card": "regional_airport"
+      },
+      "title": {
+        "zh-TW": "地方機場入境（在留卡之後郵寄）",
+        "en": "Regional airport entry (mailed later)",
+        "ja": "地方空港入国・在留カード後日交付"
+      },
+      "summary": {
+        "zh-TW": "完成住民登錄後以掛號信郵寄",
+        "en": "Mailed after resident registration",
+        "ja": "住民登録後に簡易書留で自宅へ郵送"
+      },
+      "depends_on": [
+        "task_immigration"
+      ],
+      "duration_min": 15,
+      "priority": "critical",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_transport_mobile_ic",
+      "phase": "phase_arrival",
+      "branch_parent": "task_transport",
+      "branch_required": {
+        "branch_transport": "ic_felica"
+      },
+      "title": {
+        "zh-TW": "發行 Mobile Suica / ICOCA",
+        "en": "Issue Mobile Suica/ICOCA",
+        "ja": "モバイルSuicaやモバイルICOCAを即時発行"
+      },
+      "summary": {
+        "zh-TW": "透過手機 App 即時發行",
+        "en": "Issue instantly via phone app",
+        "ja": "スマートフォン用アプリ上で即時発行"
+      },
+      "depends_on": [
+        "task_transport"
+      ],
+      "duration_min": 10,
+      "priority": "high",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_transport_physical_ic",
+      "phase": "phase_arrival",
+      "branch_parent": "task_transport",
+      "branch_required": {
+        "branch_transport": "ic_physical"
+      },
+      "title": {
+        "zh-TW": "購買實體交通系 IC 卡",
+        "en": "Buy physical IC card",
+        "ja": "物理的な交通系ICカードを購入"
+      },
+      "summary": {
+        "zh-TW": "於車站窗口或自動售票機購買",
+        "en": "Buy at station counter or ticket machine",
+        "ja": "駅の窓口や券売機で購入"
+      },
+      "depends_on": [
+        "task_transport"
+      ],
+      "duration_min": 15,
+      "priority": "high",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_transport_cash",
+      "phase": "phase_arrival",
+      "branch_parent": "task_transport",
+      "branch_required": {
+        "branch_transport": "cash_ticket"
+      },
+      "title": {
+        "zh-TW": "用現金購票移動",
+        "en": "Buy cash tickets",
+        "ja": "現金で切符を購入して移動"
+      },
+      "summary": {
+        "zh-TW": "之後再視需要辦交通系 IC 卡",
+        "en": "Get IC card later if needed",
+        "ja": "交通系ICカードは後日必要に応じて発行"
+      },
+      "depends_on": [
+        "task_transport"
+      ],
+      "duration_min": 15,
+      "priority": "normal",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_ward_adult",
+      "phase": "phase_week1",
+      "branch_parent": "task_ward_office",
+      "branch_required": {
+        "branch_ward_office": "adult_20"
+      },
+      "title": {
+        "zh-TW": "住民登錄、國保、國年（20 歲以上）",
+        "en": "Registration, insurance, pension (20+)",
+        "ja": "住民登録＋国保＋国年（20歳以上）"
+      },
+      "summary": {
+        "zh-TW": "同時申請保費減免",
+        "en": "Apply premium reduction at same visit",
+        "ja": "保険料減免申請を同時に実施"
+      },
+      "depends_on": [
+        "task_ward_office"
+      ],
+      "duration_min": 60,
+      "priority": "critical",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_ward_minor",
+      "phase": "phase_week1",
+      "branch_parent": "task_ward_office",
+      "branch_required": {
+        "branch_ward_office": "minor_under_20"
+      },
+      "title": {
+        "zh-TW": "住民登錄、國保（20 歲未滿）",
+        "en": "Registration & insurance (under 20)",
+        "ja": "住民登録＋国保（20歳未満）"
+      },
+      "summary": {
+        "zh-TW": "同時申請保費減免",
+        "en": "Apply premium reduction at same visit",
+        "ja": "保険料減免申請を同時に実施"
+      },
+      "depends_on": [
+        "task_ward_office"
+      ],
+      "duration_min": 45,
+      "priority": "critical",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_phone_online",
+      "phase": "phase_week1",
+      "branch_parent": "task_phone",
+      "branch_required": {
+        "branch_phone_contract": "online_overseas_card"
+      },
+      "title": {
+        "zh-TW": "線上申辦手機門號",
+        "en": "Contract phone online",
+        "ja": "オンライン・海外クレカで携帯契約"
+      },
+      "summary": {
+        "zh-TW": "ahamo、LINEMO 等方案",
+        "en": "ahamo, LINEMO, etc.",
+        "ja": "ahamo、LINEMO、外国人向けプラン等"
+      },
+      "depends_on": [
+        "task_phone"
+      ],
+      "duration_min": 40,
+      "priority": "critical",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_phone_after_bank",
+      "phase": "phase_week1",
+      "branch_parent": "task_phone",
+      "branch_required": {
+        "branch_phone_contract": "after_bank"
+      },
+      "title": {
+        "zh-TW": "開戶後於實體店辦門號",
+        "en": "Contract in store after bank",
+        "ja": "銀行口座開設後に店舗・オンライン契約"
+      },
+      "summary": {
+        "zh-TW": "可暫用學校電話作聯絡方式",
+        "en": "May use school number temporarily",
+        "ja": "学校や学生寮の番号を一時連絡先に"
+      },
+      "depends_on": [
+        "task_phone"
+      ],
+      "duration_min": 60,
+      "priority": "critical",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_bank_yucho",
+      "phase": "phase_week1",
+      "branch_parent": "task_bank",
+      "branch_required": {
+        "branch_bank_type": "yucho"
+      },
+      "title": {
+        "zh-TW": "在日本郵政銀行（ゆうちょ銀行）開戶",
+        "en": "Japan Post Bank account",
+        "ja": "ゆうちょ銀行で口座開設"
+      },
+      "summary": {
+        "zh-TW": "透過 App 或郵局窗口辦理",
+        "en": "Via app or post office counter",
+        "ja": "ゆうちょ手続きアプリまたは郵便局窓口"
+      },
+      "depends_on": [
+        "task_bank"
+      ],
+      "duration_min": 45,
+      "priority": "critical",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_bank_megabank",
+      "phase": "phase_week1",
+      "branch_parent": "task_bank",
+      "branch_required": {
+        "branch_bank_type": "megabank"
+      },
+      "title": {
+        "zh-TW": "在都市銀行開戶",
+        "en": "Megabank account",
+        "ja": "メガバンク・地方銀行で口座開設"
+      },
+      "summary": {
+        "zh-TW": "部分情況下審查條件較嚴格",
+        "en": "Screening may be strict",
+        "ja": "在留期間や要件により審査が厳格"
+      },
+      "depends_on": [
+        "task_bank"
+      ],
+      "duration_min": 60,
+      "priority": "high",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_commute_buy",
+      "phase": "phase_week1",
+      "branch_parent": "task_commute_pass",
+      "branch_required": {
+        "branch_commute_pass": "need_pass"
+      },
+      "title": {
+        "zh-TW": "購買通學定期券",
+        "en": "Buy student commuter pass",
+        "ja": "通学定期券を購入"
+      },
+      "summary": {
+        "zh-TW": "需要學生證",
+        "en": "Student ID required",
+        "ja": "学生証や通学証明書が必要"
+      },
+      "depends_on": [
+        "task_commute_pass"
+      ],
+      "duration_min": 20,
+      "priority": "normal",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_commute_skip",
+      "phase": "phase_week1",
+      "branch_parent": "task_commute_pass",
+      "branch_required": {
+        "branch_commute_pass": "no_pass"
+      },
+      "title": {
+        "zh-TW": "不需要定期券（步行或騎車）",
+        "en": "No commuter pass needed",
+        "ja": "定期券不要"
+      },
+      "summary": {
+        "zh-TW": "視需要單程付費",
+        "en": "Pay per ride as needed",
+        "ja": "徒歩・自転車圏内、または都度払い"
+      },
+      "depends_on": [
+        "task_commute_pass"
+      ],
+      "duration_min": 5,
+      "priority": "low",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_pension_ward",
+      "phase": "phase_week1",
+      "branch_parent": "task_pension_student",
+      "branch_required": {
+        "branch_pension_exemption": "ward_direct"
+      },
+      "title": {
+        "zh-TW": "在區公所申請學生年金特例",
+        "en": "Apply at ward office",
+        "ja": "市区町村役場で学生納付特例を申請"
+      },
+      "summary": {
+        "zh-TW": "請攜帶學生證",
+        "en": "Bring student ID",
+        "ja": "学生証を持参"
+      },
+      "depends_on": [
+        "task_pension_student"
+      ],
+      "duration_min": 30,
+      "priority": "high",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_pension_school",
+      "phase": "phase_week1",
+      "branch_parent": "task_pension_student",
+      "branch_required": {
+        "branch_pension_exemption": "school_proxy"
+      },
+      "title": {
+        "zh-TW": "透過學校或宿舍代理申請",
+        "en": "Apply via school/dorm",
+        "ja": "学校・寮の代理申請"
+      },
+      "summary": {
+        "zh-TW": "請向所屬學校事務處確認",
+        "en": "Check with school office",
+        "ja": "所属する学校または学生寮を通じた代理申請"
+      },
+      "depends_on": [
+        "task_pension_student"
+      ],
+      "duration_min": 20,
+      "priority": "high",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_billing_transfer",
+      "phase": "phase_settlement",
+      "branch_parent": "task_billing_setup",
+      "branch_required": {
+        "branch_billing_payment": "bank_transfer"
+      },
+      "title": {
+        "zh-TW": "設定銀行帳戶自動轉帳",
+        "en": "Set up auto-debit",
+        "ja": "銀行口座振替を設定"
+      },
+      "summary": {
+        "zh-TW": "公共費用和手機費自動扣款",
+        "en": "Auto-debit for utilities and phone",
+        "ja": "公共料金や携帯電話料金の口座振替"
+      },
+      "depends_on": [
+        "task_billing_setup"
+      ],
+      "duration_min": 30,
+      "priority": "high",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_billing_debit",
+      "phase": "phase_settlement",
+      "branch_parent": "task_billing_setup",
+      "branch_required": {
+        "branch_billing_payment": "debit_card"
+      },
+      "title": {
+        "zh-TW": "改用金融卡付款",
+        "en": "Switch to debit card",
+        "ja": "改用金融卡付款"
+      },
+      "summary": {
+        "zh-TW": "用金融卡即時付款",
+        "en": "Pay with debit card",
+        "ja": "日本のデビットカードで支払い"
+      },
+      "depends_on": [
+        "task_billing_setup"
+      ],
+      "duration_min": 20,
+      "priority": "normal",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_billing_credit",
+      "phase": "phase_settlement",
+      "branch_parent": "task_billing_setup",
+      "branch_required": {
+        "branch_billing_payment": "credit_card"
+      },
+      "title": {
+        "zh-TW": "改用信用卡付款",
+        "en": "Switch to credit card",
+        "ja": "改用信用卡付款"
+      },
+      "summary": {
+        "zh-TW": "通過日本國內信用卡審查後適用",
+        "en": "After passing domestic credit screening",
+        "ja": "日本国内クレジットカード審査通過後"
+      },
+      "depends_on": [
+        "task_billing_setup"
+      ],
+      "duration_min": 20,
+      "priority": "normal",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_mynumber_card_apply",
+      "phase": "phase_id_longterm",
+      "branch_parent": "task_id_documents",
+      "branch_required": {
+        "branch_id_documents": "mynumber_card"
+      },
+      "title": {
+        "zh-TW": "申請個人番號卡（My Number Card）",
+        "en": "Apply for My Number card",
+        "ja": "マイナンバーカードの申請"
+      },
+      "summary": {
+        "zh-TW": "線上申請後至區公所領取",
+        "en": "Apply online, pick up at ward office",
+        "ja": "スマホ等で申請し、後日市区町村役場で交付"
+      },
+      "depends_on": [
+        "task_id_documents"
+      ],
+      "duration_min": 30,
+      "priority": "normal",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_special_residence_card",
+      "phase": "phase_id_longterm",
+      "branch_parent": "task_id_documents",
+      "branch_required": {
+        "branch_id_documents": "special_residence_card"
+      },
+      "title": {
+        "zh-TW": "切換為特定在留卡",
+        "en": "Switch to Special Residence Card",
+        "ja": "特定在留カードへの切り替え"
+      },
+      "summary": {
+        "zh-TW": "2026 年 6 月 14 日起開辦",
+        "en": "Available from Jun 14, 2026",
+        "ja": "2026年6月14日より開始された新制度"
+      },
+      "depends_on": [
+        "task_id_documents"
+      ],
+      "duration_min": 60,
+      "priority": "normal",
+      "tips": [],
+      "documents": []
+    },
+    {
+      "id": "task_mynumber_notice_only",
+      "phase": "phase_id_longterm",
+      "branch_parent": "task_id_documents",
+      "branch_required": {
+        "branch_id_documents": "notice_only"
+      },
+      "title": {
+        "zh-TW": "保管個人番號通知書",
+        "en": "Keep My Number notification",
+        "ja": "個人番号通知書のみ保管"
+      },
+      "summary": {
+        "zh-TW": "暫時不申請卡片，保管通知書即可",
+        "en": "Keep notification without applying for card",
+        "ja": "当面はカード化せず、通知書を大切に保管"
+      },
+      "depends_on": [
+        "task_id_documents"
+      ],
+      "duration_min": 5,
+      "priority": "low",
+      "tips": [],
+      "documents": []
+    }
+  ],
+  "completion_aliases": {
+    "task_study_plan": [
+      "task_application_agent",
+      "task_application_self"
+    ],
+    "task_funds_prep": [
+      "task_funds_digital",
+      "task_funds_cash"
+    ],
+    "task_internet_prep": [
+      "task_internet_esim",
+      "task_internet_later"
+    ],
+    "task_immigration": [
+      "task_residence_major_airport",
+      "task_residence_regional_airport"
+    ],
+    "task_transport": [
+      "task_transport_mobile_ic",
+      "task_transport_physical_ic",
+      "task_transport_cash"
+    ],
+    "task_ward_office": [
+      "task_ward_adult",
+      "task_ward_minor"
+    ],
+    "task_phone": [
+      "task_phone_online",
+      "task_phone_after_bank"
+    ],
+    "task_bank": [
+      "task_bank_yucho",
+      "task_bank_megabank"
+    ],
+    "task_commute_pass": [
+      "task_commute_buy",
+      "task_commute_skip"
+    ],
+    "task_pension_student": [
+      "task_pension_ward",
+      "task_pension_school"
+    ],
+    "task_billing_setup": [
+      "task_billing_transfer",
+      "task_billing_debit",
+      "task_billing_credit"
+    ],
+    "task_id_documents": [
+      "task_mynumber_card_apply",
+      "task_special_residence_card",
+      "task_mynumber_notice_only"
+    ]
+  }
+}
