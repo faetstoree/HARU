@@ -32,7 +32,9 @@ _client: Optional[firestore.AsyncClient] = None
 def _get_client() -> firestore.AsyncClient:
     global _client
     if _client is None:
-        project = os.getenv("GOOGLE_CLOUD_PROJECT") or os.getenv("GCLOUD_PROJECT")
+        # On Cloud Run, project is auto-detected from the metadata server.
+        # Locally, set GOOGLE_CLOUD_PROJECT in .env.
+        project = os.getenv("GOOGLE_CLOUD_PROJECT") or None
         _client = firestore.AsyncClient(project=project)
     return _client
 
@@ -70,14 +72,20 @@ class FirestoreDB:
     """Thin async wrapper around Firestore that matches the access patterns in main.py."""
 
     def __init__(self):
-        self._db = _get_client()
+        # Don't initialize the client here — wait until first actual DB call.
+        self._db: Optional[firestore.AsyncClient] = None
+
+    def _client(self) -> firestore.AsyncClient:
+        if self._db is None:
+            self._db = _get_client()
+        return self._db
 
     # ------------------------------------------------------------------
     # Users
     # ------------------------------------------------------------------
 
     async def get_user(self, device_id: str) -> Optional[Dict[str, Any]]:
-        doc = await self._db.collection("users").document(device_id).get()
+        doc = await self._client().collection("users").document(device_id).get()
         if doc.exists:
             data = doc.to_dict()
             data["device_id"] = device_id
@@ -89,27 +97,22 @@ class FirestoreDB:
         if user is None:
             user = _default_user()
             user["device_id"] = device_id
-            await self._db.collection("users").document(device_id).set(user)
+            await self._client().collection("users").document(device_id).set(user)
         return user
 
     async def save_user(self, device_id: str, fields: Dict[str, Any]) -> None:
-        """Upsert specific fields on a user document."""
-        await self._db.collection("users").document(device_id).set(
+        await self._client().collection("users").document(device_id).set(
             fields, merge=True
         )
 
     async def delete_user_field(self, device_id: str, field: str) -> None:
-        await self._db.collection("users").document(device_id).update(
+        await self._client().collection("users").document(device_id).update(
             {field: firestore.DELETE_FIELD}
         )
 
-    # ------------------------------------------------------------------
-    # Tasks (completed task IDs)
-    # ------------------------------------------------------------------
-
     async def get_completed_tasks(self, device_id: str) -> List[str]:
         docs = (
-            await self._db.collection("users")
+            await self._client().collection("users")
             .document(device_id)
             .collection("tasks")
             .get()
@@ -118,7 +121,7 @@ class FirestoreDB:
 
     async def add_completed_task(self, device_id: str, task_id: str) -> None:
         await (
-            self._db.collection("users")
+            self._client().collection("users")
             .document(device_id)
             .collection("tasks")
             .document(task_id)
@@ -128,23 +131,16 @@ class FirestoreDB:
     async def sync_completed_tasks(
         self, device_id: str, task_ids: List[str]
     ) -> None:
-        """Replace the entire task set for a device."""
         tasks_ref = (
-            self._db.collection("users").document(device_id).collection("tasks")
+            self._client().collection("users").document(device_id).collection("tasks")
         )
-        # Delete existing
         existing = await tasks_ref.get()
         for doc in existing:
             await doc.reference.delete()
-        # Write new
         for tid in task_ids:
             await tasks_ref.document(tid).set(
                 {"status": "completed", "created_at": firestore.SERVER_TIMESTAMP}
             )
-
-    # ------------------------------------------------------------------
-    # Location logs (store only the latest per device)
-    # ------------------------------------------------------------------
 
     async def save_location(
         self,
@@ -153,7 +149,7 @@ class FirestoreDB:
         longitude: float,
         address: str,
     ) -> None:
-        await self._db.collection("location_logs").document(device_id).set(
+        await self._client().collection("location_logs").document(device_id).set(
             {
                 "device_id": device_id,
                 "latitude": latitude,
@@ -164,17 +160,13 @@ class FirestoreDB:
         )
 
     async def get_latest_location(self, device_id: str) -> Optional[Dict[str, Any]]:
-        doc = await self._db.collection("location_logs").document(device_id).get()
+        doc = await self._client().collection("location_logs").document(device_id).get()
         if doc.exists:
             return doc.to_dict()
         return None
 
-    # ------------------------------------------------------------------
-    # Agent decisions (one per device)
-    # ------------------------------------------------------------------
-
     async def save_agent_decision(self, device_id: str, decision_json: str) -> None:
-        await self._db.collection("agent_decisions").document(device_id).set(
+        await self._client().collection("agent_decisions").document(device_id).set(
             {
                 "device_id": device_id,
                 "decision_data": decision_json,
@@ -184,18 +176,14 @@ class FirestoreDB:
 
     async def get_agent_decision(self, device_id: str) -> Optional[str]:
         doc = (
-            await self._db.collection("agent_decisions").document(device_id).get()
+            await self._client().collection("agent_decisions").document(device_id).get()
         )
         if doc.exists:
             return doc.to_dict().get("decision_data")
         return None
 
-    # ------------------------------------------------------------------
-    # Background task: iterate all users
-    # ------------------------------------------------------------------
-
     async def get_all_users(self) -> List[Dict[str, Any]]:
-        docs = await self._db.collection("users").get()
+        docs = await self._client().collection("users").get()
         result = []
         for doc in docs:
             data = doc.to_dict()
