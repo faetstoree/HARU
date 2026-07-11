@@ -7,7 +7,7 @@ const agentFaces = {
     "success": "H"
 };
 
-let currentLang = 'en'; // Fixed to English; remove lang selector to prevent switching
+let currentLang = localStorage.getItem('currentLang') || 'en';
 let schoolInfo = JSON.parse(localStorage.getItem('schoolInfo')) || null;
 let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
 let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
@@ -256,6 +256,7 @@ window.addEventListener('beforeunload', () => {
 
 async function changeLanguage(lang) {
     currentLang = lang;
+    localStorage.setItem('currentLang', lang);
     syncLangSelectors(lang);
     await loadTranslations(lang);
     applyTranslations(lang);
