@@ -3,7 +3,7 @@ name: Deploy to Cloud Run
 on:
   push:
     branches:
-      - main   # 推到 main 分支時自動觸發
+      - master   # 推到 master 分支時自動觸發
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
