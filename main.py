@@ -77,8 +77,6 @@ from models_config import GEMINI_MODEL, TTS_VOICES, STT_LANGUAGE_CODES, STT_SAMP
 from roadmap_ai_engine import generate_ai_roadmap, merge_ai_overlay_into_roadmap
 from backend_i18n import t as bi18n
 from fastapi.responses import Response
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from apscheduler.triggers.interval import IntervalTrigger
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import asyncio
