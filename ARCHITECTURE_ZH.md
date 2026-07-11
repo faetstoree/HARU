@@ -19,14 +19,24 @@ graph TB
     subgraph FastAPI["⚡ FastAPI (main.py)"]
         direction TB
         API_Init["POST /api/user/init<br/>Onboarding"]
+        API_Profile["POST /api/user/profile<br/>更新 Profile"]
         API_Roadmap["POST /api/roadmap<br/>路線圖"]
-        API_Agent["POST /api/agent/step<br/>主聊天"]
+        API_Branch["POST /api/roadmap/branch<br/>分支選擇"]
+        API_Agent["POST /api/agent-step<br/>主聊天"]
+        API_AgentLatest["POST /api/agent/latest<br/>取得最新決策"]
         API_Chat["POST /api/chat<br/>通用聊天"]
+        API_AnalyzeForm["POST /api/analyze-form<br/>表單 OCR 分析"]
         API_Quiz["POST /api/quiz/*<br/>診斷問卷"]
         API_Task["POST /api/roadmap/task/*<br/>任務操作"]
+        API_TaskComplete["POST /api/tasks/complete<br/>標記完成"]
+        API_SyncTasks["POST /api/user/sync_tasks<br/>同步任務"]
+        API_Location["POST /api/user/location<br/>更新位置"]
         API_Maps["GET /api/maps/embed-url"]
         API_TTS["POST /api/tts / /api/stt"]
-        API_PDF["POST /api/roadmap/export/pdf"]
+        API_PDF["POST /api/export/roadmap-pdf"]
+        API_Knowledge["GET /api/knowledge/for-task<br/>知識查詢"]
+        API_Resources["GET /api/resources<br/>官方資源"]
+        API_Suggestions["GET /api/chat/suggestions<br/>推薦問題"]
         API_Settings["GET/POST/DELETE<br/>/api/settings/api-key<br/>/api/settings/maps-key"]
     end
 
@@ -50,7 +60,6 @@ graph TB
     subgraph AI["🤖 AI 層"]
         GEMINI["gemini_engine.py<br/>Gemini API 封裝<br/>Model Fallback"]
         ROADMAP_AI["roadmap_ai_engine.py<br/>Onboarding AI Overlay 生成"]
-        DETAIL_AI["roadmap_detail_engine.py<br/>任務個人化步驟 Prompt"]
         QUIZ_AI["quiz_ai.py<br/>問卷診斷報告 AI"]
         ACTION_AI["action_plan_ai.py<br/>PDF 行動計畫 AI"]
         CHAT_TOOLS["chat_tools.py<br/>Gemini Function Calling"]
@@ -79,35 +88,33 @@ graph TB
 
     subgraph Data["💾 資料層"]
         FIRESTORE[("Firestore<br/>users / tasks<br/>location_logs / agent_decisions")]
-        JSON_DATA["靜態 JSON 資料<br/>roadmap / branches / quiz<br/>schools / resources / wards<br/>knowledge articles & guides"]
+        JSON_DATA["靜態 JSON 資料<br/>roadmap / branches / quiz<br/>resources / wards<br/>knowledge articles & guides"]
         FIRESTORE_DB["firestore_db.py<br/>Firestore 存取層"]
     end
 
     MAIN --> AGENT
     MAIN --> ROADMAP
+    MAIN --> ROADMAP_AI
     MAIN --> QUIZ
     MAIN --> MAPS
     MAIN --> EXPORT
     AGENT --> CHAT_TOOLS
     CHAT_TOOLS --> GEMINI
     ROADMAP_AI --> GEMINI
-    DETAIL_AI --> GEMINI
     QUIZ_AI --> GEMINI
     ACTION_AI --> GEMINI
+    MAIN --> DETAIL
     ROADMAP --> BRANCH
     ROADMAP --> GRAPH
-    ROADMAP --> MERMAID
     DETAIL --> ROADMAP
     DETAIL --> BRANCH
-    DETAIL --> DETAIL_AI
     EXPORT --> ACTION_AI
     DETAIL --> KNOWLEDGE
-    DETAIL_AI --> KNOWLEDGE
     CHAT_TOOLS --> MAPS
     CHAT_TOOLS --> MERMAID
     CHAT_BLOCKS --> KNOWLEDGE
     CHAT_BLOCKS --> RESOURCE
-    ROADMAP --> RESOURCE
+    MAIN --> RESOURCE
     QUIZ --> QUIZ_AI
     MAIN --> CHAT_BLOCKS
     MAIN --> I18N
@@ -130,6 +137,7 @@ sequenceDiagram
     participant main as main.py
     participant roadmap as roadmap_engine
     participant resource as resource_engine
+    participant roadmap_ai as roadmap_ai_engine
     participant agent as agent_engine
     participant chat as chat_tools
     participant gemini as gemini_engine
@@ -143,14 +151,16 @@ sequenceDiagram
     main->>db: 建立 / 更新 User
     main->>roadmap: build_roadmap_response(profile)
     roadmap->>resource: enrich_roadmap_with_official_links()
-    main->>gemini: generate_ai_roadmap() [AI Overlay]
-    gemini-->>main: 個人化 overlay JSON
+    main->>roadmap_ai: generate_ai_roadmap() [AI Overlay]
+    roadmap_ai->>gemini: generate_with_model_fallback()
+    gemini-->>roadmap_ai: 個人化 overlay JSON
+    roadmap_ai-->>main: overlay JSON
     main->>db: 儲存 ai_roadmap 快取
     main-->>Browser: 路線圖 + AI overlay
 
-    Note over Browser,db: /api/agent/step — 主聊天流程
+    Note over Browser,db: /api/agent-step — 主聊天流程
 
-    Browser->>main: POST /api/agent/step (message)
+    Browser->>main: POST /api/agent-step (message)
     main->>roadmap: build_roadmap_response()
     main->>agent: should_use_llm_for_agent() → true
     main->>chat: run_chat_with_tools()
@@ -248,12 +258,10 @@ graph TB
     GEMINI_ENGINE --> Gemini_API
 
     ROADMAP_AI["roadmap_ai_engine<br/>Onboarding Overlay<br/>(一次性，快取至 Firestore)"] --> GEMINI_ENGINE
-    DETAIL_AI["roadmap_detail_engine<br/>任務個人化步驟<br/>(即時生成)"] --> GEMINI_ENGINE
     QUIZ_AI["quiz_ai<br/>問卷診斷報告<br/>(即時生成)"] --> GEMINI_ENGINE
     ACTION_AI["action_plan_ai<br/>PDF 行動計畫<br/>(含 Google Search tool)"] --> GEMINI_ENGINE
     CHAT_TOOLS["chat_tools<br/>Function Calling 聊天<br/>(多輪，最多 4 rounds)"] --> GEMINI_ENGINE
-    KNOWLEDGE["knowledge_engine<br/>可信事實注入<br/>(防止 AI 亂編 URL)"] -->|"context 注入"| DETAIL_AI
-    KNOWLEDGE -->|"context 注入"| CHAT_TOOLS
+    KNOWLEDGE["knowledge_engine<br/>可信事實注入<br/>(防止 AI 亂編 URL)"] -->|"context 注入"| CHAT_TOOLS
 ```
 
 ---
