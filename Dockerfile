@@ -1,25 +1,25 @@
 FROM python:3.11-slim
 
-# 設定工作目錄
+# Set working directory
 WORKDIR /app
 
-# 安裝系統依賴
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# 先複製 requirements 以利用 Docker layer cache
+# Copy requirements first to leverage Docker layer cache
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 複製應用程式
+# Copy application files
 COPY . .
 
-# Cloud Run 預設 port 是 8080
+# Cloud Run default port is 8080
 ENV PORT=8080
 
-# 不使用 .env 檔（環境變數由 Cloud Run 注入）
+# Do not use .env file (environment variables are injected by Cloud Run)
 ENV PYTHONUNBUFFERED=1
 
-# 啟動指令
+# Start command
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]

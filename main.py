@@ -118,7 +118,7 @@ def _roadmap_with_links(profile, completed, lang, school_info, branch_choices=No
     roadmap = build_roadmap_response(profile, completed, lang, branch_choices=branch_choices or {})
     return enrich_roadmap_with_official_links(roadmap, school_info, lang)
 
-app = FastAPI(title="留日主動式時間與搜尋感知 AI 伴侶 Haru")
+app = FastAPI(title="留日主動式時間與搜尋感知 AI 伴侶 Haru")  # "Japan relocation proactive time & search-aware AI companion Haru"
 
 # scheduler = AsyncIOScheduler()
 
@@ -296,7 +296,7 @@ LANG_MAP = {
     "ja": "Japanese (日本語)"
 }
 
-# 移除了所有寫死的營業時間，改為搜尋驅動策略 [SYSTEM]
+# Removed all hard-coded business hours; replaced with a search-driven strategy [SYSTEM]
 SYSTEM_INSTRUCTION_BASE = """
 You are "Haru", an extremely smart, context-aware AI Mentor for newly arrived international students in Japan.
 Your distinguishing feature is that you have TEMPORAL AWARENESS (time/day) and strict DEPENDENCY LOGIC.
@@ -332,8 +332,8 @@ class AgentStepRequest(BaseModel):
     current_address: Optional[str] = "Unknown"
     latitude: Optional[float] = None
     longitude: Optional[float] = None
-    local_time: str      # 當前瀏覽器本地時間
-    day_of_week: str     # 例如 "Tuesday"
+    local_time: str      # Current browser local time
+    day_of_week: str     # e.g. "Tuesday"
     lang: str = "en"
     device_id: Optional[str] = None
     problem_report: Optional[str] = None
@@ -1053,7 +1053,8 @@ async def background_decision_task():
 @app.post("/api/agent-step")
 async def agent_step(data: AgentStepRequest, db: FirestoreDB = Depends(get_db)):
     """
-    自律型決策端點：結合即時搜尋，尋找學生居住地或定位點附近的真實政府機構、門市與其營業時間。
+    Autonomous decision endpoint: combines real-time search to find actual government offices,
+    mobile stores, and their business hours near the student's residence or GPS location.
     """
     try:
         decision = await generate_agent_decision(
@@ -1112,7 +1113,7 @@ async def export_roadmap_pdf(data: RoadmapExportRequest, db: FirestoreDB = Depen
         headers={"Content-Disposition": f'attachment; filename="{filename}"'},
     )
 
-# 多輪自由提問 (結構化 blocks + 公式リンク DB)
+# Multi-turn free-form Q&A (structured blocks + official link DB)
 class ChatMessage(BaseModel):
     role: str
     text: Optional[str] = None

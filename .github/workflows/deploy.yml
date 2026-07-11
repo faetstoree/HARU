@@ -3,12 +3,12 @@ name: Deploy to Cloud Run
 on:
   push:
     branches:
-      - master   # 推到 master 分支時自動觸發
+      - master   # Automatically triggered when pushed to the master branch
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   SERVICE_NAME: haru
-  REGION: asia-northeast1          # 東京 region，可依需求改為 asia-east1（台灣）
+  REGION: asia-northeast1          # Tokyo region; change to asia-east1 (Taiwan) if needed
 
 jobs:
   deploy:
@@ -17,13 +17,13 @@ jobs:
 
     permissions:
       contents: read
-      id-token: write              # Workload Identity Federation 需要
+      id-token: write              # Required for Workload Identity Federation
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 使用 Workload Identity Federation（推薦，不需要 JSON key）
+      # Use Workload Identity Federation (recommended — no JSON key required)
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:

@@ -17,7 +17,7 @@ class User(Base):
     part_time_plan = Column(String, default="no")   # yes | no | later
     sim_at_airport = Column(Boolean, default=False)
     already_exchanged = Column(Boolean, default=False)
-    permit_obtained = Column(Boolean, default=False)  # 資格外活動許可（打工許可）已取得
+    permit_obtained = Column(Boolean, default=False)  # Work permit obtained (part-time work authorization)
     gemini_api_key = Column(String, nullable=True)
     google_maps_api_key = Column(String, nullable=True)
     ai_roadmap = Column(String, nullable=True)  # JSON: cached AI-generated roadmap overlay

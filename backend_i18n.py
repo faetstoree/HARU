@@ -39,7 +39,7 @@ def t(key: str, lang: str, **kwargs: Any) -> str:
 
     Example::
 
-        t("chipComplete", "ja")               # → "完了にする"
+        t("chipComplete", "ja")               # → "Mark as complete" (Japanese locale string)  (i.e. "Mark as done" in Japanese)
         t("pdfDuration", "en", n=30)          # → "~30 min"
         t("greetingBody", "zh-TW",
           location="東京都文京區",
@@ -78,7 +78,7 @@ def japanese_level_label(code: str, lang: str) -> str:
     Example::
 
         japanese_level_label("intermediate", "en")  # → "Intermediate (approx. N3~N2)"
-        japanese_level_label("beginner_zero", "ja") # → "未学習（全く話せない）"
+        japanese_level_label("beginner_zero", "ja") # → "No prior study (cannot speak at all)" (Japanese locale string)
     """
     key = _JAPANESE_LEVEL_KEYS.get(code)
     if key:

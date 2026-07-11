@@ -44,7 +44,7 @@ SCHOOLS = [
     s("tokyo_university", "東京大學", "The University of Tokyo", "東京大学", "東京都文京區本鄉", city="東京", type="university"),
     s("waseda_university", "早稻田大學", "Waseda University", "早稲田大学", "東京都新宿區西早稻田", city="東京", type="university"),
     s("keio_university", "慶應義塾大學", "Keio University", "慶應義塾大学", "東京都港區三田", city="東京", type="university"),
-    # --- 東京・関東 語学学校 ---
+    # --- Tokyo / Kanto language schools ---
     s("inter_cult", "インターカルト日本語学校", "Inter-Culture Institute of Japanese Language", "インターカルト日本語学校", "東京都新宿區西新宿"),
     s("tokyo_world", "東京ワールド日本語学校", "Tokyo World Japanese Language School", "東京ワールド日本語学校", "東京都新宿區高田馬場"),
     s("tokyo_intl_culture", "東京国際文化学院", "Tokyo International Culture Academy", "東京国際文化学院", "東京都新宿區大久保"),
@@ -78,7 +78,7 @@ SCHOOLS = [
     s("tokyo_school_japanese", "東京スクールオブジャパニーズ", "Tokyo School of Japanese", "東京スクールオブジャパニーズ", "東京都新宿區西新宿"),
     s("nihon_ringo", "日本語林檎學校", "Nihongo Ringo School", "日本語りんご学校", "東京都台東區浅草"),
     s("tokyo_one_japanese", "東京ONE日本語學校", "Tokyo ONE Japanese Language School", "東京ONE日本語学校", "東京都豐島區西池袋"),
-    # --- 東京 大学 ---
+    # --- Tokyo universities ---
     s("meiji_university", "明治大學", "Meiji University", "明治大学", "東京都千代田區神田駿河台", city="東京", type="university"),
     s("rikkyo_university", "立教大學", "Rikkyo University", "立教大学", "東京都豐島區西池袋", city="東京", type="university"),
     s("chuo_university", "中央大學", "Chuo University", "中央大学", "東京都文京區春日", city="東京", type="university"),
@@ -92,14 +92,14 @@ SCHOOLS = [
     s("tokyo_metropolitan", "東京都立大學", "Tokyo Metropolitan University", "東京都立大学", "東京都八王子市", city="東京", type="university"),
     s("tokyo_inst_tech", "東京工業大學", "Tokyo Institute of Technology", "東京工業大学", "東京都目黑區大岡山", city="東京", type="university"),
     s("hitotsubashi", "一橋大學", "Hitotsubashi University", "一橋大学", "東京都小平市", city="東京", type="university"),
-    # --- 橫濱・千葉 ---
+    # --- Yokohama / Chiba ---
     s("yokohama_design", "橫濱設計學院 日本語科", "Yokohama Design College Japanese", "横浜デザイン学院 日本語科", "神奈川縣橫濱市西區", prefecture="神奈川県", city="横浜"),
     s("yokohama_intl_edu", "橫濱國際教育學院", "Yokohama International Education Academy", "横浜国際教育学院", "神奈川縣橫濱市西區", prefecture="神奈川県", city="横浜"),
     s("yokohama_system", "橫濱YMCA學院", "Yokohama YMCA College", "横浜YMCA学院", "神奈川縣橫濱市西區", prefecture="神奈川県", city="横浜"),
     s("kanagawa_japanese", "神奈川日本語學院", "Kanagawa Japanese Language Academy", "神奈川日本語学院", "神奈川縣橫濱市神奈川區", prefecture="神奈川県", city="横浜"),
     s("chiba_japanese", "千葉日本語學校", "Chiba Japanese Language School", "千葉日本語学校", "千葉縣千葉市中央區", prefecture="千葉県", city="千葉"),
     s("kashiwa_japanese", "柏日本語學院", "Kashiwa Japanese Language Academy", "柏日本語学院", "千葉縣柏市", prefecture="千葉県", city="柏"),
-    # --- 大阪 ---
+    # --- Osaka ---
     s("osaka_yMCA", "大阪YMCA學院", "Osaka YMCA Gakuin", "大阪YMCA学院", "大阪府大阪市西區", prefecture="大阪府", city="大阪"),
     s("osaka_japanese_lang", "大阪日本語學院", "Osaka Japanese Language Academy", "大阪日本語学院", "大阪府大阪市中央區", prefecture="大阪府", city="大阪"),
     s("ecc_osaka", "ECC外語學院 大阪校", "ECC Japanese Language Institute Osaka", "ECC外国語学院 大阪校", "大阪府大阪市北區", prefecture="大阪府", city="大阪"),
@@ -109,27 +109,27 @@ SCHOOLS = [
     s("osaka_university", "大阪大學", "Osaka University", "大阪大学", "大阪府吹田市", prefecture="大阪府", city="大阪", type="university"),
     s("kansai_university", "關西大學", "Kansai University", "関西大学", "大阪府吹田市", prefecture="大阪府", city="大阪", type="university"),
     s("ritsumeikan_osaka", "立命館大學 大阪茨木校區", "Ritsumeikan University Osaka Ibaraki", "立命館大学 大阪茨木", "大阪府茨木市", prefecture="大阪府", city="大阪", type="university"),
-    # --- 京都 ---
+    # --- Kyoto ---
     s("kyoto_japanese_lang", "京都日本語學校", "Kyoto Japanese Language School", "京都日本語学校", "京都府京都市中京區", prefecture="京都府", city="京都"),
     s("kyoto_culture", "京都文化日本語學校", "Kyoto Culture Japanese Language School", "京都文化日本語学校", "京都府京都市下京區", prefecture="京都府", city="京都"),
     s("kyoto_nihongo_center", "京都日本語センター", "Kyoto Nihongo Center", "京都日本語センター", "京都府京都市中京區", prefecture="京都府", city="京都"),
     s("kyoto_university", "京都大學", "Kyoto University", "京都大学", "京都府京都市左京區", prefecture="京都府", city="京都", type="university"),
     s("doshisha_university", "同志社大學", "Doshisha University", "同志社大学", "京都府京都市上京區", prefecture="京都府", city="京都", type="university"),
     s("ritsumeikan_kyoto", "立命館大學", "Ritsumeikan University", "立命館大学", "京都府京都市中京區", prefecture="京都府", city="京都", type="university"),
-    # --- 名古屋・中部 ---
+    # --- Nagoya / Chubu ---
     s("nagoya_intl_japanese", "名古屋國際日本語學校", "Nagoya International Japanese School", "名古屋国際日本語学校", "愛知縣名古屋市中區", prefecture="愛知県", city="名古屋"),
     s("nagoya_sky", "名古屋SKY日本語學校", "Nagoya SKY Japanese Language School", "名古屋SKY日本語学校", "愛知縣名古屋市中村區", prefecture="愛知県", city="名古屋"),
     s("nagoya_university", "名古屋大學", "Nagoya University", "名古屋大学", "愛知縣名古屋市千種區", prefecture="愛知県", city="名古屋", type="university"),
     s("nagoya_intl_academy", "名古屋國際學院", "Nagoya International Academy", "名古屋国際学院", "愛知縣名古屋市中區", prefecture="愛知県", city="名古屋"),
-    # --- 福岡・九州 ---
+    # --- Fukuoka / Kyushu ---
     s("fukuoka_japanese", "福岡日本語學校", "Fukuoka Japanese Language School", "福岡日本語学校", "福岡縣福岡市博多區", prefecture="福岡県", city="福岡"),
     s("fukuoka_intl_lang", "福岡國際語學院", "Fukuoka International Language Academy", "福岡国際語学院", "福岡縣福岡市中央區", prefecture="福岡県", city="福岡"),
     s("kyushu_university", "九州大學", "Kyushu University", "九州大学", "福岡縣福岡市東區", prefecture="福岡県", city="福岡", type="university"),
-    # --- 北海道・東北 ---
+    # --- Hokkaido / Tohoku ---
     s("sapporo_japanese", "札幌日本語學院", "Sapporo Japanese Language Academy", "札幌日本語学院", "北海道札幌市中央區", prefecture="北海道", city="札幌"),
     s("sendai_japanese", "仙台日本語學校", "Sendai Japanese Language School", "仙台日本語学校", "宮城縣仙台市青葉區", prefecture="宮城県", city="仙台"),
     s("tohoku_university", "東北大學", "Tohoku University", "東北大学", "宮城縣仙台市青葉區", prefecture="宮城県", city="仙台", type="university"),
-    # --- 其他地區 ---
+    # --- Other regions ---
     s("hiroshima_intl", "廣島國際學院", "Hiroshima International Academy", "広島国際学院", "廣島縣廣島市中區", prefecture="広島県", city="広島"),
     s("okayama_japanese", "岡山日本語學院", "Okayama Japanese Language Academy", "岡山日本語学院", "岡山縣岡山市北區", prefecture="岡山県", city="岡山"),
     s("kobe_japanese", "神戶日本語學院", "Kobe Japanese Language Academy", "神戸日本語学院", "兵庫縣神戶市中央區", prefecture="兵庫県", city="神戸"),
