@@ -2,8 +2,6 @@
 
 AI-powered relocation support for international students in Japan: personalized roadmap (starting from airport arrival), chat assistant with maps and diagrams, and step-by-step guides.
 
-**Repository:** https://github.com/goto-naoya/HARU.git
-
 ## Quick start (local)
 
 ```bash
