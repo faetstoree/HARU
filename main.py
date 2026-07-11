@@ -40,9 +40,7 @@ from pydantic import BaseModel
 from google import genai
 from google.genai import types
 from fastapi import Depends
-from sqlalchemy.orm import Session
-import models
-from database import engine, get_db, SessionLocal
+from firestore_db import FirestoreDB, get_db
 from roadmap_engine import (
     build_roadmap_response,
     get_all_task_ids_for_onboarding,
@@ -88,79 +86,35 @@ import base64
 from google.cloud import texttospeech
 from google.cloud import speech
 
-models.Base.metadata.create_all(bind=engine)
+def _apply_school_info_to_user(user: Dict[str, Any], school_info: Dict[str, Any]) -> Dict[str, Any]:
+    """Merge school_info into a user dict and return it."""
+    user["school_name"] = school_info.get("school_name")
+    user["arrival_date"] = school_info.get("arrival_date")
+    user["location"] = school_info.get("location")
+    user["japanese_level"] = school_info.get("japanese_level")
+    user["has_residence_card"] = school_info.get("has_residence_card", True)
+    user["housing_type"] = school_info.get("housing_type", "dorm")
+    user["school_type"] = school_info.get("school_type", "language_school")
+    user["part_time_plan"] = school_info.get("part_time_plan", "no")
+    user["sim_at_airport"] = school_info.get("sim_at_airport", False)
+    user["already_exchanged"] = school_info.get("already_exchanged", False)
+    user["permit_obtained"] = school_info.get("permit_obtained", False)
+    return user
 
-def _migrate_user_columns():
-    """Add new profile columns to existing SQLite DB if missing."""
-    from sqlalchemy import inspect, text
-    insp = inspect(engine)
-    if "users" not in insp.get_table_names():
-        return
-    cols = {c["name"] for c in insp.get_columns("users")}
-    alters = []
-    if "housing_type" not in cols:
-        alters.append("ALTER TABLE users ADD COLUMN housing_type VARCHAR DEFAULT 'dorm'")
-    if "part_time_plan" not in cols:
-        alters.append("ALTER TABLE users ADD COLUMN part_time_plan VARCHAR DEFAULT 'no'")
-    if "sim_at_airport" not in cols:
-        alters.append("ALTER TABLE users ADD COLUMN sim_at_airport BOOLEAN DEFAULT 0")
-    if "already_exchanged" not in cols:
-        alters.append("ALTER TABLE users ADD COLUMN already_exchanged BOOLEAN DEFAULT 0")
-    if "school_type" not in cols:
-        alters.append("ALTER TABLE users ADD COLUMN school_type VARCHAR DEFAULT 'language_school'")
-    if "gemini_api_key" not in cols:
-        alters.append("ALTER TABLE users ADD COLUMN gemini_api_key VARCHAR")
-    if "google_maps_api_key" not in cols:
-        alters.append("ALTER TABLE users ADD COLUMN google_maps_api_key VARCHAR")
-    if "ai_roadmap" not in cols:
-        alters.append("ALTER TABLE users ADD COLUMN ai_roadmap VARCHAR")
-    if "ai_roadmap_lang" not in cols:
-        alters.append("ALTER TABLE users ADD COLUMN ai_roadmap_lang VARCHAR")
-    if "permit_obtained" not in cols:
-        alters.append("ALTER TABLE users ADD COLUMN permit_obtained BOOLEAN DEFAULT 0")
-    with engine.connect() as conn:
-        for sql in alters:
-            conn.execute(text(sql))
-        conn.commit()
-
-_migrate_user_columns()
-
-def _apply_school_info_to_user(user, school_info: Dict[str, Any]):
-    user.school_name = school_info.get("school_name")
-    user.arrival_date = school_info.get("arrival_date")
-    user.location = school_info.get("location")
-    user.japanese_level = school_info.get("japanese_level")
-    user.has_residence_card = school_info.get("has_residence_card", True)
-    user.housing_type = school_info.get("housing_type", "dorm")
-    user.school_type = school_info.get("school_type", "language_school")
-    user.part_time_plan = school_info.get("part_time_plan", "no")
-    user.sim_at_airport = school_info.get("sim_at_airport", False)
-    user.already_exchanged = school_info.get("already_exchanged", False)
-    user.permit_obtained = school_info.get("permit_obtained", False)
-
-def _school_info_from_user(user) -> Dict[str, Any]:
+def _school_info_from_user(user: Dict[str, Any]) -> Dict[str, Any]:
     return {
-        "school_name": user.school_name,
-        "arrival_date": user.arrival_date,
-        "location": user.location,
-        "japanese_level": user.japanese_level,
-        "has_residence_card": user.has_residence_card,
-        "housing_type": user.housing_type or "dorm",
-        "school_type": user.school_type or "language_school",
-        "part_time_plan": user.part_time_plan or "no",
-        "sim_at_airport": bool(user.sim_at_airport),
-        "already_exchanged": bool(user.already_exchanged),
-        "permit_obtained": bool(user.permit_obtained),
+        "school_name": user.get("school_name"),
+        "arrival_date": user.get("arrival_date"),
+        "location": user.get("location"),
+        "japanese_level": user.get("japanese_level"),
+        "has_residence_card": user.get("has_residence_card", True),
+        "housing_type": user.get("housing_type") or "dorm",
+        "school_type": user.get("school_type") or "language_school",
+        "part_time_plan": user.get("part_time_plan") or "no",
+        "sim_at_airport": bool(user.get("sim_at_airport", False)),
+        "already_exchanged": bool(user.get("already_exchanged", False)),
+        "permit_obtained": bool(user.get("permit_obtained", False)),
     }
-
-def _get_completed_tasks(db: Session, device_id: str) -> List[str]:
-    tasks = db.query(models.Task).filter(models.Task.device_id == device_id).all()
-    return [t.task_id for t in tasks]
-
-def _sync_completed_tasks(db: Session, device_id: str, completed_tasks: List[str]):
-    db.query(models.Task).filter(models.Task.device_id == device_id).delete()
-    for task_id in completed_tasks:
-        db.add(models.Task(device_id=device_id, task_id=task_id, status="completed"))
 
 def _roadmap_with_links(profile, completed, lang, school_info, branch_choices=None):
     roadmap = build_roadmap_response(profile, completed, lang, branch_choices=branch_choices or {})
@@ -217,11 +171,28 @@ def _env_maps_key() -> Optional[str]:
     return (os.getenv("GOOGLE_MAPS_API_KEY") or "").strip() or None
 
 
-def _resolve_maps_key(db: Optional[Session], device_id: Optional[str]) -> Optional[str]:
+def _resolve_maps_key(db: Optional[FirestoreDB], device_id: Optional[str]) -> Optional[str]:
+    # NOTE: async version used in handlers; this sync wrapper is kept for non-async callers
     if device_id and db is not None:
-        user = db.query(models.User).filter(models.User.device_id == device_id).first()
-        if user and user.google_maps_api_key:
-            return user.google_maps_api_key.strip()
+        import asyncio
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                # Inside async context — callers should use await directly
+                return _env_maps_key()
+            user = loop.run_until_complete(db.get_user(device_id))
+        except Exception:
+            user = None
+        if user and user.get("google_maps_api_key"):
+            return user["google_maps_api_key"].strip()
+    return _env_maps_key()
+
+
+async def _resolve_maps_key_async(db: Optional[FirestoreDB], device_id: Optional[str]) -> Optional[str]:
+    if device_id and db is not None:
+        user = await db.get_user(device_id)
+        if user and user.get("google_maps_api_key"):
+            return user["google_maps_api_key"].strip()
     return _env_maps_key()
 
 
@@ -248,25 +219,35 @@ def _should_use_mock_stt() -> bool:
     return not _gcp_credentials_available()
 
 
-def _resolve_api_key(db: Optional[Session], device_id: Optional[str]) -> Optional[str]:
+async def _resolve_api_key_async(db: Optional[FirestoreDB], device_id: Optional[str]) -> Optional[str]:
     """Resolve API key per request: device DB → env (re-read each time)."""
     if device_id and db is not None:
-        user = db.query(models.User).filter(models.User.device_id == device_id).first()
-        if user and user.gemini_api_key:
-            return user.gemini_api_key.strip()
+        user = await db.get_user(device_id)
+        if user and user.get("gemini_api_key"):
+            return user["gemini_api_key"].strip()
     return _env_api_key()
 
 
-def should_use_mock(db: Optional[Session] = None, device_id: Optional[str] = None) -> bool:
-    """Mock only when USE_MOCK_API=true AND no real API key is available."""
+def _resolve_api_key(db: Optional[FirestoreDB], device_id: Optional[str]) -> Optional[str]:
+    """Sync wrapper — only safe outside of running event loop (e.g. startup checks)."""
+    return _env_api_key()
+
+
+def should_use_mock(db: Optional[FirestoreDB] = None, device_id: Optional[str] = None) -> bool:
+    """Mock only when USE_MOCK_API=true AND no real API key is available (env check only; use async version in handlers)."""
     if not USE_MOCK_API:
         return False
-    return not bool(_resolve_api_key(db, device_id))
+    return not bool(_env_api_key())
 
 
-def get_genai_client(db: Optional[Session] = None, device_id: Optional[str] = None):
-    """Build or reuse a Gemini client from the key resolved at call time (not at server boot)."""
-    key = _resolve_api_key(db, device_id)
+async def should_use_mock_async(db: Optional[FirestoreDB] = None, device_id: Optional[str] = None) -> bool:
+    if not USE_MOCK_API:
+        return False
+    return not bool(await _resolve_api_key_async(db, device_id))
+
+
+async def get_genai_client_async(db: Optional[FirestoreDB] = None, device_id: Optional[str] = None):
+    key = await _resolve_api_key_async(db, device_id)
     if not key:
         return None
     if key not in _genai_client_cache:
@@ -274,14 +255,34 @@ def get_genai_client(db: Optional[Session] = None, device_id: Optional[str] = No
     return _genai_client_cache[key]
 
 
-def require_genai_client(db: Optional[Session] = None, device_id: Optional[str] = None):
-    genai_client = get_genai_client(db, device_id)
-    if not genai_client:
+# Keep sync alias for non-async callers (uses env key only)
+def get_genai_client(db=None, device_id=None):
+    key = _env_api_key()
+    if not key:
+        return None
+    if key not in _genai_client_cache:
+        _genai_client_cache[key] = genai.Client(api_key=key)
+    return _genai_client_cache[key]
+
+
+async def require_genai_client_async(db: Optional[FirestoreDB] = None, device_id: Optional[str] = None):
+    client = await get_genai_client_async(db, device_id)
+    if not client:
         raise HTTPException(
             status_code=503,
             detail="Gemini API key is not configured. Set it in Profile settings (no server restart needed) or GEMINI_API_KEY in .env.",
         )
-    return genai_client
+    return client
+
+
+def require_genai_client(db=None, device_id=None):
+    client = get_genai_client(db, device_id)
+    if not client:
+        raise HTTPException(
+            status_code=503,
+            detail="Gemini API key is not configured. Set it in Profile settings (no server restart needed) or GEMINI_API_KEY in .env.",
+        )
+    return client
 
 
 if USE_MOCK_API:
@@ -446,11 +447,11 @@ async def read_root():
 
 
 @app.get("/api/settings/api-key")
-async def get_api_key_status(device_id: str, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.device_id == device_id).first()
-    user_has = bool(user and user.gemini_api_key)
+async def get_api_key_status(device_id: str, db: FirestoreDB = Depends(get_db)):
+    user = await db.get_user(device_id)
+    user_has = bool(user and user.get("gemini_api_key"))
     env_has = bool(_env_api_key())
-    mock_active = should_use_mock(db, device_id)
+    mock_active = await should_use_mock_async(db, device_id)
     configured = user_has or env_has
     if mock_active and not (user_has or env_has):
         source = "mock"
@@ -460,7 +461,7 @@ async def get_api_key_status(device_id: str, db: Session = Depends(get_db)):
         source = "env"
     else:
         source = "none"
-    hint = _mask_api_key(user.gemini_api_key) if user_has else None
+    hint = _mask_api_key(user["gemini_api_key"]) if user_has else None
     return {
         "status": "success",
         "configured": configured,
@@ -475,7 +476,7 @@ async def get_api_key_status(device_id: str, db: Session = Depends(get_db)):
 
 
 @app.post("/api/settings/api-key")
-async def save_api_key(data: ApiKeySaveRequest, db: Session = Depends(get_db)):
+async def save_api_key(data: ApiKeySaveRequest, db: FirestoreDB = Depends(get_db)):
     key = (data.api_key or "").strip()
     if not key:
         raise HTTPException(status_code=400, detail="API key is empty")
@@ -488,16 +489,11 @@ async def save_api_key(data: ApiKeySaveRequest, db: Session = Depends(get_db)):
                 "error_kind": check["error_kind"],
             },
         )
-    user = db.query(models.User).filter(models.User.device_id == data.device_id).first()
-    old_key = user.gemini_api_key if user else None
-    if not user:
-        user = models.User(device_id=data.device_id)
-        db.add(user)
-    user.gemini_api_key = key
-    db.commit()
-    db.refresh(user)
+    user = await db.get_user(data.device_id)
+    old_key = user.get("gemini_api_key") if user else None
     if old_key and old_key != key:
         _invalidate_genai_cache(old_key)
+    await db.save_user(data.device_id, {"gemini_api_key": key})
     _invalidate_genai_cache(key)
     return {
         "status": "success",
@@ -511,8 +507,8 @@ async def save_api_key(data: ApiKeySaveRequest, db: Session = Depends(get_db)):
 
 
 @app.post("/api/settings/api-key/test")
-async def test_api_key(data: ApiKeyTestRequest, db: Session = Depends(get_db)):
-    key = (data.api_key or "").strip() or (_resolve_api_key(db, data.device_id) or "")
+async def test_api_key(data: ApiKeyTestRequest, db: FirestoreDB = Depends(get_db)):
+    key = (data.api_key or "").strip() or (await _resolve_api_key_async(db, data.device_id) or "")
     if not key:
         raise HTTPException(status_code=400, detail="No API key to test")
     check = await verify_gemini_key(key, lang=data.lang)
@@ -533,14 +529,13 @@ async def test_api_key(data: ApiKeyTestRequest, db: Session = Depends(get_db)):
 
 
 @app.delete("/api/settings/api-key")
-async def clear_api_key(device_id: str, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.device_id == device_id).first()
-    if user and user.gemini_api_key:
-        _invalidate_genai_cache(user.gemini_api_key.strip())
-        user.gemini_api_key = None
-        db.commit()
+async def clear_api_key(device_id: str, db: FirestoreDB = Depends(get_db)):
+    user = await db.get_user(device_id)
+    if user and user.get("gemini_api_key"):
+        _invalidate_genai_cache(user["gemini_api_key"].strip())
+        await db.delete_user_field(device_id, "gemini_api_key")
     env_has = bool(_env_api_key())
-    mock_active = should_use_mock(db, device_id)
+    mock_active = await should_use_mock_async(db, device_id)
     return {
         "status": "success",
         "configured": env_has or mock_active,
@@ -551,9 +546,9 @@ async def clear_api_key(device_id: str, db: Session = Depends(get_db)):
 
 
 @app.get("/api/settings/maps-key")
-async def get_maps_key_status(device_id: str, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.device_id == device_id).first()
-    user_has = bool(user and user.google_maps_api_key)
+async def get_maps_key_status(device_id: str, db: FirestoreDB = Depends(get_db)):
+    user = await db.get_user(device_id)
+    user_has = bool(user and user.get("google_maps_api_key"))
     env_has = bool(_env_maps_key())
     if user_has:
         source = "user"
@@ -567,21 +562,16 @@ async def get_maps_key_status(device_id: str, db: Session = Depends(get_db)):
         "source": source,
         "user_saved": user_has,
         "env_available": env_has,
-        "hint": _mask_api_key(user.google_maps_api_key) if user_has else None,
+        "hint": _mask_api_key(user["google_maps_api_key"]) if user_has else None,
     }
 
 
 @app.post("/api/settings/maps-key")
-async def save_maps_key(data: MapsKeySaveRequest, db: Session = Depends(get_db)):
+async def save_maps_key(data: MapsKeySaveRequest, db: FirestoreDB = Depends(get_db)):
     key = (data.api_key or "").strip()
     if not key:
         raise HTTPException(status_code=400, detail="Maps API key is empty")
-    user = db.query(models.User).filter(models.User.device_id == data.device_id).first()
-    if not user:
-        user = models.User(device_id=data.device_id)
-        db.add(user)
-    user.google_maps_api_key = key
-    db.commit()
+    await db.save_user(data.device_id, {"google_maps_api_key": key})
     return {
         "status": "success",
         "hint": _mask_api_key(key),
@@ -590,8 +580,8 @@ async def save_maps_key(data: MapsKeySaveRequest, db: Session = Depends(get_db))
 
 
 @app.post("/api/settings/maps-key/test")
-async def test_maps_key(data: MapsKeyTestRequest, db: Session = Depends(get_db)):
-    key = (data.api_key or "").strip() or (_resolve_maps_key(db, data.device_id) or "")
+async def test_maps_key(data: MapsKeyTestRequest, db: FirestoreDB = Depends(get_db)):
+    key = (data.api_key or "").strip() or (await _resolve_maps_key_async(db, data.device_id) or "")
     if not key:
         raise HTTPException(status_code=400, detail="No Maps API key to test")
     sample = build_maps_embed_url("Tokyo Station", api_key=key)
@@ -601,11 +591,10 @@ async def test_maps_key(data: MapsKeyTestRequest, db: Session = Depends(get_db))
 
 
 @app.delete("/api/settings/maps-key")
-async def clear_maps_key(device_id: str, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.device_id == device_id).first()
-    if user and user.google_maps_api_key:
-        user.google_maps_api_key = None
-        db.commit()
+async def clear_maps_key(device_id: str, db: FirestoreDB = Depends(get_db)):
+    user = await db.get_user(device_id)
+    if user and user.get("google_maps_api_key"):
+        await db.delete_user_field(device_id, "google_maps_api_key")
     env_has = bool(_env_maps_key())
     return {
         "status": "success",
@@ -617,13 +606,13 @@ async def clear_maps_key(device_id: str, db: Session = Depends(get_db)):
 
 
 @app.get("/api/settings/services/health")
-async def services_health(device_id: str, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.device_id == device_id).first()
-    user_gemini = bool(user and user.gemini_api_key)
-    user_maps = bool(user and user.google_maps_api_key)
-    gemini_key = _resolve_api_key(db, device_id)
-    maps_key = _resolve_maps_key(db, device_id)
-    mock_active = should_use_mock(db, device_id)
+async def services_health(device_id: str, db: FirestoreDB = Depends(get_db)):
+    user = await db.get_user(device_id)
+    user_gemini = bool(user and user.get("gemini_api_key"))
+    user_maps = bool(user and user.get("google_maps_api_key"))
+    gemini_key = await _resolve_api_key_async(db, device_id)
+    maps_key = await _resolve_maps_key_async(db, device_id)
+    mock_active = await should_use_mock_async(db, device_id)
     gcp_ok = _gcp_credentials_available()
     return {
         "status": "success",
@@ -660,9 +649,9 @@ async def maps_embed_url(
     device_id: str = "",
     latitude: Optional[float] = None,
     longitude: Optional[float] = None,
-    db: Session = Depends(get_db),
+    db: FirestoreDB = Depends(get_db),
 ):
-    maps_key = _resolve_maps_key(db, device_id or None)
+    maps_key = await _resolve_maps_key_async(db, device_id or None)
     q = (query or "").strip() or "Japan"
     return {
         "status": "success",
@@ -672,36 +661,29 @@ async def maps_embed_url(
 
 
 @app.post("/api/user/init")
-async def init_user(data: UserInitRequest, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.device_id == data.device_id).first()
-    if not user:
-        user = models.User(device_id=data.device_id)
-        db.add(user)
+async def init_user(data: UserInitRequest, db: FirestoreDB = Depends(get_db)):
+    user = await db.get_or_create_user(data.device_id)
     _apply_school_info_to_user(user, data.school_info)
-    _sync_completed_tasks(db, data.device_id, data.completed_tasks)
-    db.commit()
+    await db.save_user(data.device_id, {k: v for k, v in user.items() if k != "device_id"})
+    await db.sync_completed_tasks(data.device_id, data.completed_tasks)
     profile = profile_from_dict(data.school_info)
     lang = data.school_info.get("lang", "en")
 
-    # Build static roadmap first (always available, instant)
     roadmap = _roadmap_with_links(profile, data.completed_tasks, lang, data.school_info)
 
-    # Attempt AI personalization if a real API key is available
     ai_overlay = None
-    genai_client = get_genai_client(db, data.device_id)
+    genai_client = await get_genai_client_async(db, data.device_id)
     if genai_client:
-        # Check if we already have a cached overlay for this lang
         cached_overlay = None
-        if user.ai_roadmap and user.ai_roadmap_lang == lang:
+        if user.get("ai_roadmap") and user.get("ai_roadmap_lang") == lang:
             try:
-                cached_overlay = json.loads(user.ai_roadmap)
+                cached_overlay = json.loads(user["ai_roadmap"])
             except Exception:
                 cached_overlay = None
 
         if cached_overlay:
             ai_overlay = cached_overlay
         else:
-            # Generate fresh AI overlay (non-blocking: fire and use result immediately)
             try:
                 ai_overlay = await generate_ai_roadmap(
                     school_info=data.school_info,
@@ -710,9 +692,10 @@ async def init_user(data: UserInitRequest, db: Session = Depends(get_db)):
                     genai_client=genai_client,
                 )
                 if ai_overlay:
-                    user.ai_roadmap = json.dumps(ai_overlay)
-                    user.ai_roadmap_lang = lang
-                    db.commit()
+                    await db.save_user(data.device_id, {
+                        "ai_roadmap": json.dumps(ai_overlay),
+                        "ai_roadmap_lang": lang,
+                    })
             except Exception as exc:
                 print(f"[init_user] AI roadmap generation failed: {exc}")
                 ai_overlay = None
@@ -723,22 +706,20 @@ async def init_user(data: UserInitRequest, db: Session = Depends(get_db)):
     return {"status": "success", "roadmap": roadmap, "ai_generated": bool(ai_overlay)}
 
 @app.post("/api/user/profile")
-async def update_user_profile(data: UserProfileRequest, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.device_id == data.device_id).first()
+async def update_user_profile(data: UserProfileRequest, db: FirestoreDB = Depends(get_db)):
+    user = await db.get_user(data.device_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     _apply_school_info_to_user(user, data.school_info)
-    # Clear cached AI roadmap so it regenerates with new profile
-    user.ai_roadmap = None
-    user.ai_roadmap_lang = None
-    db.commit()
-    completed = _get_completed_tasks(db, data.device_id)
+    user["ai_roadmap"] = None
+    user["ai_roadmap_lang"] = None
+    await db.save_user(data.device_id, {k: v for k, v in user.items() if k != "device_id"})
+    completed = await db.get_completed_tasks(data.device_id)
     profile = profile_from_dict(_school_info_from_user(user))
     lang = data.school_info.get("lang", "en")
     roadmap = _roadmap_with_links(profile, completed, lang, data.school_info)
 
-    # Re-generate AI overlay with updated profile
-    genai_client = get_genai_client(db, data.device_id)
+    genai_client = await get_genai_client_async(db, data.device_id)
     if genai_client:
         try:
             ai_overlay = await generate_ai_roadmap(
@@ -748,9 +729,10 @@ async def update_user_profile(data: UserProfileRequest, db: Session = Depends(ge
                 genai_client=genai_client,
             )
             if ai_overlay:
-                user.ai_roadmap = json.dumps(ai_overlay)
-                user.ai_roadmap_lang = lang
-                db.commit()
+                await db.save_user(data.device_id, {
+                    "ai_roadmap": json.dumps(ai_overlay),
+                    "ai_roadmap_lang": lang,
+                })
                 roadmap = merge_ai_overlay_into_roadmap(roadmap, ai_overlay)
         except Exception as exc:
             print(f"[update_user_profile] AI roadmap regeneration failed: {exc}")
@@ -758,8 +740,8 @@ async def update_user_profile(data: UserProfileRequest, db: Session = Depends(ge
     return {"status": "success", "roadmap": roadmap}
 
 @app.post("/api/roadmap")
-async def get_roadmap(data: RoadmapRequest, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.device_id == data.device_id).first()
+async def get_roadmap(data: RoadmapRequest, db: FirestoreDB = Depends(get_db)):
+    user = await db.get_user(data.device_id)
     if data.school_info:
         school_info = data.school_info
     elif user:
@@ -768,15 +750,14 @@ async def get_roadmap(data: RoadmapRequest, db: Session = Depends(get_db)):
         school_info = {}
     completed = data.completed_tasks
     if completed is None:
-        completed = _get_completed_tasks(db, data.device_id) if user else []
+        completed = await db.get_completed_tasks(data.device_id) if user else []
     profile = profile_from_dict(school_info)
     branch_choices = data.branch_choices or {}
     roadmap = _roadmap_with_links(profile, completed, data.lang, school_info, branch_choices)
 
-    # Apply cached AI overlay if available
-    if user and user.ai_roadmap:
+    if user and user.get("ai_roadmap"):
         try:
-            ai_overlay = json.loads(user.ai_roadmap)
+            ai_overlay = json.loads(user["ai_roadmap"])
             roadmap = merge_ai_overlay_into_roadmap(roadmap, ai_overlay)
         except Exception:
             pass
@@ -784,8 +765,8 @@ async def get_roadmap(data: RoadmapRequest, db: Session = Depends(get_db)):
     return {"status": "success", "roadmap": roadmap}
 
 @app.post("/api/roadmap/branch")
-async def select_roadmap_branch(data: BranchSelectRequest, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.device_id == data.device_id).first()
+async def select_roadmap_branch(data: BranchSelectRequest, db: FirestoreDB = Depends(get_db)):
+    user = await db.get_user(data.device_id)
     if data.school_info:
         school_info = data.school_info
     elif user:
@@ -794,7 +775,7 @@ async def select_roadmap_branch(data: BranchSelectRequest, db: Session = Depends
         school_info = {}
     completed = data.completed_tasks
     if completed is None:
-        completed = _get_completed_tasks(db, data.device_id) if user else []
+        completed = await db.get_completed_tasks(data.device_id) if user else []
     branch_choices = dict(data.branch_choices or {})
     branch_choices[data.branch_id] = data.choice_id
     profile = profile_from_dict(school_info)
@@ -814,14 +795,14 @@ async def expand_roadmap_task(data: TaskExpandRequest):
     return {"status": "success", "expansion": expansion}
 
 @app.post("/api/roadmap/task/personalize")
-async def personalize_roadmap_task(data: TaskPersonalizeRequest, db: Session = Depends(get_db)):
-    if should_use_mock(db, data.device_id):
+async def personalize_roadmap_task(data: TaskPersonalizeRequest, db: FirestoreDB = Depends(get_db)):
+    if await should_use_mock_async(db, data.device_id):
         text = build_mock_personalized_plan(
             data.task_id, data.school_info, data.branch_choices, data.lang
         )
         return {"status": "success", "personalized": {"task_id": data.task_id, "content": text, "mock": True}}
 
-    genai_client = require_genai_client(db, data.device_id)
+    genai_client = await require_genai_client_async(db, data.device_id)
     target_lang = LANG_MAP.get(data.lang, "English")
     prompt = build_personalize_prompt(
         data.task_id,
@@ -878,9 +859,9 @@ def _task_title_by_id(task_id: str, roadmap: Dict[str, Any]) -> Dict[str, str]:
     return {"zh-TW": task_id, "en": task_id, "ja": task_id}
 
 @app.post("/api/tasks/complete")
-async def complete_task(data: TaskCompleteRequest, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.device_id == data.device_id).first()
-    completed = _get_completed_tasks(db, data.device_id)
+async def complete_task(data: TaskCompleteRequest, db: FirestoreDB = Depends(get_db)):
+    user = await db.get_user(data.device_id)
+    completed = await db.get_completed_tasks(data.device_id)
     to_complete = [data.task_id]
     aliases = load_branches().get("completion_aliases") or {}
     for parent, children in aliases.items():
@@ -888,9 +869,8 @@ async def complete_task(data: TaskCompleteRequest, db: Session = Depends(get_db)
             to_complete.append(parent)
     for tid in to_complete:
         if tid not in completed:
-            db.add(models.Task(device_id=data.device_id, task_id=tid, status="completed"))
+            await db.add_completed_task(data.device_id, tid)
             completed.append(tid)
-    db.commit()
     school_info = _school_info_from_user(user) if user else {}
     profile = profile_from_dict(school_info)
     branch_choices = data.branch_choices or {}
@@ -898,28 +878,20 @@ async def complete_task(data: TaskCompleteRequest, db: Session = Depends(get_db)
     return {"status": "success", "roadmap": roadmap, "completed_tasks": completed}
 
 @app.post("/api/user/sync_tasks")
-async def sync_tasks(data: TaskSyncRequest, db: Session = Depends(get_db)):
-    _sync_completed_tasks(db, data.device_id, data.completed_tasks)
-    db.commit()
+async def sync_tasks(data: TaskSyncRequest, db: FirestoreDB = Depends(get_db)):
+    await db.sync_completed_tasks(data.device_id, data.completed_tasks)
     return {"status": "success"}
 
 @app.post("/api/user/location")
-async def update_location(data: LocationUpdateRequest, db: Session = Depends(get_db)):
-    log = models.LocationLog(
-        device_id=data.device_id,
-        latitude=data.latitude,
-        longitude=data.longitude,
-        address=data.address
-    )
-    db.add(log)
-    db.commit()
+async def update_location(data: LocationUpdateRequest, db: FirestoreDB = Depends(get_db)):
+    await db.save_location(data.device_id, data.latitude, data.longitude, data.address)
     return {"status": "success"}
 
 @app.post("/api/agent/latest")
-async def get_latest_decision(data: AgentLatestRequest, db: Session = Depends(get_db)):
-    decision = db.query(models.AgentDecision).filter(models.AgentDecision.device_id == data.device_id).first()
-    if decision:
-        return {"status": "success", "decision": json.loads(decision.decision_data)}
+async def get_latest_decision(data: AgentLatestRequest, db: FirestoreDB = Depends(get_db)):
+    decision_json = await db.get_agent_decision(data.device_id)
+    if decision_json:
+        return {"status": "success", "decision": json.loads(decision_json)}
     return {"status": "not_found"}
 
 async def generate_agent_decision(school_info, completed_tasks, current_address, latitude, longitude, local_time, day_of_week, lang, problem_report=None, task_action=None, force_llm=False, device_id=None, db=None):
@@ -927,9 +899,8 @@ async def generate_agent_decision(school_info, completed_tasks, current_address,
     profile = profile_from_dict(school_info)
     roadmap_data = _roadmap_with_links(profile, completed_tasks, lang, school_info)
 
-    # Resolve client without raising — this function is also called from background tasks
-    genai_client = get_genai_client(db, device_id)
-    use_mock = should_use_mock(db, device_id)
+    genai_client = await get_genai_client_async(db, device_id)
+    use_mock = await should_use_mock_async(db, device_id)
 
     if use_mock or genai_client is None:
         # No real API key available — return rule-based decision or mock
@@ -1038,62 +1009,51 @@ async def generate_agent_decision(school_info, completed_tasks, current_address,
 
 async def background_decision_task():
     print("Running background agent decision task for all users...")
-    db = SessionLocal()
+    db = FirestoreDB()
     try:
-        users = db.query(models.User).all()
+        users = await db.get_all_users()
         now = datetime.now(ZoneInfo("Asia/Tokyo"))
         local_time_str = now.strftime("%Y-%m-%dT%H:%M")
         day_str = now.strftime("%A")
 
         for user in users:
-            last_loc = db.query(models.LocationLog).filter(models.LocationLog.device_id == user.device_id).order_by(models.LocationLog.timestamp.desc()).first()
+            device_id = user["device_id"]
+            last_loc = await db.get_latest_location(device_id)
             if not last_loc:
                 continue
 
-            tasks = db.query(models.Task).filter(models.Task.device_id == user.device_id).all()
-            completed = [t.task_id for t in tasks]
-            
+            completed = await db.get_completed_tasks(device_id)
             school_info = {
-                "school_name": user.school_name,
-                "arrival_date": user.arrival_date,
-                "location": user.location,
-                "japanese_level": user.japanese_level,
-                "has_residence_card": user.has_residence_card
+                "school_name": user.get("school_name"),
+                "arrival_date": user.get("arrival_date"),
+                "location": user.get("location"),
+                "japanese_level": user.get("japanese_level"),
+                "has_residence_card": user.get("has_residence_card", True),
             }
 
             try:
                 decision = await generate_agent_decision(
                     school_info=school_info,
                     completed_tasks=completed,
-                    current_address=last_loc.address,
-                    latitude=last_loc.latitude,
-                    longitude=last_loc.longitude,
+                    current_address=last_loc["address"],
+                    latitude=last_loc["latitude"],
+                    longitude=last_loc["longitude"],
                     local_time=local_time_str,
                     day_of_week=day_str,
-                    lang="en", # fallback, could store user's preferred lang
-                    device_id=user.device_id,
+                    lang="en",
+                    device_id=device_id,
                     db=db,
                 )
-                
-                decision_record = db.query(models.AgentDecision).filter(models.AgentDecision.device_id == user.device_id).first()
-                if not decision_record:
-                    decision_record = models.AgentDecision(device_id=user.device_id, decision_data=json.dumps(decision))
-                    db.add(decision_record)
-                else:
-                    decision_record.decision_data = json.dumps(decision)
-                    # Trigger timestamp update natively by SQLAlchemy if configured, else manual
-                db.commit()
-                print(f"Updated decision for {user.device_id}")
+                await db.save_agent_decision(device_id, json.dumps(decision))
+                print(f"Updated decision for {device_id}")
             except Exception as e:
-                print(f"Error generating decision for {user.device_id}: {e}")
+                print(f"Error generating decision for {device_id}: {e}")
 
     except Exception as e:
         print(f"Background scheduler error: {e}")
-    finally:
-        db.close()
 
 @app.post("/api/agent-step")
-async def agent_step(data: AgentStepRequest, db: Session = Depends(get_db)):
+async def agent_step(data: AgentStepRequest, db: FirestoreDB = Depends(get_db)):
     """
     自律型決策端點：結合即時搜尋，尋找學生居住地或定位點附近的真實政府機構、門市與其營業時間。
     """
@@ -1113,40 +1073,30 @@ async def agent_step(data: AgentStepRequest, db: Session = Depends(get_db)):
             device_id=data.device_id,
             db=db,
         )
-        
-        # Save decision if device_id is provided
+
         if data.device_id:
-            user = db.query(models.User).filter(models.User.device_id == data.device_id).first()
-            if user and "newly_completed_tasks" in decision:
+            if "newly_completed_tasks" in decision:
                 for t in decision["newly_completed_tasks"]:
                     if t not in data.completed_tasks:
-                        task = models.Task(device_id=data.device_id, task_id=t, status="completed")
-                        db.add(task)
+                        await db.add_completed_task(data.device_id, t)
                         data.completed_tasks.append(t)
-            
-            decision_record = db.query(models.AgentDecision).filter(models.AgentDecision.device_id == data.device_id).first()
-            if not decision_record:
-                decision_record = models.AgentDecision(device_id=data.device_id, decision_data=json.dumps(decision))
-                db.add(decision_record)
-            else:
-                decision_record.decision_data = json.dumps(decision)
-            db.commit()
-            
+            await db.save_agent_decision(data.device_id, json.dumps(decision))
+
         return {"status": "success", "decision": decision, "completed_tasks": data.completed_tasks}
     except Exception as e:
         print(f"Error during agent step: {e}")
         raise HTTPException(status_code=500, detail=f"Agent 決策生成失敗: {str(e)}")
 
 @app.post("/api/export/roadmap-pdf")
-async def export_roadmap_pdf(data: RoadmapExportRequest, db: Session = Depends(get_db)):
+async def export_roadmap_pdf(data: RoadmapExportRequest, db: FirestoreDB = Depends(get_db)):
     """Export AI-personalized Haru action plan PDF."""
     profile = profile_from_dict(data.school_info)
     roadmap = _roadmap_with_links(profile, data.completed_tasks, data.lang, data.school_info)
     address = data.current_address or data.school_info.get("location") or ""
     plan = build_action_plan_content(roadmap, data.school_info, data.lang, address)
-    if not should_use_mock(db, data.device_id):
+    if not await should_use_mock_async(db, data.device_id):
         try:
-            genai_client = require_genai_client(db, data.device_id)
+            genai_client = await require_genai_client_async(db, data.device_id)
             plan = await enrich_action_plan_with_ai(
                 plan, roadmap, data.school_info, data.lang, address, genai_client
             )
@@ -1253,7 +1203,7 @@ async def quiz_start(data: QuizStartRequest):
 
 
 @app.post("/api/quiz/answer")
-async def quiz_answer(data: QuizAnswerRequest, db: Session = Depends(get_db)):
+async def quiz_answer(data: QuizAnswerRequest, db: FirestoreDB = Depends(get_db)):
     result = submit_quiz_answer(
         data.quiz_state,
         data.choice_id,
@@ -1263,8 +1213,8 @@ async def quiz_answer(data: QuizAnswerRequest, db: Session = Depends(get_db)):
     )
     if result.get("done"):
         genai_client = None
-        if not should_use_mock(db, data.device_id):
-            genai_client = get_genai_client(db, data.device_id)
+        if not await should_use_mock_async(db, data.device_id):
+            genai_client = await get_genai_client_async(db, data.device_id)
         target_lang = LANG_MAP.get(data.lang, "English")
         diagnosis = await synthesize_quiz_diagnosis(
             result["quiz_state"],
@@ -1319,7 +1269,7 @@ def _build_chat_user_parts(message: str, images: List[Dict[str, str]]) -> List[A
 
 
 @app.post("/api/chat")
-async def chat(data: ChatRequest, db: Session = Depends(get_db)):
+async def chat(data: ChatRequest, db: FirestoreDB = Depends(get_db)):
     focus_task_id = data.focus_task_id
     profile = profile_from_dict(data.school_info)
     effective_completed = merge_effective_completed(profile, data.completed_tasks)
@@ -1332,12 +1282,12 @@ async def chat(data: ChatRequest, db: Session = Depends(get_db)):
     if images:
         image_note = f" User attached {len(images)} image(s)."
 
-    if should_use_mock(db, data.device_id):
+    if await should_use_mock_async(db, data.device_id):
         mock_text = get_mock_response(
             data.lang, "chat",
             bi18n("mockChatReply", data.lang, image_note=image_note or "")
         )
-        maps_key = _resolve_maps_key(db, data.device_id)
+        maps_key = await _resolve_maps_key_async(db, data.device_id)
         tool_ctx = {
             "lang": data.lang,
             "school_info": data.school_info,
@@ -1407,8 +1357,8 @@ async def chat(data: ChatRequest, db: Session = Depends(get_db)):
     contents.append(types.Content(role="user", parts=user_parts))
 
     try:
-        genai_client = require_genai_client(db, data.device_id)
-        maps_key = _resolve_maps_key(db, data.device_id)
+        genai_client = await require_genai_client_async(db, data.device_id)
+        maps_key = await _resolve_maps_key_async(db, data.device_id)
         tool_ctx = {
             "lang": data.lang,
             "school_info": data.school_info,
@@ -1460,9 +1410,9 @@ async def analyze_form(
     location: str = Form(""),
     lang: str = Form("en"),
     device_id: str = Form(""),
-    db: Session = Depends(get_db),
+    db: FirestoreDB = Depends(get_db),
 ):
-    if should_use_mock(db, device_id or None):
+    if await should_use_mock_async(db, device_id or None):
         return {"status": "success", "analysis": get_mock_response(lang, "analyze_form", bi18n("mockAnalyzeForm", lang))}
         
     target_lang = LANG_MAP.get(lang, "English")
@@ -1478,7 +1428,7 @@ async def analyze_form(
             f"Write strictly in {target_lang}."
         )
         
-        genai_client = require_genai_client(db, device_id or None)
+        genai_client = await require_genai_client_async(db, device_id or None)
         response, _model, _used = await generate_with_model_fallback(
             genai_client,
             contents=[image_part, prompt],

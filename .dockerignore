@@ -1,0 +1,29 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+*.egg-info/
+
+# 本地環境設定（不進 container，由 Cloud Run 環境變數取代）
+.env
+
+# 資料庫（Cloud Run 是無狀態，DB 不應打包進 image）
+agent.db
+
+# 開發用
+.vscode/
+scripts/
+*.md
+run.cmd
+
+# GCP 服務帳號金鑰（絕對不能進 image）
+*.json
+!data/**/*.json
+!static/locales/*.json
+!mock_responses.json
