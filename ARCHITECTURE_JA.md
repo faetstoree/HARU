@@ -9,7 +9,6 @@ graph TB
         JS_Main["main.js<br/>メインロジック / 状態管理"]
         JS_Canvas["roadmap_canvas.js<br/>ロードマップ可視化"]
         JS_Guide["guide_walkthrough.js<br/>インタラクティブガイド"]
-        JS_School["school_autocomplete.js<br/>学校名オートコンプリート"]
     end
 
     subgraph Static["静的リソース"]
@@ -20,15 +19,24 @@ graph TB
     subgraph FastAPI["⚡ FastAPI (main.py)"]
         direction TB
         API_Init["POST /api/user/init<br/>オンボーディング"]
+        API_Profile["POST /api/user/profile<br/>プロフィール更新"]
         API_Roadmap["POST /api/roadmap<br/>ロードマップ取得"]
-        API_Agent["POST /api/agent/step<br/>メインチャット"]
+        API_Branch["POST /api/roadmap/branch<br/>分岐選択"]
+        API_Agent["POST /api/agent-step<br/>メインチャット"]
+        API_AgentLatest["POST /api/agent/latest<br/>最新決定取得"]
         API_Chat["POST /api/chat<br/>汎用チャット"]
+        API_AnalyzeForm["POST /api/analyze-form<br/>フォーム OCR 解析"]
         API_Quiz["POST /api/quiz/*<br/>診断アンケート"]
         API_Task["POST /api/roadmap/task/*<br/>タスク操作"]
-        API_Schools["GET /api/schools/search"]
+        API_TaskComplete["POST /api/tasks/complete<br/>完了マーク"]
+        API_SyncTasks["POST /api/user/sync_tasks<br/>タスク同期"]
+        API_Location["POST /api/user/location<br/>位置情報更新"]
         API_Maps["GET /api/maps/embed-url"]
         API_TTS["POST /api/tts / /api/stt"]
-        API_PDF["POST /api/roadmap/export/pdf"]
+        API_PDF["POST /api/export/roadmap-pdf"]
+        API_Knowledge["GET /api/knowledge/for-task<br/>ナレッジ検索"]
+        API_Resources["GET /api/resources<br/>公式リソース"]
+        API_Suggestions["GET /api/chat/suggestions<br/>おすすめ質問"]
         API_Settings["GET/POST/DELETE<br/>/api/settings/api-key<br/>/api/settings/maps-key"]
     end
 
@@ -52,7 +60,6 @@ graph TB
     subgraph AI["🤖 AI 層"]
         GEMINI["gemini_engine.py<br/>Gemini API ラッパー<br/>モデルフォールバック"]
         ROADMAP_AI["roadmap_ai_engine.py<br/>オンボーディング AI オーバーレイ生成"]
-        DETAIL_AI["roadmap_detail_engine.py<br/>タスク個人化ステップ Prompt"]
         QUIZ_AI["quiz_ai.py<br/>アンケート診断レポート AI"]
         ACTION_AI["action_plan_ai.py<br/>PDF アクションプラン AI"]
         CHAT_TOOLS["chat_tools.py<br/>Gemini Function Calling"]
@@ -61,7 +68,7 @@ graph TB
     subgraph Roadmap["🗺️ ロードマップ層"]
         ROADMAP["roadmap_engine.py<br/>ロードマップコアロジック<br/>タスクステータス計算"]
         BRANCH["roadmap_branch_engine.py<br/>分岐選択 & 補足タスク"]
-        DETAIL["roadmap_detail_engine.py<br/>タスク静的展開"]
+        DETAIL["roadmap_detail_engine.py<br/>タスク静的展開 & プロンプトビルダー"]
         GRAPH["roadmap_graph_engine.py<br/>グラフ / Mermaid データ"]
         MERMAID["roadmap_mermaid_engine.py<br/>Mermaid 図表生成"]
         EXPORT["roadmap_export.py<br/>PDF エクスポート"]
@@ -74,7 +81,6 @@ graph TB
 
     subgraph Support["🔧 サポート層"]
         QUIZ["quiz_engine.py<br/>診断アンケートロジック"]
-        SCHOOL["school_engine.py<br/>学校 Fuzzy 検索"]
         MAPS["maps_engine.py<br/>Google Maps Embed URL"]
         CHAT_BLOCKS["chat_blocks.py<br/>チャットメッセージブロック組み立て"]
         I18N["backend_i18n.py<br/>バックエンド多言語 t()"]
@@ -82,36 +88,33 @@ graph TB
 
     subgraph Data["💾 データ層"]
         FIRESTORE[("Firestore<br/>users / tasks<br/>location_logs / agent_decisions")]
-        JSON_DATA["静的 JSON データ<br/>roadmap / branches / quiz<br/>schools / resources / wards<br/>knowledge articles & guides"]
+        JSON_DATA["静的 JSON データ<br/>roadmap / branches / quiz<br/>resources / wards<br/>knowledge articles & guides"]
         FIRESTORE_DB["firestore_db.py<br/>Firestore アクセス層"]
     end
 
     MAIN --> AGENT
     MAIN --> ROADMAP
+    MAIN --> ROADMAP_AI
     MAIN --> QUIZ
-    MAIN --> SCHOOL
     MAIN --> MAPS
     MAIN --> EXPORT
+    MAIN --> DETAIL
+    MAIN --> RESOURCE
     AGENT --> CHAT_TOOLS
     CHAT_TOOLS --> GEMINI
     ROADMAP_AI --> GEMINI
-    DETAIL_AI --> GEMINI
     QUIZ_AI --> GEMINI
     ACTION_AI --> GEMINI
     ROADMAP --> BRANCH
     ROADMAP --> GRAPH
-    ROADMAP --> MERMAID
     DETAIL --> ROADMAP
     DETAIL --> BRANCH
-    DETAIL --> DETAIL_AI
     EXPORT --> ACTION_AI
     DETAIL --> KNOWLEDGE
-    DETAIL_AI --> KNOWLEDGE
     CHAT_TOOLS --> MAPS
     CHAT_TOOLS --> MERMAID
     CHAT_BLOCKS --> KNOWLEDGE
     CHAT_BLOCKS --> RESOURCE
-    ROADMAP --> RESOURCE
     QUIZ --> QUIZ_AI
     MAIN --> CHAT_BLOCKS
     MAIN --> I18N
@@ -122,7 +125,6 @@ graph TB
     KNOWLEDGE --> JSON_DATA
     RESOURCE --> JSON_DATA
     QUIZ --> JSON_DATA
-    SCHOOL --> JSON_DATA
 ```
 
 ---
@@ -135,6 +137,7 @@ sequenceDiagram
     participant main as main.py
     participant roadmap as roadmap_engine
     participant resource as resource_engine
+    participant roadmap_ai as roadmap_ai_engine
     participant agent as agent_engine
     participant chat as chat_tools
     participant gemini as gemini_engine
@@ -148,14 +151,16 @@ sequenceDiagram
     main->>db: User 作成 / 更新
     main->>roadmap: build_roadmap_response(profile)
     roadmap->>resource: enrich_roadmap_with_official_links()
-    main->>gemini: generate_ai_roadmap() [AI Overlay]
-    gemini-->>main: 個人化 overlay JSON
+    main->>roadmap_ai: generate_ai_roadmap() [AI Overlay]
+    roadmap_ai->>gemini: generate_with_model_fallback()
+    gemini-->>roadmap_ai: 個人化 overlay JSON
+    roadmap_ai-->>main: overlay JSON
     main->>db: ai_roadmap キャッシュ保存
     main-->>Browser: ロードマップ + AI overlay
 
-    Note over Browser,db: /api/agent/step — メインチャットフロー
+    Note over Browser,db: /api/agent-step — メインチャットフロー
 
-    Browser->>main: POST /api/agent/step (message)
+    Browser->>main: POST /api/agent-step (message)
     main->>roadmap: build_roadmap_response()
     main->>agent: should_use_llm_for_agent() → true
     main->>chat: run_chat_with_tools()
@@ -196,12 +201,11 @@ graph LR
         J1["roadmap.json<br/>タスク定義 / 依存チェーン / フェーズ"]
         J2["roadmap_branches.json<br/>分岐点 / 補足タスク"]
         J3["quiz_questions.json<br/>アンケート問題集"]
-        J4["schools.json<br/>学校リスト"]
-        J5["official_resources.json<br/>公式リンク"]
-        J6["regional_wards.json<br/>区役所 URL"]
-        J7["knowledge/articles.json<br/>ナレッジ記事"]
-        J8["knowledge/service_guides.json<br/>インタラクティブガイド"]
-        J9["knowledge/sources.json<br/>信頼できるソース"]
+        J4["official_resources.json<br/>公式リンク"]
+        J5["regional_wards.json<br/>区役所 URL"]
+        J6["knowledge/articles.json<br/>ナレッジ記事"]
+        J7["knowledge/service_guides.json<br/>インタラクティブガイド"]
+        J8["knowledge/sources.json<br/>信頼できるソース"]
     end
 
     subgraph I18N["多言語データ"]
@@ -216,12 +220,11 @@ graph LR
     roadmap_engine --> J1
     roadmap_branch_engine --> J2
     quiz_engine --> J3
-    school_engine --> J4
+    resource_engine --> J4
     resource_engine --> J5
-    resource_engine --> J6
+    knowledge_engine --> J6
     knowledge_engine --> J7
     knowledge_engine --> J8
-    knowledge_engine --> J9
     backend_i18n --> L1
     frontend_js --> L2
 ```
@@ -255,12 +258,10 @@ graph TB
     GEMINI_ENGINE --> Gemini_API
 
     ROADMAP_AI["roadmap_ai_engine<br/>オンボーディング Overlay<br/>(一度生成、Firestore にキャッシュ)"] --> GEMINI_ENGINE
-    DETAIL_AI["roadmap_detail_engine<br/>タスク個人化ステップ<br/>(リアルタイム生成)"] --> GEMINI_ENGINE
     QUIZ_AI["quiz_ai<br/>アンケート診断レポート<br/>(リアルタイム生成)"] --> GEMINI_ENGINE
     ACTION_AI["action_plan_ai<br/>PDF アクションプラン<br/>(Google Search tool 含む)"] --> GEMINI_ENGINE
     CHAT_TOOLS["chat_tools<br/>Function Calling チャット<br/>(マルチターン、最大 4 rounds)"] --> GEMINI_ENGINE
-    KNOWLEDGE["knowledge_engine<br/>信頼できる情報を注入<br/>(AI の URL 捏造防止)"] -->|"context 注入"| DETAIL_AI
-    KNOWLEDGE -->|"context 注入"| CHAT_TOOLS
+    KNOWLEDGE["knowledge_engine<br/>信頼できる情報を注入<br/>(AI の URL 捏造防止)"] -->|"context 注入"| CHAT_TOOLS
 ```
 
 ---

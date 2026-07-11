@@ -9,7 +9,6 @@ graph TB
         JS_Main["main.js<br/>Main logic / State management"]
         JS_Canvas["roadmap_canvas.js<br/>Roadmap visualization"]
         JS_Guide["guide_walkthrough.js<br/>Interactive guide"]
-        JS_School["school_autocomplete.js<br/>School autocomplete"]
     end
 
     subgraph Static["Static Assets"]
@@ -20,15 +19,24 @@ graph TB
     subgraph FastAPI["⚡ FastAPI (main.py)"]
         direction TB
         API_Init["POST /api/user/init<br/>Onboarding"]
+        API_Profile["POST /api/user/profile<br/>Update profile"]
         API_Roadmap["POST /api/roadmap<br/>Roadmap"]
-        API_Agent["POST /api/agent/step<br/>Main chat"]
+        API_Branch["POST /api/roadmap/branch<br/>Branch selection"]
+        API_Agent["POST /api/agent-step<br/>Main chat"]
+        API_AgentLatest["POST /api/agent/latest<br/>Latest decision"]
         API_Chat["POST /api/chat<br/>General chat"]
+        API_AnalyzeForm["POST /api/analyze-form<br/>Form OCR analysis"]
         API_Quiz["POST /api/quiz/*<br/>Diagnostic quiz"]
         API_Task["POST /api/roadmap/task/*<br/>Task operations"]
-        API_Schools["GET /api/schools/search"]
+        API_TaskComplete["POST /api/tasks/complete<br/>Mark complete"]
+        API_SyncTasks["POST /api/user/sync_tasks<br/>Sync tasks"]
+        API_Location["POST /api/user/location<br/>Update location"]
         API_Maps["GET /api/maps/embed-url"]
         API_TTS["POST /api/tts / /api/stt"]
-        API_PDF["POST /api/roadmap/export/pdf"]
+        API_PDF["POST /api/export/roadmap-pdf"]
+        API_Knowledge["GET /api/knowledge/for-task<br/>Knowledge query"]
+        API_Resources["GET /api/resources<br/>Official resources"]
+        API_Suggestions["GET /api/chat/suggestions<br/>Suggested questions"]
         API_Settings["GET/POST/DELETE<br/>/api/settings/api-key<br/>/api/settings/maps-key"]
     end
 
@@ -52,7 +60,6 @@ graph TB
     subgraph AI["🤖 AI Layer"]
         GEMINI["gemini_engine.py<br/>Gemini API wrapper<br/>Model fallback"]
         ROADMAP_AI["roadmap_ai_engine.py<br/>Onboarding AI overlay generation"]
-        DETAIL_AI["roadmap_detail_engine.py<br/>Task personalization prompt"]
         QUIZ_AI["quiz_ai.py<br/>Quiz diagnosis AI"]
         ACTION_AI["action_plan_ai.py<br/>PDF action plan AI"]
         CHAT_TOOLS["chat_tools.py<br/>Gemini Function Calling"]
@@ -61,7 +68,7 @@ graph TB
     subgraph Roadmap["🗺️ Roadmap Layer"]
         ROADMAP["roadmap_engine.py<br/>Core roadmap logic<br/>Task status calculation"]
         BRANCH["roadmap_branch_engine.py<br/>Branch selection & supplemental tasks"]
-        DETAIL["roadmap_detail_engine.py<br/>Static task expansion"]
+        DETAIL["roadmap_detail_engine.py<br/>Static task expansion & prompt builder"]
         GRAPH["roadmap_graph_engine.py<br/>Graph / Mermaid data"]
         MERMAID["roadmap_mermaid_engine.py<br/>Mermaid diagram generation"]
         EXPORT["roadmap_export.py<br/>PDF export"]
@@ -74,7 +81,6 @@ graph TB
 
     subgraph Support["🔧 Support Layer"]
         QUIZ["quiz_engine.py<br/>Quiz logic"]
-        SCHOOL["school_engine.py<br/>School fuzzy search"]
         MAPS["maps_engine.py<br/>Google Maps embed URL"]
         CHAT_BLOCKS["chat_blocks.py<br/>Chat message block assembly"]
         I18N["backend_i18n.py<br/>Backend i18n t()"]
@@ -82,36 +88,33 @@ graph TB
 
     subgraph Data["💾 Data Layer"]
         FIRESTORE[("Firestore<br/>users / tasks<br/>location_logs / agent_decisions")]
-        JSON_DATA["Static JSON data<br/>roadmap / branches / quiz<br/>schools / resources / wards<br/>knowledge articles & guides"]
+        JSON_DATA["Static JSON data<br/>roadmap / branches / quiz<br/>resources / wards<br/>knowledge articles & guides"]
         FIRESTORE_DB["firestore_db.py<br/>Firestore access layer"]
     end
 
     MAIN --> AGENT
     MAIN --> ROADMAP
+    MAIN --> ROADMAP_AI
     MAIN --> QUIZ
-    MAIN --> SCHOOL
     MAIN --> MAPS
     MAIN --> EXPORT
+    MAIN --> DETAIL
+    MAIN --> RESOURCE
     AGENT --> CHAT_TOOLS
     CHAT_TOOLS --> GEMINI
     ROADMAP_AI --> GEMINI
-    DETAIL_AI --> GEMINI
     QUIZ_AI --> GEMINI
     ACTION_AI --> GEMINI
     ROADMAP --> BRANCH
     ROADMAP --> GRAPH
-    ROADMAP --> MERMAID
     DETAIL --> ROADMAP
     DETAIL --> BRANCH
-    DETAIL --> DETAIL_AI
     EXPORT --> ACTION_AI
     DETAIL --> KNOWLEDGE
-    DETAIL_AI --> KNOWLEDGE
     CHAT_TOOLS --> MAPS
     CHAT_TOOLS --> MERMAID
     CHAT_BLOCKS --> KNOWLEDGE
     CHAT_BLOCKS --> RESOURCE
-    ROADMAP --> RESOURCE
     QUIZ --> QUIZ_AI
     MAIN --> CHAT_BLOCKS
     MAIN --> I18N
@@ -122,7 +125,6 @@ graph TB
     KNOWLEDGE --> JSON_DATA
     RESOURCE --> JSON_DATA
     QUIZ --> JSON_DATA
-    SCHOOL --> JSON_DATA
 ```
 
 ---
@@ -135,6 +137,7 @@ sequenceDiagram
     participant main as main.py
     participant roadmap as roadmap_engine
     participant resource as resource_engine
+    participant roadmap_ai as roadmap_ai_engine
     participant agent as agent_engine
     participant chat as chat_tools
     participant gemini as gemini_engine
@@ -148,14 +151,16 @@ sequenceDiagram
     main->>db: Create / update User
     main->>roadmap: build_roadmap_response(profile)
     roadmap->>resource: enrich_roadmap_with_official_links()
-    main->>gemini: generate_ai_roadmap() [AI Overlay]
-    gemini-->>main: Personalized overlay JSON
+    main->>roadmap_ai: generate_ai_roadmap() [AI Overlay]
+    roadmap_ai->>gemini: generate_with_model_fallback()
+    gemini-->>roadmap_ai: Personalized overlay JSON
+    roadmap_ai-->>main: overlay JSON
     main->>db: Save ai_roadmap cache
     main-->>Browser: Roadmap + AI overlay
 
-    Note over Browser,db: /api/agent/step — Main chat flow
+    Note over Browser,db: /api/agent-step — Main chat flow
 
-    Browser->>main: POST /api/agent/step (message)
+    Browser->>main: POST /api/agent-step (message)
     main->>roadmap: build_roadmap_response()
     main->>agent: should_use_llm_for_agent() → true
     main->>chat: run_chat_with_tools()
@@ -196,12 +201,11 @@ graph LR
         J1["roadmap.json<br/>Task definitions / dependencies / phases"]
         J2["roadmap_branches.json<br/>Branch points / supplemental tasks"]
         J3["quiz_questions.json<br/>Quiz question bank"]
-        J4["schools.json<br/>School list"]
-        J5["official_resources.json<br/>Official links"]
-        J6["regional_wards.json<br/>Ward office URLs"]
-        J7["knowledge/articles.json<br/>Knowledge articles"]
-        J8["knowledge/service_guides.json<br/>Interactive guides"]
-        J9["knowledge/sources.json<br/>Trusted sources"]
+        J4["official_resources.json<br/>Official links"]
+        J5["regional_wards.json<br/>Ward office URLs"]
+        J6["knowledge/articles.json<br/>Knowledge articles"]
+        J7["knowledge/service_guides.json<br/>Interactive guides"]
+        J8["knowledge/sources.json<br/>Trusted sources"]
     end
 
     subgraph I18N["Localization data"]
@@ -216,12 +220,11 @@ graph LR
     roadmap_engine --> J1
     roadmap_branch_engine --> J2
     quiz_engine --> J3
-    school_engine --> J4
+    resource_engine --> J4
     resource_engine --> J5
-    resource_engine --> J6
+    knowledge_engine --> J6
     knowledge_engine --> J7
     knowledge_engine --> J8
-    knowledge_engine --> J9
     backend_i18n --> L1
     frontend_js --> L2
 ```
@@ -255,12 +258,10 @@ graph TB
     GEMINI_ENGINE --> Gemini_API
 
     ROADMAP_AI["roadmap_ai_engine<br/>Onboarding overlay<br/>(generated once, cached in Firestore)"] --> GEMINI_ENGINE
-    DETAIL_AI["roadmap_detail_engine<br/>Task personalization steps<br/>(real-time)"] --> GEMINI_ENGINE
     QUIZ_AI["quiz_ai<br/>Quiz diagnosis report<br/>(real-time)"] --> GEMINI_ENGINE
     ACTION_AI["action_plan_ai<br/>PDF action plan<br/>(with Google Search tool)"] --> GEMINI_ENGINE
     CHAT_TOOLS["chat_tools<br/>Function Calling chat<br/>(multi-turn, up to 4 rounds)"] --> GEMINI_ENGINE
-    KNOWLEDGE["knowledge_engine<br/>Trusted facts injection<br/>(prevents AI hallucinating URLs)"] -->|"context injection"| DETAIL_AI
-    KNOWLEDGE -->|"context injection"| CHAT_TOOLS
+    KNOWLEDGE["knowledge_engine<br/>Trusted facts injection<br/>(prevents AI hallucinating URLs)"] -->|"context injection"| CHAT_TOOLS
 ```
 
 ---
