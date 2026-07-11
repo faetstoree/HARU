@@ -441,7 +441,7 @@ async def read_root():
         with open("templates/index.html", "r", encoding="utf-8") as f:
             return HTMLResponse(content=f.read(), status_code=200)
     except FileNotFoundError:
-        return HTMLResponse(content="<h3>請建立 templates/index.html 檔案。</h3>", status_code=404)
+        return HTMLResponse(content="<h3>templates/index.html not found.</h3>", status_code=404)
 
 
 @app.get("/api/settings/api-key")
@@ -1083,7 +1083,7 @@ async def agent_step(data: AgentStepRequest, db: FirestoreDB = Depends(get_db)):
         return {"status": "success", "decision": decision, "completed_tasks": data.completed_tasks}
     except Exception as e:
         print(f"Error during agent step: {e}")
-        raise HTTPException(status_code=500, detail=f"Agent 決策生成失敗: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Agent decision failed: {str(e)}")
 
 @app.post("/api/export/roadmap-pdf")
 async def export_roadmap_pdf(data: RoadmapExportRequest, db: FirestoreDB = Depends(get_db)):
@@ -1104,7 +1104,7 @@ async def export_roadmap_pdf(data: RoadmapExportRequest, db: FirestoreDB = Depen
     try:
         pdf_bytes = build_action_plan_pdf(plan)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"行動計畫產生失敗: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Action plan generation failed: {str(e)}")
     filename = f"haru-action-plan-{data.lang}.pdf"
     return Response(
         content=pdf_bytes,
@@ -1399,7 +1399,7 @@ async def chat(data: ChatRequest, db: FirestoreDB = Depends(get_db)):
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"對話處理失敗: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Chat processing failed: {str(e)}")
 
 @app.post("/api/analyze-form")
 async def analyze_form(
@@ -1439,7 +1439,7 @@ async def analyze_form(
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"影像分析失敗: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Form analysis failed: {str(e)}")
 
 @app.post("/api/tts")
 async def generate_speech(data: TTSRequest):
